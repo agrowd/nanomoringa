@@ -10,10 +10,6 @@ const nextConfig = {
     unoptimized: true,
   },
   // Configuración de cache para evitar problemas
-  experimental: {
-    // Limpiar cache en cada build
-    outputFileTracingRoot: undefined,
-  },
   // Headers para control de cache
   async headers() {
     return [

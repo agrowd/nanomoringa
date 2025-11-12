@@ -1,0 +1,59 @@
+# ============================================
+# MEDICINA NATURAL - VARIABLES PARA VERCEL
+# Copiar y pegar en Vercel → Project Settings → Environment Variables
+# ============================================
+
+# ============================================
+# BASE DE DATOS (COMPLETAR CON TU CONNECTION STRING)
+# ============================================
+DATABASE_URL=postgresql://user:password@ep-XXX.region.neon.tech/neondb?sslmode=require
+POSTGRES_URL=postgresql://user:password@ep-XXX.region.neon.tech/neondb?sslmode=require
+POSTGRES_URL_NON_POOLING=postgresql://user:password@ep-XXX.region.neon.tech/neondb?sslmode=require
+
+# ============================================
+# FRONTEND
+# ============================================
+NEXT_PUBLIC_APP_URL=https://nanomoringa.vercel.app
+NEXT_PUBLIC_APP_NAME=Medicina Natural
+NEXT_PUBLIC_APP_DESCRIPTION=Productos CBD naturales y premium para tu bienestar
+
+# ============================================
+# WHATSAPP
+# ============================================
+NEXT_PUBLIC_WA_PHONE=5491140895557
+
+# ============================================
+# ADMIN (CAMBIAR EN PRODUCCIÓN)
+# ============================================
+NEXT_PUBLIC_ADMIN_USER=admin
+NEXT_PUBLIC_ADMIN_PASS=temporal123
+
+# ============================================
+# NEXTAUTH
+# ============================================
+NEXTAUTH_URL=https://nanomoringa.vercel.app
+NEXTAUTH_SECRET=desarrollo-local-secret-medicina-natural-2025-cambiar-en-produccion
+
+# ============================================
+# ENVÍOS
+# ============================================
+NEXT_PUBLIC_SHIPPING_GBA=10000
+NEXT_PUBLIC_SHIPPING_INTERIOR=35000
+
+# ============================================
+# SERVICIOS (BOT LOCAL/VPS)
+# ============================================
+# Para desarrollo: usar túnel (cloudflared/ngrok)
+# Para producción: usar URL pública con HTTPS
+WHATSAPP_BOT_URL=http://localhost:5000
+WS_URL=http://localhost:4000
+
+# ============================================
+# INSTRUCCIONES:
+# 1. Copiar este archivo completo
+# 2. Ir a Vercel → Tu Proyecto → Settings → Environment Variables
+# 3. Pegar cada línea (clave=valor) en el formulario
+# 4. IMPORTANTE: Completar DATABASE_URL con tu connection string real
+# 5. IMPORTANTE: Cambiar NEXT_PUBLIC_ADMIN_* y NEXTAUTH_SECRET por valores seguros
+# 6. IMPORTANTE: Actualizar WHATSAPP_BOT_URL y WS_URL con URLs públicas cuando el bot esté expuesto
+# ============================================
