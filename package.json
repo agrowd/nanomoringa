@@ -11,11 +11,11 @@
     "check-build": "node scripts/check-build.js",
     "deploy-safe": "bash scripts/deploy-safe.sh",
     "deploy": "vercel --prod --yes --force",
-    "init-db": "curl -X GET https://medicinanatural.vercel.app/api/init-db",
-    "init-coupons": "curl -X GET https://medicinanatural.vercel.app/api/init-coupons",
-    "init-cart-sessions": "curl -X GET https://medicinanatural.vercel.app/api/init-cart-sessions",
+    "init-db": "curl -X GET https://nanomoringa.vercel.app/api/init-db",
+    "init-coupons": "curl -X GET https://nanomoringa.vercel.app/api/init-coupons",
+    "init-cart-sessions": "curl -X GET https://nanomoringa.vercel.app/api/init-cart-sessions",
     "cleanup-carts": "node scripts/cleanup-expired-carts.js",
-    "test-apis": "curl -s https://medicinanatural.vercel.app/api/products && curl -s https://medicinanatural.vercel.app/api/coupons"
+    "test-apis": "curl -s https://nanomoringa.vercel.app/api/products && curl -s https://nanomoringa.vercel.app/api/coupons"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
