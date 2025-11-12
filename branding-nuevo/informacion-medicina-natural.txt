@@ -1,0 +1,169 @@
+¡De una! Acá tenés todo lo que fui recopilando y estandarizando sobre Medicina Natural – @cbd.medicina.ok a lo largo del proyecto (marca, branding, tono, pauta creativa, CTA, y playbook de contenidos). Guardalo como tu brand kit para briefings y futuras piezas.
+
+Identidad de marca
+
+Nombre/handle: Medicina Natural — @cbd.medicina.ok
+
+Propuesta: bienestar cotidiano con CBD de forma clara, cercana y responsable.
+
+Promesa implícita: “te acompañamos con una rutina simple y seguimiento personalizado”.
+
+Diferencial: material educativo claro, visual amigable, seguimiento 1:1 por DM, variedad de formatos (aceite, cápsulas, gomitas) y línea premium importada para quien busca mayor concentración por mL.
+
+
+Público
+
+Edad foco: 40–65 años (IG & Facebook).
+
+Necesidades: claridad, letra grande, pasos simples, seguridad/confianza, ejemplos de la vida diaria (trabajo, hogar, paseo, familia).
+
+Barreras comunes: mitos sobre el CBD, miedo a “colocarse”, dudas de dosis y formatos.
+
+
+Tono y estilo de comunicación
+
+Cálido, profesional y cercano.
+
+Educativo + acción simple. Evitá tecnicismos largos; usá bullets y mini-rutinas.
+
+Claims responsables: “puede ayudar / acompaña / útil para”, sin promesas absolutas ni números no provistos.
+
+CTA suave orientado a CRO: DM + palabra clave + “seguimiento personalizado”.
+
+
+Visual & diseño (estándar de las publicaciones)
+
+Formato: 1:1 (1080×1080 PNG).
+
+Márgenes seguros: ~64 px.
+
+Legibilidad móvil: título ≥ 64 px; cuerpo ≥ 40 px; interlineado ~1.2; contraste ≥ 7:1.
+
+Estética: ilustración flat 2D profesional con sombras suaves; nada caricaturesco.
+
+Paleta base:
+
+Fondo #F6F0DE (beige cálido)
+
+Títulos #294E3A (verde oscuro)
+
+Texto #213A2E (verde muy oscuro)
+
+Acentos #4A8F53 (verde medio) y #C7A87A (tierra/dorado)
+
+
+Tipografías sugeridas (título serif elegante): Playfair Display / Libre Baskerville / Georgia.
+
+Regla clave para corrección: todo texto colocado dentro de un rectángulo del MISMO color del fondo (sin bordes ni sombras) → permite “tapar” y corregir si surgiera un error tipográfico.
+
+Iconografía: consistente, con leve volumen y mismo grosor de línea (sol, luna, checklist, gota, hoja, respiración, foco, frasco sin etiqueta, etc.).
+
+Composición frecuente: dos o tres paneles; misma persona en “antes / durante / después” para reforzar beneficio.
+
+
+Pilares de contenido ya trabajados (y validados)
+
+1. Educativos básicos:
+
+¿Qué es el CBD? Beneficios generales: calma, descanso, analgesia leve, apoyo a respuesta inflamatoria natural.
+
+Mitos vs. Realidad (no “coloca”, no genera adicción, no es solo para mayores, no todos los aceites son iguales).
+
+
+
+2. Uso y dosificación responsable:
+
+“Empezá de menos a más”, sublingual vs. tópico; cápsulas vs. gomitas; consejo de registro personal.
+
+
+
+3. Comparativas:
+
+Full-spectrum vs. broad-spectrum vs. aislado (isolate).
+
+Tópico vs. Sublingual (objetivo de uso).
+
+
+
+4. Escenarios de la vida real (enfoque conductual):
+
+Dormir mejor; foco sereno; pausa de escritorio (cuello/hombros/manos); movilidad cotidiana (espalda/rodillas/manos); vuelta a casa (descompresión post tránsito); domingo de recarga; paseo consciente; reunión familiar tranquila; hábitos en el hogar (cocina/hobbies).
+
+
+
+5. Producto & CRO suave:
+
+Aceite local (80% CBD, espectro completo, “Grow in ARG”, pureza sin aditivos).
+
+Premium Hemp Oil – Importado de EE.UU. (12.000 mg): más concentración por mL; sublingual; gotero calibrado; batch pequeño; CO₂; comunicar como “opción premium” sin claims médicos.
+
+
+
+
+Estructura de copy (plantilla tipo)
+
+Encabezado corto con beneficio (“CBD y [situación]: …”).
+
+Bullets claros (2–4).
+
+Mini-rutina en pasos (2–3 pasos, tiempos acotados).
+
+Tip: “empezá de menos a más y registrá tu experiencia”.
+
+CTA CRO: “Escribinos DM con PALABRA y te enviamos guía de 7 días + seguimiento”.
+
+Handle: @cbd.medicina.ok
+
+(En piezas específicas se omitió la leyenda médica cuando lo pediste).
+
+
+Palabras clave de CTA ya usadas (DM): PLAN, FOCO, MOVILIDAD, CASA, DOMINGO, PASEO, PAUSA, ENCUENTRO.
+
+Do’s & Don’ts
+
+Do’s
+
+Títulos grandes, subtítulos breves, listas con ✔️.
+
+Íconos coherentes y persona repetida en la secuencia.
+
+Texto dentro de caja del color de fondo para permitir corrección.
+
+Enfocar en rutinas simples (4–15 min) y beneficios percibidos (cuerpo más suelto, mente más clara, transición tranquila).
+
+
+Don’ts
+
+No logos renderizados con IA (se deforma).
+
+No claims médicos/curativos ni estadísticas sin fuente.
+
+No texto tocando bordes ni sobre fondos “ruidosos”.
+
+No frascos con etiquetado inventado (si aparece, sin etiqueta para reemplazar luego).
+
+
+Hashtags (base curada, rotación)
+
+#CBDArgentina #CBDBienestar #CBDWellness #CBDBenefits #CalmaNatural #VidaConsciente #RutinaSaludable #Descanso #GestiónDelEstrés #AceiteCBD #CBDEducativo #CBDConSeguimiento #BienestarNatural #MedicinaNatural
+(Sumar específicos por pieza: #HomeOffice #PaseoConsciente #Movilidad #Hombros #Rodillas #Lectura #Foco #Domingo)
+
+Productos/Ofertas activos a mencionar
+
+Línea regular: aceite local (80% CBD, full spectrum), cápsulas, gomitas.
+
+Línea premium: Premium Hemp Oil – importado de EE.UU. 12.000 mg (dosificación precisa; “más concentración por mL”).
+
+Servicios: asesoramiento y seguimiento personalizado por DM; envíos a todo el país; venta mayorista/minorista.
+
+
+Check de calidad antes de publicar
+
+1. Ortografía/tildes OK. 2) Cajas de texto = color fondo. 3) Tamaños mínimos.
+
+
+2. Íconos alineados & consistentes. 5) Misma paleta. 6) CTA con palabra clave.
+
+
+3. Export PNG 1080×1080. 8) Previsualizar en móvil.
+

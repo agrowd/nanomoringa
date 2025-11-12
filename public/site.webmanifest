@@ -1,0 +1,17 @@
+{
+  "name": "DripCore",
+  "short_name": "DripCore",
+  "description": "Tienda de ropa deportiva premium y streetwear",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "theme_color": "#12141E",
+  "background_color": "#12141E",
+  "display": "standalone",
+  "start_url": "/"
+}

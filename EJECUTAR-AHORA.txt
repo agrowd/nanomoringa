@@ -1,0 +1,90 @@
+╔═══════════════════════════════════════════════════════════════╗
+║                                                                ║
+║          ✅ MEDICINA NATURAL - LISTO PARA VER                 ║
+║                                                                ║
+╚═══════════════════════════════════════════════════════════════╝
+
+📋 CAMBIOS COMPLETADOS:
+
+✅ Logo en círculos (navbar, footer, hero) - SIN fondo blanco
+✅ Colores adaptados (verdes y beige)
+✅ Textos implícitos (menos "CBD" explícito)
+✅ Hero simplificado (emojis naturales)
+✅ Placeholders de video + 3 imágenes
+✅ Chat widget completo (4 componentes)
+✅ FAQ adaptadas
+✅ Nosotros reescrito
+✅ Contacto actualizado
+✅ Todas las referencias a DripCore removidas
+✅ Mensajes de WhatsApp actualizados
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+💻 COMANDOS PARA EJECUTAR:
+
+PASO 1: Abrir PowerShell
+
+PASO 2: Copiar y pegar estos comandos (UNO POR UNO):
+
+cd "c:\Users\Try Hard\Desktop\Nexte\medicinanatural-ecommerce-vps"
+
+pnpm dev
+
+PASO 3: Esperar a que compile (15-30 segundos)
+        Vas a ver: "✓ Ready in X.Xs"
+
+PASO 4: Abrir navegador en:
+        http://localhost:3000
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🎯 QUÉ PROBAR:
+
+1. LOGO → Debe verse circular sin fondo blanco
+2. COLORES → Beige de fondo, navbar verde oscuro
+3. TEXTOS → Mínimos, enfocados en bienestar
+4. HERO → Logo grande circular, emojis naturales flotando
+5. PLACEHOLDERS → Ver dónde van imágenes/video
+6. CHAT → Click en botón verde 💬 abajo a la derecha
+   - Completar formulario
+   - Ver mensajes automáticos
+   - Escribir y recibir respuesta
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🌿 PÁGINAS PARA REVISAR:
+
+http://localhost:3000              → Home (principal)
+http://localhost:3000/catalogo     → Productos
+http://localhost:3000/nosotros     → Nosotros
+http://localhost:3000/faq          → Preguntas frecuentes
+http://localhost:3000/contacto     → Contacto
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+⚠️ SI DA ERROR:
+
+Error: "No package.json found"
+→ Estás en el directorio incorrecto
+→ Ejecutá el cd primero
+
+Error: "Port 3000 already in use"
+→ Ya está corriendo
+→ Abrí http://localhost:3000
+
+Error de compilación
+→ Refrescá y decime qué error
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🎉 EJECUTÁ Y PROBÁ TODO
+
+Cuando lo veas, decime:
+1. ¿Logo se ve bien? (circular, sin cuadrado)
+2. ¿Colores correctos?
+3. ¿Textos apropiados?
+4. ¿Chat funciona?
+5. ¿Algo que ajustar?
+
+🚀 VAMOS QUE ESTÁ QUEDANDO!
+

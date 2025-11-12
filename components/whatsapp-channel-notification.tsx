@@ -1,0 +1,98 @@
+"use client"
+
+import { useState, useEffect } from "react"
+import { X, MessageCircle, Sparkles } from "lucide-react"
+import { Button } from "@/components/ui/button"
+
+export function WhatsAppChannelNotification() {
+  const [isVisible, setIsVisible] = useState(false)
+  const [isDismissed, setIsDismissed] = useState(false)
+
+  useEffect(() => {
+    // Verificar si ya fue descartada en esta sesión
+    const dismissed = sessionStorage.getItem("wa-channel-dismissed")
+    if (dismissed) {
+      setIsDismissed(true)
+      return
+    }
+
+    // Mostrar después de 2 segundos
+    const timer = setTimeout(() => {
+      setIsVisible(true)
+    }, 2000)
+
+    return () => clearTimeout(timer)
+  }, [])
+
+  const handleDismiss = () => {
+    setIsVisible(false)
+    setIsDismissed(true)
+    sessionStorage.setItem("wa-channel-dismissed", "true")
+  }
+
+  const handleChatClick = () => {
+    // Trigger del chat widget
+    const chatButton = document.querySelector('[aria-label="Abrir chat"]') as HTMLButtonElement
+    if (chatButton) {
+      chatButton.click()
+    }
+    handleDismiss()
+  }
+
+  if (isDismissed || !isVisible) {
+    return null
+  }
+
+  return (
+    <div className="fixed bottom-32 right-6 z-50 animate-in slide-in-from-right duration-500">
+      <div className="bg-gradient-to-br from-accent to-primary text-primary-foreground rounded-2xl shadow-2xl p-5 max-w-sm border-2 border-accent">
+        <button
+          onClick={handleDismiss}
+          className="absolute -top-2 -right-2 bg-primary text-primary-foreground rounded-full p-1.5 hover:bg-primary/90 transition-colors shadow-lg"
+          aria-label="Cerrar"
+        >
+          <X className="h-3 w-3" />
+        </button>
+        
+        <div className="flex items-center gap-2 mb-3">
+          <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">
+            <MessageCircle className="h-5 w-5" />
+          </div>
+          <div>
+            <h3 className="font-bold text-base">💬 ¡Comprá más rápido acá!</h3>
+            <p className="text-sm opacity-90">Te asesoramos personalmente</p>
+          </div>
+        </div>
+        
+        <div className="space-y-3">
+          <div className="flex items-center gap-2 text-sm">
+            <Sparkles className="h-4 w-4 text-yellow-300" />
+            <span className="font-semibold">Respuesta inmediata</span>
+          </div>
+          
+          <div className="flex items-center gap-2 text-sm">
+            <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
+            <span>Disponible 24/7</span>
+          </div>
+          
+          <div className="flex items-center gap-2 text-sm">
+            <span className="w-2 h-2 bg-blue-400 rounded-full"></span>
+            <span>Asesoramiento especializado</span>
+          </div>
+        </div>
+        
+        <Button
+          onClick={handleChatClick}
+          className="w-full mt-4 bg-white text-accent hover:bg-gray-100 font-bold py-3 text-sm shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
+        >
+          <MessageCircle className="mr-2 h-4 w-4" />
+          Hablar con asesor
+        </Button>
+        
+        <p className="text-xs text-center mt-2 opacity-80">
+          Sin compromiso • Consulta gratuita
+        </p>
+      </div>
+    </div>
+  )
+}

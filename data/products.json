@@ -1,0 +1,322 @@
+[
+  {
+    "id": "1",
+    "name": "Rompeviento Deportivo Rosa Pastel",
+    "slug": "rompeviento-deportivo-rosa-pastel",
+    "description": "Rompeviento liviano con diseño deportivo y estilo urbano. Perfecto para entrenar o usar todos los días. Tela respirable, capucha ajustable y cierres frontales. <span className='highlight-clothing'>Ropa deportiva</span> de calidad premium con <span className='highlight-clothing'>precios increíbles</span>.",
+    "price": 30000,
+    "compareAt": 45000,
+    "category": "camperas",
+    "sizes": ["M", "L", "XL", "XXL"],
+    "colors": ["Rosa Pastel"],
+    "images": [
+      "/productos/rompeviento-rosa-pastel/502148bb-05c6-4df3-a4e8-dd2c2cc1a7cc.jpg",
+      "/productos/rompeviento-rosa-pastel/5a8c72dc-04f8-4dfc-ad17-b69427d796c8.jpg",
+      "/productos/rompeviento-rosa-pastel/a645aa08-b196-4db4-884c-a43f1a26b23f.jpg"
+    ],
+    "tags": ["nuevo", "destacado", "en-oferta"],
+    "stock": 25,
+    "featured": true,
+    "sku": "DC-SPR-01",
+    "createdAt": "2025-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "2",
+    "name": "Chomba Premium Knit Clásica",
+    "slug": "chomba-premium-knit-clasica",
+    "description": "Las chombas Premium Knit elevan el clásico diseño polo con una textura liviana y terminaciones de punto fino. Su corte regular aporta un look sofisticado y atemporal, ideal para quienes buscan elegancia casual. <span className='highlight-clothing'>Ropa deportiva</span> con <span className='highlight-clothing'>precios increíbles</span>.",
+    "price": 45000,
+    "compareAt": 65000,
+    "category": "remeras",
+    "sizes": ["S", "M", "L", "XL"],
+    "colors": ["Beige", "Negro", "Gris", "Celeste", "Verde Oliva", "Azul Marino"],
+    "images": [
+      "/productos/chomba-knit/18b4cb69-1d01-40c7-8893-eaf3e2a651f9.jpg",
+      "/productos/chomba-knit/5b1ccd75-eb73-43d7-9554-f24691fdaeb0.jpg",
+      "/productos/chomba-knit/710ef20e-70ac-44da-8dc0-f529cb9a07da.jpg",
+      "/productos/chomba-knit/80cfaa51-0983-43ce-ac2e-29b9e84cfb05.jpg",
+      "/productos/chomba-knit/a156e143-31b4-44c6-bf51-bdb4bfc090cf.jpg",
+      "/productos/chomba-knit/a7f78a49-49e3-48fb-8814-0e682ba34291.jpg",
+      "/productos/chomba-knit/af2d5a88-405b-44ef-92fd-e76be8fed4b7.jpg",
+      "/productos/chomba-knit/d67895f0-9777-49f7-85eb-cd80b309028d.jpg"
+    ],
+    "tags": ["nuevo", "destacado", "en-oferta"],
+    "stock": 35,
+    "featured": true,
+    "sku": "LC-KNIT-CLASSIC",
+    "createdAt": "2025-01-02T00:00:00.000Z"
+  },
+  {
+    "id": "3",
+    "name": "Rompeviento Deportivo Azul Premium",
+    "slug": "rompeviento-deportivo-azul-premium",
+    "description": "Rompeviento premium con diseño deportivo inspirado en la pasión y el estilo urbano. Ideal para quienes buscan comodidad, abrigo liviano y una estética moderna. Interior forrado en micropolar suave. <span className='highlight-clothing'>Ropa deportiva</span> con <span className='highlight-clothing'>precios increíbles</span>.",
+    "price": 60000,
+    "compareAt": 85000,
+    "category": "camperas",
+    "sizes": ["M", "L", "XL", "XXL"],
+    "colors": ["Azul Oscuro"],
+    "images": [
+      "/productos/rompeviento-azul/508e04e1-f7d4-41cb-ae03-fbdeb724cd16.jpg",
+      "/productos/rompeviento-azul/1.jpg",
+      "/productos/rompeviento-azul/2.jpg"
+    ],
+    "tags": ["nuevo", "destacado", "en-oferta"],
+    "stock": 20,
+    "featured": true,
+    "sku": "DC-ELT-04",
+    "createdAt": "2025-01-03T00:00:00.000Z"
+  },
+  {
+    "id": "4",
+    "name": "Zapatillas Urbanas Blancas Clásicas",
+    "slug": "zapatillas-urbanas-blancas-clasicas",
+    "description": "Zapatillas urbanas clásicas con capellada de eco-cuero texturado, suela de goma antideslizante y plantilla acolchada. Ligeras y resistentes para uso diario. Look atemporal que combina con todo. <span className='highlight-clothing'>Calzado deportivo</span> con <span className='highlight-clothing'>precios increíbles</span>.",
+    "price": 45000,
+    "compareAt": 65000,
+    "category": "zapatillas",
+    "sizes": ["38", "39", "40", "41", "42"],
+    "colors": ["Blanco"],
+    "images": [
+      "/productos/zapatillas-blancas/0e44844c-e19a-4b9a-8f5d-c8d085bbe902.jpg",
+      "/productos/zapatillas-blancas/216e8649-1383-457c-b968-808b78ec56ad.jpg",
+      "/productos/zapatillas-blancas/1.jpg"
+    ],
+    "tags": ["nuevo", "destacado", "en-oferta"],
+    "stock": 30,
+    "featured": true,
+    "sku": "DC-ZU-WHT-01",
+    "createdAt": "2025-01-04T00:00:00.000Z"
+  },
+  {
+    "id": "5",
+    "name": "Zapatillas Urbanas Suede Negro/Blanco",
+    "slug": "zapatillas-urbanas-suede-negro-blanco",
+    "description": "Clásicas de gamuza sintética con perfil bajo y suela cupsole texturada. Combinan look retro con confort actual: ideales para uso diario, jeans o joggers. <span className='highlight-clothing'>Calzado deportivo</span> con <span className='highlight-clothing'>precios increíbles</span>.",
+    "price": 45000,
+    "compareAt": 65000,
+    "category": "zapatillas",
+    "sizes": ["39", "40", "41", "42"],
+    "colors": ["Negro"],
+    "images": [
+      "/productos/zapatillas-suede/c42e32ed-0bcf-4da3-a89c-462d5227b06a.jpg",
+      "/productos/zapatillas-suede/1.jpg",
+      "/productos/zapatillas-suede/2.jpg"
+    ],
+    "tags": ["nuevo", "destacado", "en-oferta"],
+    "stock": 25,
+    "featured": true,
+    "sku": "DC-ZU-SWD-02",
+    "createdAt": "2025-01-05T00:00:00.000Z"
+  },
+  {
+    "id": "6",
+    "name": "Zapatillas Running Tech Black",
+    "slug": "zapatillas-running-tech-black",
+    "description": "Zapatillas de running y uso urbano con diseño moderno y gran confort. Ideales para entrenar, caminar o combinar con outfits casuales. Su estilo tech destaca por los detalles brillantes y el contraste de materiales. <span className='highlight-clothing'>Calzado deportivo</span> con <span className='highlight-clothing'>precios increíbles</span>.",
+    "price": 45000,
+    "compareAt": 65000,
+    "category": "zapatillas",
+    "sizes": ["39", "40", "41", "42"],
+    "colors": ["Negro"],
+    "images": [
+      "/productos/zapatillas-tech/f164b13d-282b-4010-925d-6c9834c0038b.jpg",
+      "/productos/zapatillas-tech/1.jpg",
+      "/productos/zapatillas-tech/2.jpg"
+    ],
+    "tags": ["nuevo", "destacado", "en-oferta"],
+    "stock": 28,
+    "featured": true,
+    "sku": "DC-ZR-TECH-04",
+    "createdAt": "2025-01-06T00:00:00.000Z"
+  },
+  {
+    "id": "7",
+    "name": "Zapatillas Urbanas Retro Blanco/Fucsia",
+    "slug": "zapatillas-urbanas-retro-blanco-fucsia",
+    "description": "Diseño urbano con estética retro, ideal para quienes buscan estilo y comodidad en el día a día. Inspiradas en las clásicas siluetas deportivas, combinan colores vibrantes con una base blanca versátil. <span className='highlight-clothing'>Calzado deportivo</span> con <span className='highlight-clothing'>precios increíbles</span>.",
+    "price": 45000,
+    "compareAt": 65000,
+    "category": "zapatillas",
+    "sizes": ["38", "39", "40", "41"],
+    "colors": ["Blanco"],
+    "images": [
+      "/productos/zapatillas-retro/3818a54f-224e-47c4-8b2a-09cd280a6d38.jpg",
+      "/productos/zapatillas-retro/d7111753-105a-4082-8770-f9d3bbf54f91.jpg",
+      "/productos/zapatillas-retro/1.jpg"
+    ],
+    "tags": ["nuevo", "destacado", "en-oferta"],
+    "stock": 22,
+    "featured": true,
+    "sku": "DC-ZR-RETRO-01",
+    "createdAt": "2025-01-07T00:00:00.000Z"
+  },
+  {
+    "id": "8",
+    "name": "Zapatillas Street Classic Blanco/Negro",
+    "slug": "zapatillas-street-classic-blanco-negro",
+    "description": "Diseño clásico urbano en combinación blanco y negro. Ideales para quienes buscan un estilo limpio, moderno y versátil, que combina con cualquier outfit casual o streetwear. <span className='highlight-clothing'>Calzado deportivo</span> con <span className='highlight-clothing'>precios increíbles</span>.",
+    "price": 45000,
+    "compareAt": 65000,
+    "category": "zapatillas",
+    "sizes": ["38", "39", "40", "41"],
+    "colors": ["Blanco"],
+    "images": [
+      "/productos/zapatillas-classic/61eb6cc4-2e29-4b3d-b7d9-0e2c601741bd.jpg",
+      "/productos/zapatillas-classic/1.jpg",
+      "/productos/zapatillas-classic/2.jpg"
+    ],
+    "tags": ["nuevo", "destacado", "en-oferta"],
+    "stock": 26,
+    "featured": true,
+    "sku": "DC-ZS-CLASSIC-01",
+    "createdAt": "2025-01-08T00:00:00.000Z"
+  },
+  {
+    "id": "9",
+    "name": "Zapatillas Pure Flow All White",
+    "slug": "zapatillas-pure-flow-all-white",
+    "description": "Minimalistas, limpias y siempre combinables. Las zapatillas Pure Flow elevan cualquier look con su diseño completamente blanco y una silueta moderna que transmite estilo y frescura. Perfectas para quienes buscan un calzado versátil, cómodo y con presencia. <span className='highlight-clothing'>Calzado deportivo</span> con <span className='highlight-clothing'>precios increíbles</span>.",
+    "price": 60000,
+    "compareAt": 85000,
+    "category": "zapatillas",
+    "sizes": ["38", "39", "40", "41"],
+    "colors": ["Blanco"],
+    "images": [
+      "/productos/zapatillas-pure/3fd0501f-3a4b-4b5d-994c-421fee76c52a.jpg",
+      "/productos/zapatillas-pure/1.jpg",
+      "/productos/zapatillas-pure/2.jpg"
+    ],
+    "tags": ["nuevo", "destacado", "en-oferta"],
+    "stock": 20,
+    "featured": true,
+    "sku": "DC-ZS-PUREFLOW-01",
+    "createdAt": "2025-01-09T00:00:00.000Z"
+  },
+  {
+    "id": "10",
+    "name": "Zapatillas Urbanas Black Core",
+    "slug": "zapatillas-urbanas-black-core",
+    "description": "Las Black Core son el equilibrio perfecto entre estilo urbano y simplicidad. Su diseño monocromático en negro aporta una estética sobria pero poderosa, adaptable a cualquier outfit. Ideales para quienes buscan un calzado resistente, moderno y con identidad propia. <span className='highlight-clothing'>Calzado deportivo</span> con <span className='highlight-clothing'>precios increíbles</span>.",
+    "price": 60000,
+    "compareAt": 85000,
+    "category": "zapatillas",
+    "sizes": ["38", "39", "40", "41"],
+    "colors": ["Negro"],
+    "images": [
+      "/productos/zapatillas-black/379df06d-0f7c-420e-8b4c-e10b8a10ae5c.jpg",
+      "/productos/zapatillas-black/1.jpg",
+      "/productos/zapatillas-black/2.jpg"
+    ],
+    "tags": ["nuevo", "destacado", "en-oferta"],
+    "stock": 24,
+    "featured": true,
+    "sku": "DC-ZS-BLACKCORE-01",
+    "createdAt": "2025-01-10T00:00:00.000Z"
+  },
+  {
+    "id": "11",
+    "name": "Zapatillas Chicago Air Classic Mid",
+    "slug": "zapatillas-chicago-air-classic-mid",
+    "description": "Las Chicago Air Classic combinan historia y diseño icónico. Inspiradas en los años dorados del básquet, mantienen la estética clásica con una confección moderna. Su perfil mid aporta presencia y comodidad, ideal para quienes buscan estilo y performance urbana. <span className='highlight-clothing'>Calzado deportivo</span> con <span className='highlight-clothing'>precios increíbles</span>.",
+    "price": 65000,
+    "compareAt": 90000,
+    "category": "zapatillas",
+    "sizes": ["40", "41", "42"],
+    "colors": ["Blanco"],
+    "images": [
+      "/productos/zapatillas-chicago/186788c9-408e-4adb-9b08-387aea2bab3b.jpg",
+      "/productos/zapatillas-chicago/7ebb6ed9-e10a-4c10-9d95-6965f11d91b5.jpg",
+      "/productos/zapatillas-chicago/1.jpg"
+    ],
+    "tags": ["nuevo", "destacado", "en-oferta"],
+    "stock": 18,
+    "featured": true,
+    "sku": "DC-AIR-CHICAGO-84",
+    "createdAt": "2025-01-11T00:00:00.000Z"
+  },
+  {
+    "id": "12",
+    "name": "Zapatillas Air Grafiti Edition",
+    "slug": "zapatillas-air-grafiti-edition",
+    "description": "Las Air Grafiti Edition combinan la estructura clásica con una estética callejera moderna. Su diseño está inspirado en el arte urbano y la cultura sneakerhead, logrando una silueta que destaca sin esfuerzo en cualquier outfit. <span className='highlight-clothing'>Calzado deportivo</span> con <span className='highlight-clothing'>precios increíbles</span>.",
+    "price": 60000,
+    "compareAt": 85000,
+    "category": "zapatillas",
+    "sizes": ["40", "41", "42"],
+    "colors": ["Negro"],
+    "images": [
+      "/productos/zapatillas-grafiti/01712f91-d5ed-42b1-96d0-a27ad052b575.jpg",
+      "/productos/zapatillas-grafiti/1.jpg",
+      "/productos/zapatillas-grafiti/2.jpg"
+    ],
+    "tags": ["nuevo", "destacado", "en-oferta"],
+    "stock": 21,
+    "featured": true,
+    "sku": "DC-AIR-GRAFITI-URB",
+    "createdAt": "2025-01-12T00:00:00.000Z"
+  },
+  {
+    "id": "13",
+    "name": "Zapatillas Street Court Pro",
+    "slug": "zapatillas-street-court-pro",
+    "description": "Las Street Court Pro fusionan el estilo urbano con la comodidad de una suela técnica. Inspiradas en el diseño clásico de las canchas, ofrecen un look moderno y versátil para todos los días. <span className='highlight-clothing'>Calzado deportivo</span> con <span className='highlight-clothing'>precios increíbles</span>.",
+    "price": 60000,
+    "compareAt": 85000,
+    "category": "zapatillas",
+    "sizes": ["39", "40", "41", "42"],
+    "colors": ["Negro"],
+    "images": [
+      "/productos/zapatillas-court/6558f17d-b506-40c0-875d-30ebe1ee63c2.jpg",
+      "/productos/zapatillas-court/1.jpg",
+      "/productos/zapatillas-court/2.jpg"
+    ],
+    "tags": ["nuevo", "destacado", "en-oferta"],
+    "stock": 23,
+    "featured": true,
+    "sku": "AD-STREETCOURT-PRO",
+    "createdAt": "2025-01-13T00:00:00.000Z"
+  },
+  {
+    "id": "14",
+    "name": "Zapatillas Air Force 1 White/Black Label",
+    "slug": "zapatillas-air-force-1-white-black-label",
+    "description": "Las Air Force 1 White/Black Label reinterpretan el clásico modelo con un toque distintivo: etiquetas visibles y detalles dorados que aportan exclusividad. Un diseño limpio, moderno y versátil que combina con cualquier estilo. <span className='highlight-clothing'>Calzado deportivo</span> con <span className='highlight-clothing'>precios increíbles</span>.",
+    "price": 65000,
+    "compareAt": 90000,
+    "category": "zapatillas",
+    "sizes": ["39", "40", "41", "42"],
+    "colors": ["Blanco"],
+    "images": [
+      "/productos/zapatillas-airforce/0e44844c-e19a-4b9a-8f5d-c8d085bbe902.jpg",
+      "/productos/zapatillas-airforce/1.jpg",
+      "/productos/zapatillas-airforce/2.jpg"
+    ],
+    "tags": ["nuevo", "destacado", "en-oferta"],
+    "stock": 19,
+    "featured": true,
+    "sku": "NK-AF1-LABEL",
+    "createdAt": "2025-01-14T00:00:00.000Z"
+  },
+  {
+    "id": "15",
+    "name": "Buzo Oversized DripCore Pro",
+    "slug": "buzo-oversized-dripcore-pro",
+    "description": "Buzo oversized con diseño exclusivo. Confeccionado en algodón premium 100% con interior afelpado. Fit holgado y cómodo, perfecto para el streetwear urbano. Calidad triple AAA garantizada. <span className='highlight-clothing'>Ropa deportiva</span> con <span className='highlight-clothing'>precios increíbles</span>.",
+    "price": 45000,
+    "compareAt": 65000,
+    "category": "buzos",
+    "sizes": ["S", "M", "L", "XL", "XXL"],
+    "colors": ["Negro", "Púrpura", "Blanco"],
+    "images": [
+      "/productos/buzo-pro/05441bb2-a283-48b1-ab23-a6c1ebd14ff4.jpg",
+      "/productos/buzo-pro/5f365b86-c58a-4cfb-b7c4-51de494a6149.jpg",
+      "/productos/buzo-pro/1.jpg"
+    ],
+    "tags": ["nuevo", "destacado", "en-oferta"],
+    "stock": 45,
+    "featured": true,
+    "sku": "DC-BUZO-PRO-01",
+    "createdAt": "2025-01-15T00:00:00.000Z"
+  }
+]
