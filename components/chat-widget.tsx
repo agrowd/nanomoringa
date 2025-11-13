@@ -42,7 +42,11 @@ export function ChatWidget() {
   useEffect(() => {
     // Guardar el estado en el window para que otros componentes puedan acceder
     ;(window as any).chatWidgetIsOpen = isOpen
-  }, [isOpen])
+    // Guardar si el usuario cerró manualmente el chat (no el auto-open inicial)
+    if (!isOpen && hasAutoOpened) {
+      ;(window as any).chatWidgetWasClosed = true
+    }
+  }, [isOpen, hasAutoOpened])
 
   return (
     <>

@@ -20,11 +20,15 @@ export function WhatsAppChannelNotification() {
     }
 
     const checkAndShow = () => {
-      // Verificar si el chat está cerrado
+      // Verificar si el chat está cerrado Y si el usuario lo cerró manualmente
       const chatIsOpen = (window as any).chatWidgetIsOpen || false
+      const chatWasClosed = (window as any).chatWidgetWasClosed || false
       
-      if (!chatIsOpen) {
-        // Verificar si pasaron 60 segundos desde la última vez que se mostró
+      // Solo mostrar la notificación si:
+      // 1. El chat está cerrado
+      // 2. El usuario lo cerró manualmente (no es el estado inicial)
+      // 3. Pasaron 60 segundos desde la última vez que se mostró
+      if (!chatIsOpen && chatWasClosed) {
         const now = Date.now()
         if (!lastShown || (now - lastShown) >= 60000) {
           setIsVisible(true)
@@ -41,13 +45,19 @@ export function WhatsAppChannelNotification() {
       }
     }
 
-    // Verificar inmediatamente
-    checkAndShow()
+    // No verificar inmediatamente, esperar a que el chat se abra primero
+    // Verificar después de 2 segundos (para dar tiempo al auto-open del chat)
+    const initialDelay = setTimeout(() => {
+      checkAndShow()
+    }, 2000)
 
     // Verificar cada 60 segundos
     const interval = setInterval(checkAndShow, 60000)
 
-    return () => clearInterval(interval)
+    return () => {
+      clearTimeout(initialDelay)
+      clearInterval(interval)
+    }
   }, [lastShown, isAdminPage])
 
   // No renderizar nada si estamos en admin
