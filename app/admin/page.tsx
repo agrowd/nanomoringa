@@ -50,7 +50,7 @@ export default function AdminLoginPage() {
       <Card className="w-full max-w-md bg-white border-gray-200 shadow-lg">
         <CardHeader className="text-center">
           <div className="flex justify-center mb-4">
-            <Image src="/brand/dripcore-logo-bk-grey.png" alt="DripCore" width={60} height={60} className="h-16 w-auto" />
+            <Image src="/brand/medicina-natural-logo.png" alt="Medicina Natural" width={60} height={60} className="h-16 w-auto" />
           </div>
           <CardTitle className="text-2xl font-bold text-gray-900">Panel de Administración</CardTitle>
           <CardDescription className="text-gray-600">Ingresa tus credenciales para acceder</CardDescription>
@@ -64,7 +64,7 @@ export default function AdminLoginPage() {
                 type="text"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
-                placeholder="natoh"
+                placeholder="admin"
                 className="bg-white border-gray-300 text-gray-900 placeholder-gray-500 focus:border-purple-500 focus:ring-purple-500"
                 required
               />

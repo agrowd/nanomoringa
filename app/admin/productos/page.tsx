@@ -161,7 +161,7 @@ export default function AdminProductsPage() {
                   Volver
                 </Link>
               </Button>
-              <Image src="/brand/dripcore-logo-bk-grey.png" alt="DripCore" width={40} height={40} className="h-10 w-auto" />
+              <Image src="/brand/medicina-natural-logo.png" alt="Medicina Natural" width={40} height={40} className="h-10 w-auto" />
               <div>
                 <h1 className="text-2xl font-bold text-gray-900">Gestión de Productos</h1>
                 <p className="text-sm text-gray-600">Administra tu catálogo</p>
