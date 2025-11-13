@@ -19,7 +19,8 @@ import {
   ShoppingCart,
   DollarSign,
   Ticket,
-  Eye
+  Eye,
+  MessageSquare
 } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
@@ -263,7 +264,7 @@ export default function AdminDashboard() {
         </div>
 
         {/* Quick Actions */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           <Card className="bg-white border-gray-200 shadow-sm hover:shadow-md transition-shadow">
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-gray-900">
@@ -305,6 +306,21 @@ export default function AdminDashboard() {
             <CardContent>
               <Button asChild variant="outline" className="w-full border-purple-600 text-purple-600 hover:bg-purple-600 hover:text-white">
                 <Link href="/admin/cupones">Gestionar Cupones</Link>
+              </Button>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-white border-gray-200 shadow-sm hover:shadow-md transition-shadow">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2 text-gray-900">
+                <MessageSquare className="h-5 w-5 text-green-600" />
+                WhatsApp Bot
+              </CardTitle>
+              <CardDescription className="text-gray-600">Gestionar conversaciones y QR</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Button asChild variant="outline" className="w-full border-green-600 text-green-600 hover:bg-green-600 hover:text-white">
+                <Link href="/admin/whatsapp">Abrir WhatsApp</Link>
               </Button>
             </CardContent>
           </Card>

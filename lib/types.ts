@@ -58,3 +58,34 @@ export interface Coupon {
   createdAt: string
   updatedAt?: string
 }
+
+// WhatsApp Types
+export interface WhatsAppConversation {
+  id: string
+  phone: string
+  name?: string
+  lastMessageText?: string
+  lastMessageAt: Date
+  unreadCount: number
+  status: 'active' | 'archived' | 'blocked'
+  createdAt: Date
+  updatedAt: Date
+}
+
+export interface WhatsAppMessage {
+  id: string
+  conversationId: string
+  messageText: string
+  sender: 'user' | 'admin'
+  fromWhatsApp: boolean
+  timestamp: Date
+  messageType: 'text' | 'image' | 'audio' | 'video' | 'document'
+  mediaUrl?: string
+}
+
+export interface WhatsAppBotStatus {
+  isConnected: boolean
+  qrCode?: string | null
+  phoneNumber?: string
+  lastUpdate?: Date
+}
