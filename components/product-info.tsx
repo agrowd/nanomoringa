@@ -126,42 +126,55 @@ export function ProductInfo({ product }: ProductInfoProps) {
       </div>
 
       {/* Size Selection */}
-      <div>
-        <label className="block text-sm font-semibold mb-3">
-          Presentación: {selectedSize && <span className="text-[#8B5CF6]">{selectedSize}</span>}
-        </label>
-        <div className="flex flex-wrap gap-2">
-          {product.sizes.map((size) => (
-            <Button
-              key={size}
-              variant={selectedSize === size ? "default" : "outline"}
-              onClick={() => setSelectedSize(size)}
-              className={selectedSize === size ? "bg-[#8B5CF6] hover:bg-[#8B5CF6]/90" : ""}
-            >
-              {size}
-            </Button>
-          ))}
+      {product.sizes.length > 0 && (
+        <div>
+          <label className="block text-sm font-semibold mb-3">
+            Presentación: {selectedSize && <span className="text-[#8B5CF6]">{selectedSize}</span>}
+          </label>
+          <div className="flex flex-wrap gap-2">
+            {product.sizes.map((size) => (
+              <Button
+                key={size}
+                variant={selectedSize === size ? "default" : "outline"}
+                onClick={() => setSelectedSize(size)}
+                className={selectedSize === size ? "bg-[#8B5CF6] hover:bg-[#8B5CF6]/90" : ""}
+              >
+                {size}
+              </Button>
+            ))}
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Color Selection */}
-      <div>
-        <label className="block text-sm font-semibold mb-3">
-          Color: {selectedColor && <span className="text-[#8B5CF6]">{selectedColor}</span>}
-        </label>
-        <div className="flex flex-wrap gap-2">
-          {product.colors.map((color) => (
-            <Button
-              key={color}
-              variant={selectedColor === color ? "default" : "outline"}
-              onClick={() => setSelectedColor(color)}
-              className={selectedColor === color ? "bg-[#8B5CF6] hover:bg-[#8B5CF6]/90" : ""}
-            >
-              {color}
-            </Button>
-          ))}
+      {product.colors.length > 0 && (
+        <div>
+          <label className="block text-sm font-semibold mb-3">
+            Variante: {selectedColor && <span className="text-[#8B5CF6]">{selectedColor}</span>}
+          </label>
+          <div className="flex flex-wrap gap-2">
+            {product.colors.map((color) => (
+              <Button
+                key={color}
+                variant={selectedColor === color ? "default" : "outline"}
+                onClick={() => setSelectedColor(color)}
+                className={selectedColor === color ? "bg-[#8B5CF6] hover:bg-[#8B5CF6]/90" : ""}
+              >
+                {color}
+              </Button>
+            ))}
+          </div>
         </div>
-      </div>
+      )}
+
+      {/* Mensaje si no tiene variantes */}
+      {product.sizes.length === 0 && product.colors.length === 0 && (
+        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+          <p className="text-sm text-blue-800">
+            <strong>Producto único:</strong> Este producto no tiene presentaciones o variantes disponibles.
+          </p>
+        </div>
+      )}
 
       {/* Quantity */}
       <div>
