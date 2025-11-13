@@ -193,7 +193,7 @@ export default function EditProductPage() {
   }
 
   const addSize = () => {
-    const newSize = prompt("Ingresa el nuevo talle:\n\nEjemplos:\n• Ropa: S, M, L, XL, XXL\n• Zapatillas: 36, 37, 38, 39, 40, 41, 42, 43, 44, 45\n• Único: Único")
+    const newSize = prompt("Ingresa la nueva presentación:\n\nEjemplos:\n• Volumen: 30ml, 60ml, 100ml\n• Unidades: 30 unidades, 60 unidades, 90 unidades\n• Único: Único")
     if (newSize && !formData.sizes.includes(newSize)) {
       setFormData(prev => ({
         ...prev,
@@ -220,7 +220,7 @@ export default function EditProductPage() {
   }
 
   const addColor = () => {
-    const newColor = prompt("Ingresa el nuevo color:\n\nEjemplos:\n• Negro, Blanco, Gris\n• Azul, Verde, Rojo\n• Rosa Pastel, Azul Oscuro\n• Beige, Marrón, Azul Marino")
+    const newColor = prompt("Ingresa el nuevo color/variante:\n\nEjemplos:\n• Natural, Relajante, Energizante\n• Equilibrio, Concentrado\n• Sabor Limón, Sabor Menta")
     if (newColor && !formData.colors.includes(newColor)) {
       setFormData(prev => ({
         ...prev,
@@ -247,7 +247,7 @@ export default function EditProductPage() {
   }
 
   const addTag = () => {
-    const newTag = prompt("Ingresa la nueva etiqueta:\n\nEjemplos:\n• nuevo, destacado, en-oferta\n• drop-limitado, bestseller\n• premium, deportivo, urbano")
+    const newTag = prompt("Ingresa la nueva etiqueta:\n\nEjemplos:\n• nuevo, destacado, en-oferta\n• bestseller, 100-natural\n• micronizado, certificado")
     if (newTag && !formData.tags.includes(newTag)) {
       setFormData(prev => ({
         ...prev,
@@ -331,9 +331,9 @@ export default function EditProductPage() {
             </h3>
             <div className="mt-2 text-sm text-blue-700">
               <ul className="list-disc list-inside space-y-1">
-                <li>Usa los <strong>botones rápidos</strong> para talles, colores y etiquetas comunes</li>
+                <li>Usa los <strong>botones rápidos</strong> para presentaciones, variantes y etiquetas comunes</li>
                 <li>Los <strong>placeholders</strong> muestran ejemplos de formato</li>
-                <li>El <strong>SKU</strong> debe seguir el formato: DC-[CATEGORIA]-[NUMERO]</li>
+                <li>El <strong>SKU</strong> debe seguir el formato: NM-[CATEGORIA]-[NUMERO]</li>
                 <li>Las <strong>etiquetas</strong> afectan la visibilidad y filtros del producto</li>
               </ul>
             </div>
@@ -378,20 +378,28 @@ export default function EditProductPage() {
                     id="sku"
                     value={formData.sku}
                     onChange={(e) => setFormData(prev => ({ ...prev, sku: e.target.value }))}
-                    placeholder="Ej: DC-JKT-001 (formato: DC-[CATEGORIA]-[NUMERO])"
+                    placeholder="Ej: NM-ACE-001 (formato: NM-[CATEGORIA]-[NUMERO])"
                     className="bg-white border-gray-300 focus:border-purple-500"
                   />
                 </div>
 
                 <div>
                   <Label htmlFor="category">Categoría</Label>
-                  <Input
+                  <select
                     id="category"
                     value={formData.category}
                     onChange={(e) => setFormData(prev => ({ ...prev, category: e.target.value }))}
-                    placeholder="Ej: camperas, zapatillas, remeras, buzos, gorras"
-                    className="bg-white border-gray-300 focus:border-purple-500"
-                  />
+                    className="w-full p-2 border border-gray-300 rounded-md bg-white text-gray-900 focus:border-purple-500 focus:ring-purple-500"
+                    required
+                  >
+                    <option value="">Seleccionar categoría</option>
+                    <option value="Aceites">Aceites</option>
+                    <option value="Tópicos">Tópicos</option>
+                    <option value="Cápsulas">Cápsulas</option>
+                    <option value="Gomitas">Gomitas</option>
+                    <option value="Cremas">Cremas</option>
+                    <option value="Otros">Otros</option>
+                  </select>
                 </div>
 
                 <div>
@@ -400,7 +408,7 @@ export default function EditProductPage() {
                     id="description"
                     value={formData.description}
                     onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
-                    placeholder="Ej: Rompeviento liviano con diseño deportivo y estilo urbano. Perfecto para entrenar o usar todos los días. Tela respirable, capucha ajustable y cierres frontales."
+                    placeholder="Ej: Aceite micronizado 100% natural. Formulado para bienestar diario. Envase de vidrio oscuro para preservar propiedades."
                     className="bg-white border-gray-300 focus:border-purple-500"
                     rows={3}
                   />
@@ -546,7 +554,7 @@ export default function EditProductPage() {
           <div className="space-y-6">
             <Card className="bg-white border-gray-200 shadow-sm">
               <CardHeader>
-                <CardTitle>Talles</CardTitle>
+                <CardTitle>Presentaciones</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="flex flex-wrap gap-2 mb-4">
@@ -557,7 +565,7 @@ export default function EditProductPage() {
                         type="button"
                         onClick={() => removeSize(size)}
                         className="ml-1 hover:bg-gray-200 rounded-full p-0.5 transition-colors"
-                        aria-label={`Eliminar talle ${size}`}
+                        aria-label={`Eliminar presentación ${size}`}
                       >
                         <X className="h-3 w-3" />
                       </button>
@@ -565,26 +573,26 @@ export default function EditProductPage() {
                   ))}
                 </div>
                 
-                {/* Botones rápidos para talles comunes */}
+                {/* Botones rápidos para presentaciones comunes */}
                 <div className="space-y-3">
                   <div>
-                    <p className="text-sm text-gray-600 mb-2">Talles rápidos:</p>
+                    <p className="text-sm text-gray-600 mb-2">Presentaciones rápidas:</p>
                     <div className="flex flex-wrap gap-2">
                       <Button 
-                        onClick={() => addMultipleSizes(['S', 'M', 'L', 'XL', 'XXL'])} 
+                        onClick={() => addMultipleSizes(['30ml', '60ml', '100ml'])} 
                         variant="outline" 
                         size="sm"
                         className="text-xs"
                       >
-                        Ropa (S-XXL)
+                        Volúmenes Comunes
                       </Button>
                       <Button 
-                        onClick={() => addMultipleSizes(['36', '37', '38', '39', '40', '41', '42', '43', '44', '45'])} 
+                        onClick={() => addMultipleSizes(['30 unidades', '60 unidades', '90 unidades'])} 
                         variant="outline" 
                         size="sm"
                         className="text-xs"
                       >
-                        Zapatillas (36-45)
+                        Unidades Comunes
                       </Button>
                       <Button 
                         onClick={() => addMultipleSizes(['Único'])} 
@@ -592,14 +600,14 @@ export default function EditProductPage() {
                         size="sm"
                         className="text-xs"
                       >
-                        Talle Único
+                        Presentación Única
                       </Button>
                     </div>
                   </div>
                   
                   <Button onClick={addSize} variant="outline" size="sm">
                     <Plus className="mr-2 h-4 w-4" />
-                    Agregar Talle Personalizado
+                    Agregar Presentación Personalizada
                   </Button>
                 </div>
               </CardContent>

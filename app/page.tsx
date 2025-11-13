@@ -9,8 +9,6 @@ import { ProductCard } from "@/components/product-card"
 // import { AnimatedOffers } from "@/components/animated-offers"
 import { Badge } from "@/components/ui/badge"
 import { Truck, Shield, Clock, Star } from "lucide-react"
-import { FaUser, FaUserTie, FaUserGraduate, FaUserAstronaut, FaUserNinja } from "react-icons/fa"
-import { MdSportsSoccer, MdSportsBasketball, MdSportsTennis } from "react-icons/md"
 import type { Product } from "@/lib/types"
 import { useEffect, useState } from "react"
 
@@ -81,22 +79,22 @@ export default function HomePage() {
 
             {/* Description - MÍNIMA */}
             <p className="text-xl md:text-2xl text-gray-200 mb-12 max-w-2xl mx-auto text-center leading-relaxed">
-              Aceite de CBD micronizado • Bienestar en cada gota
+              Aceites micronizados • Bienestar en cada gota
             </p>
 
             {/* Confianza Social */}
             <div className="flex items-center justify-center gap-4 mb-12">
               <div className="flex -space-x-3">
-                <div className="w-14 h-14 rounded-full bg-gradient-to-br from-green-600 to-emerald-600 border-3 border-[#294E3A] flex items-center justify-center shadow-lg text-2xl">
+                <div className="w-14 h-14 rounded-full bg-gradient-to-br from-green-600 to-emerald-600 border-2 border-[#294E3A] flex items-center justify-center shadow-lg text-2xl">
                   🌿
                 </div>
-                <div className="w-14 h-14 rounded-full bg-gradient-to-br from-emerald-600 to-teal-600 border-3 border-[#294E3A] flex items-center justify-center shadow-lg text-2xl">
+                <div className="w-14 h-14 rounded-full bg-gradient-to-br from-emerald-600 to-teal-600 border-2 border-[#294E3A] flex items-center justify-center shadow-lg text-2xl">
                   💚
                 </div>
-                <div className="w-14 h-14 rounded-full bg-gradient-to-br from-teal-600 to-green-600 border-3 border-[#294E3A] flex items-center justify-center shadow-lg text-2xl">
+                <div className="w-14 h-14 rounded-full bg-gradient-to-br from-teal-600 to-green-600 border-2 border-[#294E3A] flex items-center justify-center shadow-lg text-2xl">
                   ✨
                 </div>
-                <div className="w-14 h-14 rounded-full bg-gradient-to-br from-lime-600 to-green-600 border-3 border-[#294E3A] flex items-center justify-center shadow-lg text-2xl">
+                <div className="w-14 h-14 rounded-full bg-gradient-to-br from-lime-600 to-green-600 border-2 border-[#294E3A] flex items-center justify-center shadow-lg text-2xl">
                   🌱
                 </div>
               </div>
@@ -111,18 +109,21 @@ export default function HomePage() {
             {/* Action Buttons */}
             <div className="flex flex-col sm:flex-row gap-6 justify-center mb-16">
               <Button
-                asChild
+                onClick={() => {
+                  const chatButton = document.querySelector('[aria-label="Abrir chat"]') as HTMLButtonElement
+                  if (chatButton) chatButton.click()
+                }}
                 size="lg"
                 className="bg-gradient-to-r from-[#4A8F53] to-[#3A7A43] hover:from-[#3A7A43] hover:to-[#2A6A33] text-white text-2xl px-12 py-8 font-bold shadow-2xl shadow-green-500/30 transition-all duration-300 transform hover:scale-110 rounded-2xl"
               >
-                <Link href="/catalogo">🌿 Ver Productos</Link>
+                💬 Consultar con Asesor
               </Button>
               <Button
                 asChild
                 size="lg"
-                className="bg-white/95 text-[#294E3A] hover:bg-white text-2xl px-12 py-8 font-bold shadow-2xl transition-all duration-300 transform hover:scale-110 rounded-2xl border-2 border-white"
+                className="bg-white/95 text-[#556B2F] hover:bg-white text-2xl px-12 py-8 font-bold shadow-2xl transition-all duration-300 transform hover:scale-110 rounded-2xl border-2 border-white"
               >
-                <Link href="/contacto">💬 Consultar Ahora</Link>
+                <Link href="/catalogo">🌿 Ver Productos</Link>
               </Button>
             </div>
 
@@ -180,60 +181,50 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* Sección Visual con Imagen/Video Placeholder */}
-        <section className="py-16 bg-gradient-to-br from-background via-muted to-background">
+        {/* Sección Visual - SOLO IMÁGENES (Meta Ads Optimized) */}
+        <section className="py-20 bg-gradient-to-br from-background via-muted to-background">
           <div className="container mx-auto px-4">
-            <div className="max-w-6xl mx-auto">
-              {/* Imagen de beneficios */}
-              <div className="grid md:grid-cols-2 gap-12 items-center mb-16">
-                <div className="order-2 md:order-1">
-                  <div className="rounded-3xl overflow-hidden shadow-2xl border-4 border-primary/20">
-                    <Image
-                      src="/uploads/beneficios-cbd.png"
-                      alt="Rutina de bienestar natural"
-                      width={600}
-                      height={600}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                </div>
-                <div className="order-1 md:order-2 text-center md:text-left">
-                  <h2 className="text-4xl md:text-5xl font-bold mb-6 text-foreground font-[family-name:var(--font-playfair)]">
-                    🌿 Bienestar Natural
-                  </h2>
-                  <div className="space-y-4 text-xl text-muted-foreground">
-                    <p className="flex items-center justify-center md:justify-start gap-3">
-                      <span className="text-3xl">🌱</span> Natural
-                    </p>
-                    <p className="flex items-center justify-center md:justify-start gap-3">
-                      <span className="text-3xl">💚</span> Seguro
-                    </p>
-                    <p className="flex items-center justify-center md:justify-start gap-3">
-                      <span className="text-3xl">✨</span> Efectivo
-                    </p>
-                  </div>
+            <div className="max-w-7xl mx-auto">
+              {/* Imagen principal - Grande y destacada */}
+              <div className="mb-16">
+                <div className="rounded-3xl overflow-hidden shadow-2xl border-4 border-primary/20 aspect-[16/9]">
+                  <Image
+                    src="/uploads/beneficios-cbd.png"
+                    alt="Bienestar natural"
+                    width={1200}
+                    height={675}
+                    className="w-full h-full object-cover"
+                    priority
+                  />
                 </div>
               </div>
 
-              {/* Galería de imágenes lifestyle */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-12">
-                <div className="rounded-2xl overflow-hidden shadow-xl border-2 border-primary/20">
+              {/* Galería de imágenes - Grid visual */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="rounded-2xl overflow-hidden shadow-xl border-2 border-primary/20 aspect-square">
                   <Image
                     src="/uploads/hero-aceite.jpg"
-                    alt="Uso de aceite natural"
-                    width={500}
-                    height={500}
+                    alt="Producto natural"
+                    width={600}
+                    height={600}
                     className="w-full h-full object-cover"
                   />
                 </div>
-                <div className="rounded-2xl overflow-hidden shadow-xl border-2 border-primary/20">
+                <div className="rounded-2xl overflow-hidden shadow-xl border-2 border-primary/20 aspect-square">
                   <Image
                     src="/uploads/gel-crema.png"
-                    alt="Productos naturales"
-                    width={500}
-                    height={500}
+                    alt="Producto natural"
+                    width={600}
+                    height={600}
                     className="w-full h-full object-cover"
                   />
+                </div>
+                <div className="rounded-2xl overflow-hidden shadow-xl border-2 border-primary/20 aspect-square bg-gradient-to-br from-accent/20 to-primary/20 flex items-center justify-center">
+                  <div className="text-center p-8">
+                    <div className="text-6xl mb-4">🌿</div>
+                    <div className="text-4xl mb-2">💚</div>
+                    <div className="text-5xl">✨</div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -324,11 +315,16 @@ export default function HomePage() {
               <p className="text-2xl text-muted-foreground mb-10">
                 Te asesoramos personalmente
               </p>
-              <Button asChild size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground font-bold text-2xl px-16 py-10 rounded-2xl shadow-2xl shadow-accent/30 transform hover:scale-110 transition-all">
-                <Link href="/contacto">
-                  Consultar por WhatsApp
-                    </Link>
-                  </Button>
+              <Button 
+                size="lg" 
+                className="bg-accent hover:bg-accent/90 text-accent-foreground font-bold text-2xl px-16 py-10 rounded-2xl shadow-2xl shadow-accent/30 transform hover:scale-110 transition-all"
+                onClick={() => {
+                  const chatButton = document.querySelector('[aria-label="Abrir chat"]') as HTMLButtonElement
+                  if (chatButton) chatButton.click()
+                }}
+              >
+                Consultar con Asesor
+              </Button>
             </div>
           </div>
         </section>
@@ -347,11 +343,14 @@ export default function HomePage() {
                 <Link href="/catalogo">Ver Productos</Link>
               </Button>
               <Button
-                asChild
                 size="lg"
                 className="bg-white/20 text-primary-foreground hover:bg-white/30 text-2xl px-14 py-9 font-bold rounded-2xl border-2 border-white/50 backdrop-blur-sm transform hover:scale-110 transition-all"
+                onClick={() => {
+                  const chatButton = document.querySelector('[aria-label="Abrir chat"]') as HTMLButtonElement
+                  if (chatButton) chatButton.click()
+                }}
               >
-                <Link href="/contacto">Consultar</Link>
+                Consultar
               </Button>
             </div>
           </div>

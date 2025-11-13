@@ -30,11 +30,11 @@ export function ProductTabs({ product }: ProductTabsProps) {
           <CardContent className="pt-6 space-y-3">
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <p className="text-sm font-semibold mb-1">Talles disponibles</p>
+                <p className="text-sm font-semibold mb-1">Presentaciones disponibles</p>
                 <p className="text-sm text-gray-700">{product.sizes.join(", ")}</p>
               </div>
               <div>
-                <p className="text-sm font-semibold mb-1">Colores disponibles</p>
+                <p className="text-sm font-semibold mb-1">Variantes disponibles</p>
                 <p className="text-sm text-gray-700">{product.colors.join(", ")}</p>
               </div>
               <div>

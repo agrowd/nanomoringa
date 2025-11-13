@@ -20,11 +20,19 @@ export function Header() {
   const [isSearchExpanded, setIsSearchExpanded] = useState(false)
   const router = useRouter()
 
-  const navLinks = [
+  const handleConsultarClick = (e: React.MouseEvent) => {
+    e.preventDefault()
+    const chatButton = document.querySelector('[aria-label="Abrir chat"]') as HTMLButtonElement
+    if (chatButton) {
+      chatButton.click()
+    }
+  }
+
+  const navLinks: Array<{ href: string; label: string; onClick?: (e: React.MouseEvent) => void }> = [
     { href: "/catalogo", label: "Productos" },
     { href: "/nosotros", label: "Nosotros" },
     { href: "/faq", label: "Preguntas Frecuentes" },
-    { href: "/contacto", label: "Consultar" },
+    { href: "#", label: "Consultar", onClick: handleConsultarClick },
   ]
 
   const toggleSearch = () => {
@@ -52,15 +60,29 @@ export function Header() {
 
         {/* Desktop Navigation */}
         <nav className="hidden lg:flex items-center gap-6">
-          {navLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className="text-sm font-medium transition-all duration-300 text-primary-foreground/90 hover:text-primary-foreground hover:bg-primary-foreground/10 px-3 py-2 rounded-lg"
-            >
-              {link.label}
-            </Link>
-          ))}
+          {navLinks.map((link) => {
+            if (link.onClick) {
+              return (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  onClick={link.onClick}
+                  className="text-sm font-medium transition-all duration-300 text-primary-foreground/90 hover:text-primary-foreground hover:bg-primary-foreground/10 px-3 py-2 rounded-lg cursor-pointer"
+                >
+                  {link.label}
+                </a>
+              )
+            }
+            return (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="text-sm font-medium transition-all duration-300 text-primary-foreground/90 hover:text-primary-foreground hover:bg-primary-foreground/10 px-3 py-2 rounded-lg"
+              >
+                {link.label}
+              </Link>
+            )
+          })}
         </nav>
 
         <div className="flex items-center gap-2 relative">
@@ -96,15 +118,29 @@ export function Header() {
               </SheetHeader>
 
               <nav className="flex flex-col gap-4 mt-6">
-                {navLinks.map((link) => (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    className="text-lg font-medium text-gray-300 hover:text-white transition-colors"
-                  >
-                    {link.label}
-                  </Link>
-                ))}
+                {navLinks.map((link) => {
+                  if (link.onClick) {
+                    return (
+                      <a
+                        key={link.href}
+                        href={link.href}
+                        onClick={link.onClick}
+                        className="text-lg font-medium text-gray-300 hover:text-white transition-colors cursor-pointer"
+                      >
+                        {link.label}
+                      </a>
+                    )
+                  }
+                  return (
+                    <Link
+                      key={link.href}
+                      href={link.href}
+                      className="text-lg font-medium text-gray-300 hover:text-white transition-colors"
+                    >
+                      {link.label}
+                    </Link>
+                  )
+                })}
               </nav>
             </SheetContent>
           </Sheet>

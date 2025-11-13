@@ -1,0 +1,5 @@
+[33mc057a45[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m)[m feat: cambio completo de Medicina Natural a Nano Moringa - branding, logos, contacto, productos y mensajes actualizados
+[33m48fe61d[m[33m ([m[1;31morigin/medicina-natural-backup[m[33m, [m[1;32mmedicina-natural-backup[m[33m)[m fix: reemplazar referencias de DripCore por Medicina Natural en admin
+[33m4eba7df[m docs: agregar guía rápida de ejecución
+[33ma8a0279[m feat: preparar deploy en Vercel - checklist y variables de entorno
+[33me0f246e[m chore: apuntar scripts al dominio nanomoringa

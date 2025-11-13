@@ -10,19 +10,17 @@ import { Slider } from "@/components/ui/slider"
 import { useState } from "react"
 
 const categories = [
-  { value: "buzos", label: "Buzos" },
-  { value: "remeras", label: "Remeras" },
-  { value: "pantalones", label: "Pantalones" },
-  { value: "camperas", label: "Camperas" },
-  { value: "shorts", label: "Shorts" },
-  { value: "zapatillas", label: "Zapatillas" },
-  { value: "gorras", label: "Gorras" },
-  { value: "accesorios", label: "Accesorios" },
+  { value: "Aceites", label: "Aceites" },
+  { value: "Tópicos", label: "Tópicos" },
+  { value: "Cápsulas", label: "Cápsulas" },
+  { value: "Gomitas", label: "Gomitas" },
+  { value: "Cremas", label: "Cremas" },
+  { value: "Otros", label: "Otros" },
 ]
 
-const sizes = ["S", "M", "L", "XL", "XXL", "28", "30", "32", "34", "36", "Único"]
+const sizes = ["30ml", "60ml", "100ml", "30 unidades", "60 unidades", "90 unidades", "Único"]
 
-const colors = ["Negro", "Blanco", "Gris", "Púrpura", "Azul Marino", "Verde Militar", "Verde Oliva", "Gris Oscuro"]
+const colors = ["Natural", "Relajante", "Energizante", "Equilibrio", "Concentrado"]
 
 export function CatalogFilters() {
   const router = useRouter()
@@ -113,7 +111,7 @@ export function CatalogFilters() {
 
           {/* Sizes */}
           <div>
-            <Label className="mb-3 block">Talle</Label>
+            <Label className="mb-3 block">Presentación</Label>
             <div className="grid grid-cols-3 gap-2">
               {sizes.map((size) => (
                 <Button

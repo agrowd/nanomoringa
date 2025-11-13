@@ -20,7 +20,7 @@ export function ProductInfo({ product }: ProductInfoProps) {
   const addItem = useCart((state) => state.addItem)
   const { toast } = useToast()
 
-  // Pre-seleccionar el primer talle y color disponible
+  // Pre-seleccionar la primera presentación y variante disponible
   React.useEffect(() => {
     if (product.sizes.length > 0 && !selectedSize) {
       setSelectedSize(product.sizes[0])
@@ -43,7 +43,7 @@ export function ProductInfo({ product }: ProductInfoProps) {
     if (!finalSize || !finalColor) {
       toast({
         title: "Producto sin variantes",
-        description: "Este producto no tiene talles o colores disponibles",
+        description: "Este producto no tiene presentaciones o variantes disponibles",
         variant: "destructive",
       })
       return
@@ -68,6 +68,13 @@ export function ProductInfo({ product }: ProductInfoProps) {
   }
 
   const handleWhatsAppInquiry = () => {
+    // Abrir el chat en lugar de WhatsApp directo
+    const chatButton = document.querySelector('[aria-label="Abrir chat"]') as HTMLButtonElement
+    if (chatButton) {
+      chatButton.click()
+      return
+    }
+    // Fallback a WhatsApp si no se encuentra el botón del chat
     // Usar valores pre-seleccionados si no hay selección manual
     const finalSize = selectedSize || (product.sizes.length > 0 ? product.sizes[0] : "")
     const finalColor = selectedColor || (product.colors.length > 0 ? product.colors[0] : "")
@@ -75,13 +82,13 @@ export function ProductInfo({ product }: ProductInfoProps) {
     if (!finalSize || !finalColor) {
       toast({
         title: "Producto sin variantes",
-        description: "Este producto no tiene talles o colores disponibles",
+        description: "Este producto no tiene presentaciones o variantes disponibles",
         variant: "destructive",
       })
       return
     }
 
-    const phone = process.env.NEXT_PUBLIC_WA_PHONE || "5491172456286"
+    const phone = process.env.NEXT_PUBLIC_WA_PHONE || "5491158082486"
     const message = buildProductMessage(product.name, finalSize, finalColor, window.location.href)
     const url = buildWAUrl(phone, message)
     window.open(url, "_blank")
@@ -134,7 +141,7 @@ export function ProductInfo({ product }: ProductInfoProps) {
       {/* Size Selection */}
       <div>
         <label className="block text-sm font-semibold mb-3">
-          Talle: {selectedSize && <span className="text-[#8B5CF6]">{selectedSize}</span>}
+          Presentación: {selectedSize && <span className="text-[#8B5CF6]">{selectedSize}</span>}
         </label>
         <div className="flex flex-wrap gap-2">
           {product.sizes.map((size) => (
@@ -234,7 +241,7 @@ export function ProductInfo({ product }: ProductInfoProps) {
           variant="outline" 
           className="flex-1 bg-blue-50 border-blue-300 text-blue-700 hover:bg-blue-100 hover:text-blue-800"
           onClick={() => {
-            const phone = process.env.NEXT_PUBLIC_WA_PHONE || "5491172456286"
+            const phone = process.env.NEXT_PUBLIC_WA_PHONE || "5491158082486"
             const message = `¡Hola! Me interesa comprar *${product.name}* al por mayor. ¿Podrían darme información sobre precios y condiciones?\n\nProducto: ${window.location.href}`
             const url = buildWAUrl(phone, message)
             window.open(url, "_blank")

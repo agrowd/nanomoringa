@@ -26,7 +26,7 @@ export function ProductForm({ product, onSave, onCancel }: ProductFormProps) {
       description: "",
       price: 0,
       compareAt: undefined,
-      category: "hoodies",
+      category: "Aceites",
       sizes: [],
       colors: [],
       images: ["/placeholder.svg?height=800&width=600"],
@@ -70,9 +70,9 @@ export function ProductForm({ product, onSave, onCancel }: ProductFormProps) {
     }
   }
 
-  const allSizes = ["S", "M", "L", "XL", "XXL", "28", "30", "32", "34", "36", "Único"]
-  const allColors = ["Negro", "Blanco", "Gris", "Púrpura", "Azul Marino", "Verde Militar", "Verde Oliva", "Gris Oscuro"]
-  const allTags = ["nuevo", "destacado", "drop-limitado", "bestseller"]
+  const allSizes = ["30ml", "60ml", "100ml", "30 unidades", "60 unidades", "90 unidades", "Único"]
+  const allColors = ["Natural", "Relajante", "Energizante", "Equilibrio", "Concentrado"]
+  const allTags = ["nuevo", "destacado", "en-oferta", "bestseller", "100-natural", "micronizado"]
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
@@ -141,12 +141,12 @@ export function ProductForm({ product, onSave, onCancel }: ProductFormProps) {
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="hoodies">Hoodies</SelectItem>
-              <SelectItem value="remeras">Remeras</SelectItem>
-              <SelectItem value="pantalones">Pantalones</SelectItem>
-              <SelectItem value="camperas">Camperas</SelectItem>
-              <SelectItem value="shorts">Shorts</SelectItem>
-              <SelectItem value="accesorios">Accesorios</SelectItem>
+              <SelectItem value="Aceites">Aceites</SelectItem>
+              <SelectItem value="Tópicos">Tópicos</SelectItem>
+              <SelectItem value="Cápsulas">Cápsulas</SelectItem>
+              <SelectItem value="Gomitas">Gomitas</SelectItem>
+              <SelectItem value="Cremas">Cremas</SelectItem>
+              <SelectItem value="Otros">Otros</SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -164,7 +164,7 @@ export function ProductForm({ product, onSave, onCancel }: ProductFormProps) {
       </div>
 
       <div>
-        <Label className="mb-3 block">Talles</Label>
+        <Label className="mb-3 block">Presentaciones</Label>
         <div className="grid grid-cols-4 gap-2">
           {allSizes.map((size) => (
             <Button
@@ -182,7 +182,7 @@ export function ProductForm({ product, onSave, onCancel }: ProductFormProps) {
       </div>
 
       <div>
-        <Label className="mb-3 block">Colores</Label>
+        <Label className="mb-3 block">Variantes</Label>
         <div className="space-y-2">
           {allColors.map((color) => (
             <div key={color} className="flex items-center space-x-2">

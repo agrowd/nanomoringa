@@ -2,6 +2,7 @@
 
 import { Bot, User } from "lucide-react"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
+import { RefObject } from "react"
 
 interface Message {
   id: string
@@ -12,42 +13,52 @@ interface Message {
 
 interface ChatMessagesProps {
   messages: Message[]
+  messagesEndRef: RefObject<HTMLDivElement>
 }
 
-export function ChatMessages({ messages }: ChatMessagesProps) {
+export function ChatMessages({ messages, messagesEndRef }: ChatMessagesProps) {
   const formatTime = (date: Date) => {
     return date.toLocaleTimeString('es-AR', { 
       hour: '2-digit', 
-      minute: '2-digit' 
+      minute: '2-digit',
+      hour12: true
     })
   }
 
   return (
-    <div className="flex-1 overflow-y-auto p-4 space-y-4">
+    <div className="h-full overflow-y-auto p-4 space-y-4 bg-muted/10 scroll-smooth">
       {messages.map((message) => (
         <div
           key={message.id}
-          className={`flex gap-3 ${
-            message.sender === 'user' ? 'justify-end' : 'justify-start'
+          className={`flex gap-3 items-start ${
+            message.sender === 'user' ? 'flex-row-reverse' : 'flex-row'
           }`}
         >
-          {message.sender === 'bot' && (
-            <Avatar className="w-8 h-8 flex-shrink-0">
-              <AvatarFallback className="bg-accent text-accent-foreground">
+          {/* Avatar */}
+          <Avatar className="w-8 h-8 flex-shrink-0">
+            <AvatarFallback className={
+              message.sender === 'bot'
+                ? 'bg-accent text-accent-foreground'
+                : 'bg-primary text-primary-foreground'
+            }>
+              {message.sender === 'bot' ? (
                 <Bot className="h-4 w-4" />
-              </AvatarFallback>
-            </Avatar>
-          )}
+              ) : (
+                <User className="h-4 w-4" />
+              )}
+            </AvatarFallback>
+          </Avatar>
           
+          {/* Message Bubble */}
           <div
-            className={`max-w-[80%] rounded-2xl px-4 py-2 ${
+            className={`max-w-[75%] rounded-2xl px-4 py-3 ${
               message.sender === 'user'
-                ? 'bg-accent text-accent-foreground ml-auto'
-                : 'bg-muted text-foreground'
+                ? 'bg-accent text-accent-foreground'
+                : 'bg-background border border-border text-foreground'
             }`}
           >
-            <p className="text-sm whitespace-pre-wrap">{message.text}</p>
-            <p className={`text-xs mt-1 ${
+            <p className="text-sm whitespace-pre-wrap leading-relaxed">{message.text}</p>
+            <p className={`text-xs mt-2 ${
               message.sender === 'user' 
                 ? 'text-accent-foreground/70' 
                 : 'text-muted-foreground'
@@ -55,16 +66,9 @@ export function ChatMessages({ messages }: ChatMessagesProps) {
               {formatTime(message.timestamp)}
             </p>
           </div>
-          
-          {message.sender === 'user' && (
-            <Avatar className="w-8 h-8 flex-shrink-0">
-              <AvatarFallback className="bg-primary text-primary-foreground">
-                <User className="h-4 w-4" />
-              </AvatarFallback>
-            </Avatar>
-          )}
         </div>
       ))}
+      <div ref={messagesEndRef} />
     </div>
   )
 }

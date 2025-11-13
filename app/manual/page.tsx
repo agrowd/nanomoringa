@@ -75,7 +75,7 @@ export default function ManualPage() {
                     </h4>
                     <ul className="space-y-1 text-sm text-muted-foreground ml-6">
                       <li>• Grid responsive de productos</li>
-                      <li>• Filtros por categoría, talle, color y precio</li>
+                      <li>• Filtros por categoría, presentación, variante y precio</li>
                       <li>• Ordenamiento (nuevo, precio asc/desc)</li>
                       <li>• Badges de estado (nuevo, descuento, stock)</li>
                       <li>• URLs compartibles con filtros</li>
@@ -89,7 +89,7 @@ export default function ManualPage() {
                     </h4>
                     <ul className="space-y-1 text-sm text-muted-foreground ml-6">
                       <li>• Galería de imágenes con navegación</li>
-                      <li>• Selección de talle y color</li>
+                      <li>• Selección de presentación y variante</li>
                       <li>• Control de cantidad</li>
                       <li>• Agregar al carrito</li>
                       <li>• Consulta directa por WhatsApp</li>
@@ -161,7 +161,7 @@ export default function ManualPage() {
                       <li>• Editar productos existentes</li>
                       <li>• Eliminar productos con confirmación</li>
                       <li>• Subida de imágenes (placeholder)</li>
-                      <li>• Configurar talles, colores, categorías</li>
+                      <li>• Configurar presentaciones, variantes, categorías</li>
                       <li>• Marcar productos como destacados</li>
                       <li>• Gestión de stock y precios</li>
                       <li>• Etiquetas (nuevo, bestseller, drop-limitado)</li>

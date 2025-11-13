@@ -6,28 +6,43 @@ import { Button } from "@/components/ui/button"
 
 export function WhatsAppChannelNotification() {
   const [isVisible, setIsVisible] = useState(false)
-  const [isDismissed, setIsDismissed] = useState(false)
+  const [lastShown, setLastShown] = useState<number | null>(null)
 
   useEffect(() => {
-    // Verificar si ya fue descartada en esta sesión
-    const dismissed = sessionStorage.getItem("wa-channel-dismissed")
-    if (dismissed) {
-      setIsDismissed(true)
-      return
+    const checkAndShow = () => {
+      // Verificar si el chat está cerrado
+      const chatIsOpen = (window as any).chatWidgetIsOpen || false
+      
+      if (!chatIsOpen) {
+        // Verificar si pasaron 60 segundos desde la última vez que se mostró
+        const now = Date.now()
+        if (!lastShown || (now - lastShown) >= 60000) {
+          setIsVisible(true)
+          setLastShown(now)
+          
+          // Auto-ocultar después de 10 segundos si no interactúa
+          setTimeout(() => {
+            setIsVisible(false)
+          }, 10000)
+        }
+      } else {
+        // Si el chat está abierto, ocultar la notificación
+        setIsVisible(false)
+      }
     }
 
-    // Mostrar después de 2 segundos
-    const timer = setTimeout(() => {
-      setIsVisible(true)
-    }, 2000)
+    // Verificar inmediatamente
+    checkAndShow()
 
-    return () => clearTimeout(timer)
-  }, [])
+    // Verificar cada 60 segundos
+    const interval = setInterval(checkAndShow, 60000)
+
+    return () => clearInterval(interval)
+  }, [lastShown])
 
   const handleDismiss = () => {
     setIsVisible(false)
-    setIsDismissed(true)
-    sessionStorage.setItem("wa-channel-dismissed", "true")
+    setLastShown(Date.now()) // Actualizar el tiempo para que vuelva a aparecer en 60 segundos
   }
 
   const handleChatClick = () => {
@@ -39,12 +54,12 @@ export function WhatsAppChannelNotification() {
     handleDismiss()
   }
 
-  if (isDismissed || !isVisible) {
+  if (!isVisible) {
     return null
   }
 
   return (
-    <div className="fixed bottom-32 right-6 z-50 animate-in slide-in-from-right duration-500">
+    <div className="fixed bottom-28 right-6 z-50 animate-in slide-in-from-right duration-500">
       <div className="bg-gradient-to-br from-accent to-primary text-primary-foreground rounded-2xl shadow-2xl p-5 max-w-sm border-2 border-accent">
         <button
           onClick={handleDismiss}

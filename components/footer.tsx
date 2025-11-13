@@ -1,7 +1,16 @@
+"use client"
+
 import Link from "next/link"
 import Image from "next/image"
 
 export function Footer() {
+  const handleConsultarClick = (e: React.MouseEvent) => {
+    e.preventDefault()
+    const chatButton = document.querySelector('[aria-label="Abrir chat"]') as HTMLButtonElement
+    if (chatButton) {
+      chatButton.click()
+    }
+  }
   return (
     <footer className="border-t border-border bg-primary mt-20">
       <div className="container mx-auto px-4 py-16">
@@ -14,7 +23,7 @@ export function Footer() {
               <span className="text-2xl font-bold text-primary-foreground">NANO MORINGA</span>
             </Link>
             <p className="text-base text-primary-foreground/80 max-w-md leading-relaxed mb-6">
-              Productos Medicinales 100% naturales. Aceite de CBD micronizado para tu bienestar diario. 
+              Productos Medicinales 100% naturales. Aceites micronizados para tu bienestar diario. 
               Ventas por mayor y menor. Envíos a todo el país con asesoramiento personalizado.
             </p>
             <div className="text-xs text-primary-foreground/60 max-w-md leading-relaxed p-4 bg-primary-foreground/5 rounded-lg">
@@ -43,9 +52,13 @@ export function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/contacto" className="hover:text-accent transition-colors">
+                <a 
+                  href="#" 
+                  onClick={handleConsultarClick}
+                  className="hover:text-accent transition-colors cursor-pointer"
+                >
                   Consultar
-                </Link>
+                </a>
               </li>
             </ul>
           </div>

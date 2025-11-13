@@ -3,7 +3,7 @@ import { Footer } from "@/components/footer"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 
 export const metadata = {
-  title: "Preguntas Frecuentes - Medicina Natural",
+  title: "Preguntas Frecuentes - Nano Moringa",
   description: "Respondemos tus dudas sobre nuestros productos naturales. Uso, dosificación, envíos y más.",
 }
 

@@ -21,10 +21,11 @@ export default function ContactoPage() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    // Redirigir a WhatsApp en lugar de email
-    const message = `Hola, soy ${formData.name}\nEmail: ${formData.email}\n\nConsulta:\n${formData.message}`
-    const whatsappUrl = `https://wa.me/5491158082486?text=${encodeURIComponent(message)}`
-    window.open(whatsappUrl, "_blank")
+    // Abrir el chat en lugar de WhatsApp directo
+    const chatButton = document.querySelector('[aria-label="Abrir chat"]') as HTMLButtonElement
+    if (chatButton) {
+      chatButton.click()
+    }
   }
 
   return (
@@ -76,7 +77,7 @@ export default function ContactoPage() {
                   </div>
                   <Button type="submit" className="w-full bg-accent hover:bg-accent/90">
                     <MessageCircle className="mr-2 h-4 w-4" />
-                    Enviar por WhatsApp
+                    Consultar con Asesor
                   </Button>
                 </form>
               </CardContent>
@@ -91,10 +92,13 @@ export default function ContactoPage() {
                 <CardContent>
                   <Button
                     className="w-full bg-[#25D366] hover:bg-[#25D366]/90 text-lg py-6"
-                    onClick={() => window.open("https://wa.me/5491158082486", "_blank")}
+                    onClick={() => {
+                      const chatButton = document.querySelector('[aria-label="Abrir chat"]') as HTMLButtonElement
+                      if (chatButton) chatButton.click()
+                    }}
                   >
                     <MessageCircle className="mr-2 h-5 w-5" />
-                    Abrir WhatsApp
+                    Consultar con Asesor
                   </Button>
                 </CardContent>
               </Card>

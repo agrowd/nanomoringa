@@ -45,7 +45,7 @@ export function CartNotification() {
               {lastAddedItem.name}
             </p>
             <p className="text-xs text-gray-400 mt-1">
-              Talle: {lastAddedItem.variant.size} • Color: {lastAddedItem.variant.color}
+              Presentación: {lastAddedItem.variant.size} • Variante: {lastAddedItem.variant.color}
             </p>
             <p className="text-xs text-purple-600 font-medium mt-2">
               💡 ¡Aplicá cupones en el carrito!

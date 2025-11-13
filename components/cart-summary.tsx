@@ -103,7 +103,7 @@ export function CartSummary() {
   }
 
   const handleCheckout = () => {
-    const phone = process.env.NEXT_PUBLIC_WA_PHONE || "5491172456286"
+    const phone = process.env.NEXT_PUBLIC_WA_PHONE || "5491158082486"
     const message = buildCartMessage(items, deliveryOption, note, window.location.href)
     const url = buildWAUrl(phone, message)
     window.open(url, "_blank")
@@ -279,16 +279,27 @@ export function CartSummary() {
       <div className="space-y-3">
         <Button 
           size="lg" 
-          className="w-full bg-gradient-to-r from-[#25D366] to-[#20BA5A] hover:from-[#20BA5A] hover:to-[#1DA851] text-white font-bold py-6 text-xl shadow-2xl shadow-green-500/30 transition-all transform hover:scale-105" 
-          onClick={handleCheckout}
+          className="w-full bg-gradient-to-r from-accent to-primary hover:from-primary hover:to-accent text-primary-foreground font-bold py-6 text-xl shadow-2xl shadow-accent/30 transition-all transform hover:scale-105" 
+          onClick={() => {
+            const chatButton = document.querySelector('[aria-label="Abrir chat"]') as HTMLButtonElement
+            if (chatButton) {
+              chatButton.click()
+            }
+          }}
         >
           <MessageCircle className="mr-3 h-6 w-6" />
-          Consultar por WhatsApp
+          Consultar con Asesor
         </Button>
 
-        <div className="bg-primary/10 border border-primary/20 rounded-xl p-4 text-center">
-          <p className="text-sm text-foreground/80">
-            📱 Te vamos a asesorar personalmente por WhatsApp
+        <div className="bg-accent/10 border border-accent/30 rounded-xl p-4">
+          <div className="flex items-center gap-2 mb-2">
+            <Sparkles className="h-4 w-4 text-accent" />
+            <p className="text-sm font-semibold text-foreground">
+              Asesoramiento personalizado
+            </p>
+          </div>
+          <p className="text-xs text-muted-foreground">
+            Nuestro equipo te ayudará a elegir el producto ideal para vos
           </p>
         </div>
       </div>

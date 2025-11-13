@@ -27,18 +27,30 @@ export default function CartPage() {
         <Header />
         <main className="min-h-screen bg-background">
           <div className="container mx-auto px-4 py-16">
-            <div className="text-center">
+            <div className="text-center max-w-md mx-auto">
               <ShoppingBag className="h-24 w-24 text-muted-foreground mx-auto mb-6" />
               <h1 className="text-3xl font-bold mb-4">Tu carrito está vacío</h1>
               <p className="text-muted-foreground mb-8">
                 Agrega algunos productos para comenzar tu compra
               </p>
-              <Button asChild size="lg">
-                <Link href="/catalogo">
-                  <ArrowLeft className="mr-2 h-5 w-5" />
-                  Ir al Catálogo
-                </Link>
-              </Button>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <Button 
+                  onClick={() => {
+                    const chatButton = document.querySelector('[aria-label="Abrir chat"]') as HTMLButtonElement
+                    if (chatButton) chatButton.click()
+                  }}
+                  size="lg"
+                  className="bg-accent hover:bg-accent/90 text-accent-foreground"
+                >
+                  💬 Consultar con Asesor
+                </Button>
+                <Button asChild size="lg" variant="outline">
+                  <Link href="/catalogo">
+                    <ArrowLeft className="mr-2 h-5 w-5" />
+                    Ver Productos
+                  </Link>
+                </Button>
+              </div>
             </div>
           </div>
         </main>

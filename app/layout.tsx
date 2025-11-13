@@ -4,7 +4,6 @@ import { Inter, Playfair_Display } from "next/font/google"
 import "./globals.css"
 import { Toaster } from "@/components/ui/toaster"
 import { CartProvider } from "@/components/cart-provider"
-import { FloatingWhatsAppButton } from "@/components/floating-whatsapp-button"
 import { ChatWidget } from "@/components/chat-widget"
 import { WhatsAppChannelNotification } from "@/components/whatsapp-channel-notification"
 
@@ -21,8 +20,8 @@ const playfair = Playfair_Display({
 })
 
 export const metadata: Metadata = {
-  title: "Nano Moringa - Productos Medicinales 100% Naturales · Aceite de CBD",
-  description: "Productos Medicinales 100% naturales. Aceite de CBD micronizado para tu bienestar diario. Ventas por mayor y menor. Envíos a todo el país con asesoramiento personalizado.",
+  title: "Nano Moringa - Productos Medicinales 100% Naturales",
+  description: "Productos Medicinales 100% naturales. Aceites micronizados para tu bienestar diario. Ventas por mayor y menor. Envíos a todo el país con asesoramiento personalizado.",
 }
 
 export default function RootLayout({
@@ -35,9 +34,8 @@ export default function RootLayout({
       <body className="font-sans" suppressHydrationWarning={true}>
         <CartProvider>
           {children}
-      <FloatingWhatsAppButton />
-      <ChatWidget />
-      <WhatsAppChannelNotification />
+          <ChatWidget />
+          <WhatsAppChannelNotification />
           <Toaster />
         </CartProvider>
       </body>

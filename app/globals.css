@@ -4,7 +4,7 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  /* Medicina Natural - Paleta de Colores */
+  /* Nano Moringa - Paleta de Colores */
   /* Fondo beige cálido #F6F0DE */
   --background: oklch(0.95 0.03 85);
   /* Verde muy oscuro #213A2E para texto */
@@ -187,7 +187,7 @@ html {
   animation: fade-in 0.8s ease-out;
 }
 
-/* Streetwear floating animations - Enhanced */
+/* Floating animations - Enhanced */
 @keyframes float-slow {
   0%, 100% {
     transform: translateY(0px) translateX(0px) rotate(0deg);
@@ -248,7 +248,7 @@ html {
   animation: float-fast 8s ease-in-out infinite;
 }
 
-/* Highlighter style for clothing terms */
+/* Highlighter style for product terms */
 .highlight-clothing {
   background: linear-gradient(120deg, #8B5CF6 0%, #A855F7 100%);
   color: white;

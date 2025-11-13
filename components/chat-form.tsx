@@ -4,7 +4,6 @@ import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { User, Phone } from "lucide-react"
 
 interface ChatFormProps {
@@ -42,72 +41,71 @@ export function ChatForm({ onSubmit }: ChatFormProps) {
   }
 
   return (
-    <Card className="w-full max-w-sm mx-auto">
-      <CardHeader className="text-center pb-4">
-        <CardTitle className="text-lg flex items-center justify-center gap-2">
+    <div className="w-full max-w-sm mx-auto bg-background rounded-xl border border-border p-6 shadow-lg">
+      <div className="text-center mb-6">
+        <div className="flex items-center justify-center gap-2 mb-2">
           <User className="h-5 w-5 text-accent" />
-          Datos básicos
-        </CardTitle>
+          <h3 className="text-lg font-semibold">Datos básicos</h3>
+        </div>
         <p className="text-sm text-muted-foreground">
           Necesito algunos datos para poder ayudarte mejor
         </p>
-      </CardHeader>
+      </div>
       
-      <CardContent>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="name" className="text-sm font-medium">
-              Nombre completo
-            </Label>
-            <Input
-              id="name"
-              type="text"
-              placeholder="Tu nombre"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              required
-              className="border-2 border-border focus:border-accent"
-            />
-          </div>
-          
-          <div className="space-y-2">
-            <Label htmlFor="phone" className="text-sm font-medium">
-              Teléfono
-            </Label>
-            <Input
-              id="phone"
-              type="tel"
-              placeholder="+54 9 11 1234-5678"
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
-              required
-              className="border-2 border-border focus:border-accent"
-            />
-          </div>
-          
-          <Button
-            type="submit"
-            className="w-full bg-accent hover:bg-accent/90"
-            disabled={isSubmitting || !name.trim() || !phone.trim()}
-          >
-            {isSubmitting ? (
-              <div className="flex items-center gap-2">
-                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
-                <span>Enviando...</span>
-              </div>
-            ) : (
-              <div className="flex items-center gap-2">
-                <Phone className="h-4 w-4" />
-                <span>Continuar</span>
-              </div>
-            )}
-          </Button>
-        </form>
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <div className="space-y-2">
+          <Label htmlFor="name" className="text-sm font-medium">
+            Nombre completo
+          </Label>
+          <Input
+            id="name"
+            type="text"
+            placeholder="Tu nombre"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+            className="border-2 border-border focus:border-accent"
+            autoFocus
+          />
+        </div>
         
-        <p className="text-xs text-muted-foreground text-center mt-3">
-          Tus datos están seguros y solo los usamos para asesorarte mejor
-        </p>
-      </CardContent>
-    </Card>
+        <div className="space-y-2">
+          <Label htmlFor="phone" className="text-sm font-medium">
+            Teléfono
+          </Label>
+          <Input
+            id="phone"
+            type="tel"
+            placeholder="+54 9 11 1234-5678"
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
+            required
+            className="border-2 border-border focus:border-accent"
+          />
+        </div>
+        
+        <Button
+          type="submit"
+          className="w-full bg-accent hover:bg-accent/90 text-accent-foreground"
+          disabled={isSubmitting || !name.trim() || !phone.trim()}
+        >
+          {isSubmitting ? (
+            <div className="flex items-center gap-2">
+              <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+              <span>Enviando...</span>
+            </div>
+          ) : (
+            <div className="flex items-center gap-2">
+              <Phone className="h-4 w-4" />
+              <span>Continuar</span>
+            </div>
+          )}
+        </Button>
+      </form>
+      
+      <p className="text-xs text-muted-foreground text-center mt-4">
+        Tus datos están seguros y solo los usamos para asesorarte mejor
+      </p>
+    </div>
   )
 }

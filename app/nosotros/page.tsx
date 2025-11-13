@@ -3,8 +3,8 @@ import { Footer } from "@/components/footer"
 import Image from "next/image"
 
 export const metadata = {
-  title: "Nosotros - Medicina Natural",
-  description: "Conocé la filosofía detrás de Medicina Natural. Bienestar con productos naturales certificados.",
+  title: "Nosotros - Nano Moringa",
+  description: "Conocé la filosofía detrás de Nano Moringa. Bienestar con productos naturales certificados.",
 }
 
 export default function NosotrosPage() {
@@ -16,8 +16,8 @@ export default function NosotrosPage() {
           <div className="text-center mb-12">
             <div className="w-20 h-20 rounded-full bg-primary flex items-center justify-center p-1 mx-auto mb-6 shadow-lg overflow-hidden">
               <Image
-                src="/brand/medicina-natural-logo.png"
-                alt="Medicina Natural"
+                src="/brand/nanomoringa-logo.png"
+                alt="Nano Moringa"
                 width={80}
                 height={80}
                 className="object-contain"

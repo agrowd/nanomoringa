@@ -1,10 +1,9 @@
 "use client"
 
 import { useState, useEffect, useRef } from "react"
-import { X, Send, Bot, User } from "lucide-react"
+import { X, Send, Bot } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import { ChatForm } from "./chat-form"
 import { ChatMessages } from "./chat-messages"
 
@@ -19,7 +18,9 @@ export function ChatWindow({ onClose }: { onClose: () => void }) {
   const [messages, setMessages] = useState<Message[]>([])
   const [isFormSubmitted, setIsFormSubmitted] = useState(false)
   const [userInfo, setUserInfo] = useState<{ name: string; phone: string } | null>(null)
+  const [inputValue, setInputValue] = useState("")
   const messagesEndRef = useRef<HTMLDivElement>(null)
+  const inputRef = useRef<HTMLInputElement>(null)
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
@@ -63,6 +64,11 @@ export function ChatWindow({ onClose }: { onClose: () => void }) {
     ]
 
     setMessages(prev => [...prev, ...botMessages])
+    
+    // Focus en el input después de mostrar los mensajes
+    setTimeout(() => {
+      inputRef.current?.focus()
+    }, 500)
   }
 
   const handleSendMessage = (text: string) => {
@@ -76,6 +82,7 @@ export function ChatWindow({ onClose }: { onClose: () => void }) {
     }
 
     setMessages(prev => [...prev, userMessage])
+    setInputValue("")
 
     // Respuesta automática del bot
     setTimeout(() => {
@@ -89,58 +96,67 @@ export function ChatWindow({ onClose }: { onClose: () => void }) {
     }, 1500)
   }
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault()
+      handleSendMessage(inputValue)
+    }
+  }
+
   return (
-    <Card className="h-full flex flex-col shadow-2xl border-2 border-accent">
-      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3 bg-gradient-to-r from-accent to-primary text-accent-foreground">
-        <div className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">
+    <div className="h-full flex flex-col bg-background rounded-lg shadow-2xl border-2 border-accent overflow-hidden">
+      {/* Header */}
+      <div className="flex items-center justify-between px-4 py-3 bg-gradient-to-r from-accent to-primary text-primary-foreground">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center flex-shrink-0">
             <Bot className="w-5 h-5" />
           </div>
           <div>
-            <h3 className="font-semibold text-sm">Nano Moringa</h3>
-            <p className="text-xs opacity-80">Asistente virtual</p>
+            <h3 className="font-semibold text-base">Nano Moringa</h3>
+            <p className="text-xs opacity-90">Asistente virtual</p>
           </div>
         </div>
         <Button
           variant="ghost"
           size="sm"
           onClick={onClose}
-          className="text-accent-foreground hover:bg-white/20"
+          className="text-primary-foreground hover:bg-white/20 h-8 w-8 p-0"
         >
           <X className="h-4 w-4" />
         </Button>
-      </CardHeader>
+      </div>
 
-      <CardContent className="flex-1 flex flex-col p-0">
+      {/* Content Area */}
+      <div className="flex-1 flex flex-col overflow-hidden">
         {!isFormSubmitted ? (
-          <div className="flex-1 flex items-center justify-center p-4">
+          /* Form Stage */
+          <div className="flex-1 flex items-center justify-center p-6 bg-muted/20">
             <ChatForm onSubmit={handleFormSubmit} />
           </div>
         ) : (
+          /* Chat Stage */
           <>
-            <ChatMessages messages={messages} />
-            <div className="p-4 border-t bg-muted/30">
+            {/* Messages Area */}
+            <div className="flex-1 overflow-hidden min-h-0">
+              <ChatMessages messages={messages} messagesEndRef={messagesEndRef} />
+            </div>
+            
+            {/* Input Area */}
+            <div className="border-t bg-muted/30 p-4 flex-shrink-0">
               <div className="flex gap-2">
                 <Input
+                  ref={inputRef}
                   placeholder="Escribí tu mensaje..."
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter') {
-                      handleSendMessage(e.currentTarget.value)
-                      e.currentTarget.value = ''
-                    }
-                  }}
-                  className="flex-1"
+                  value={inputValue}
+                  onChange={(e) => setInputValue(e.target.value)}
+                  onKeyDown={handleKeyDown}
+                  className="flex-1 bg-background"
                 />
                 <Button
                   size="sm"
-                  className="bg-accent hover:bg-accent/90"
-                  onClick={(e) => {
-                    const input = e.currentTarget.parentElement?.querySelector('input')
-                    if (input?.value) {
-                      handleSendMessage(input.value)
-                      input.value = ''
-                    }
-                  }}
+                  onClick={() => handleSendMessage(inputValue)}
+                  disabled={!inputValue.trim()}
+                  className="bg-accent hover:bg-accent/90 text-accent-foreground flex-shrink-0"
                 >
                   <Send className="h-4 w-4" />
                 </Button>
@@ -148,9 +164,7 @@ export function ChatWindow({ onClose }: { onClose: () => void }) {
             </div>
           </>
         )}
-      </CardContent>
-      
-      <div ref={messagesEndRef} />
-    </Card>
+      </div>
+    </div>
   )
 }

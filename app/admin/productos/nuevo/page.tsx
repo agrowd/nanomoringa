@@ -36,13 +36,12 @@ interface ProductForm {
 }
 
 const categories = [
-  "buzos", "remeras", "pantalones", "camperas", "shorts", 
-  "zapatillas", "gorras", "accesorios"
+  "Aceites", "Tópicos", "Cápsulas", "Gomitas", "Cremas", "Otros"
 ]
 
-const clothingSizes = ["XS", "S", "M", "L", "XL", "XXL"]
-const shoeSizes = ["36", "37", "38", "39", "40", "41", "42", "43", "44", "45"]
-const defaultTags = ["nuevo", "destacado", "en-oferta", "bestseller", "drop-limitado"]
+const productSizes = ["30ml", "60ml", "100ml", "30 unidades", "60 unidades", "90 unidades"]
+const productColors = ["Natural", "Relajante", "Energizante", "Equilibrio"]
+const defaultTags = ["nuevo", "destacado", "en-oferta", "bestseller", "100-natural", "micronizado"]
 
 export default function NewProductPage() {
   const { isAuthenticated } = useAdminAuth()
@@ -99,7 +98,7 @@ export default function NewProductPage() {
   }
 
   const handleCategoryChange = (category: string) => {
-    // No establecer talles por defecto, dejar que el usuario los agregue manualmente
+    // No establecer presentaciones por defecto, dejar que el usuario las agregue manualmente
     setForm(prev => ({
       ...prev,
       category
@@ -256,7 +255,7 @@ export default function NewProductPage() {
                     id="name"
                     value={form.name}
                     onChange={(e) => handleNameChange(e.target.value)}
-                    placeholder="Ej: Rompeviento Deportivo Premium"
+                    placeholder="Ej: Aceite Relajante Nano Moringa"
                     required
                   />
                 </div>
@@ -267,7 +266,7 @@ export default function NewProductPage() {
                     id="slug"
                     value={form.slug}
                     onChange={(e) => setForm(prev => ({ ...prev, slug: e.target.value }))}
-                    placeholder="rompeviento-deportivo-premium"
+                    placeholder="aceite-relajante-nano-moringa"
                     required
                   />
                 </div>
@@ -278,7 +277,7 @@ export default function NewProductPage() {
                     id="sku"
                     value={form.sku}
                     onChange={(e) => setForm(prev => ({ ...prev, sku: e.target.value }))}
-                    placeholder="DC-ELT-01"
+                    placeholder="NM-ACE-001"
                     required
                   />
                 </div>
@@ -394,33 +393,33 @@ export default function NewProductPage() {
             </Card>
           </div>
 
-          {/* Talles */}
+          {/* Presentaciones */}
           <Card className="bg-white border-gray-200 shadow-sm">
             <CardHeader>
-              <CardTitle className="text-gray-900">Talles Disponibles</CardTitle>
+              <CardTitle className="text-gray-900">Presentaciones Disponibles</CardTitle>
             </CardHeader>
             <CardContent>
-              {/* Botones rápidos para talles */}
+              {/* Botones rápidos para presentaciones */}
               <div className="mb-4">
-                <p className="text-sm text-gray-600 mb-2">Talles sugeridos:</p>
+                <p className="text-sm text-gray-600 mb-2">Presentaciones sugeridas:</p>
                 <div className="flex gap-2 flex-wrap">
                   <Button
                     type="button"
                     variant="outline"
                     size="sm"
-                    onClick={() => setForm(prev => ({ ...prev, sizes: clothingSizes }))}
+                    onClick={() => setForm(prev => ({ ...prev, sizes: productSizes }))}
                     className="text-xs"
                   >
-                    Ropa (XS-XXL)
+                    Tamaños Comunes
                   </Button>
                   <Button
                     type="button"
                     variant="outline"
                     size="sm"
-                    onClick={() => setForm(prev => ({ ...prev, sizes: shoeSizes }))}
+                    onClick={() => setForm(prev => ({ ...prev, colors: productColors }))}
                     className="text-xs"
                   >
-                    Zapatillas (36-45)
+                    Colores Comunes
                   </Button>
                   <Button
                     type="button"
@@ -429,7 +428,7 @@ export default function NewProductPage() {
                     onClick={() => setForm(prev => ({ ...prev, sizes: ["Único"] }))}
                     className="text-xs"
                   >
-                    Talle Único
+                    Presentación Única
                   </Button>
                 </div>
               </div>
@@ -438,7 +437,7 @@ export default function NewProductPage() {
                 <Input
                   value={newSize}
                   onChange={(e) => setNewSize(e.target.value)}
-                  placeholder="Agregar talle personalizado"
+                  placeholder="Agregar presentación personalizada"
                   className="bg-white border-gray-300 focus:border-purple-500"
                 />
                 <Button type="button" onClick={addSize}>
@@ -453,7 +452,7 @@ export default function NewProductPage() {
                       type="button"
                       onClick={() => removeSize(size)}
                       className="ml-1 hover:bg-gray-200 rounded-full p-0.5 transition-colors"
-                      aria-label={`Eliminar talle ${size}`}
+                      aria-label={`Eliminar presentación ${size}`}
                     >
                       <X className="h-3 w-3" />
                     </button>
