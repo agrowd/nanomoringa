@@ -203,11 +203,18 @@ export default function NewProductPage() {
       })
 
       if (response.ok) {
+        const createdProduct = await response.json()
+        console.log('[FORM] Product created successfully:', createdProduct)
         toast({
           title: "Producto creado",
-          description: "El producto se ha creado exitosamente",
+          description: `"${form.name}" se ha creado exitosamente`,
         })
-        router.push("/admin/productos")
+        // Esperar un momento antes de redirigir para que el toast se vea
+        setTimeout(() => {
+          router.push("/admin/productos")
+          // Forzar recarga después de navegar
+          router.refresh()
+        }, 500)
       } else {
         const errorData = await response.json()
         console.error('[FORM] Error response:', errorData)

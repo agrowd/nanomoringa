@@ -76,10 +76,21 @@ export default function AdminDashboard() {
         console.log("First product:", data[0])
         setProducts(data)
       } else {
-        console.error("Failed to load products:", response.status, response.statusText)
+        const errorData = await response.json().catch(() => ({}))
+        console.error("Failed to load products:", response.status, response.statusText, errorData)
+        toast({
+          title: "Error al cargar productos",
+          description: errorData.error || `Error ${response.status}`,
+          variant: "destructive",
+        })
       }
     } catch (error) {
       console.error("Error loading products:", error)
+      toast({
+        title: "Error",
+        description: error instanceof Error ? error.message : "No se pudieron cargar los productos",
+        variant: "destructive",
+      })
     }
   }
 

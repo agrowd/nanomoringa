@@ -30,8 +30,27 @@ export default function AdminProductsPage() {
     loadProducts()
   }, [isAuthenticated, router])
 
+  // Recargar productos cuando se vuelve a esta página (desde crear producto)
+  useEffect(() => {
+    const handleFocus = () => {
+      loadProducts()
+    }
+    window.addEventListener('focus', handleFocus)
+    // También recargar cuando la página se vuelve visible
+    document.addEventListener('visibilitychange', () => {
+      if (!document.hidden) {
+        loadProducts()
+      }
+    })
+    return () => {
+      window.removeEventListener('focus', handleFocus)
+      document.removeEventListener('visibilitychange', handleFocus)
+    }
+  }, [])
+
   const loadProducts = async () => {
     try {
+      setLoading(true)
       console.log("Loading products from /api/products...")
       const response = await fetch("/api/products")
       console.log("Response status:", response.status)
@@ -39,11 +58,28 @@ export default function AdminProductsPage() {
         const data = await response.json()
         console.log("Products loaded:", data.length, "products")
         setProducts(data)
+        if (data.length === 0) {
+          toast({
+            title: "Sin productos",
+            description: "No hay productos en la base de datos. Creá tu primer producto.",
+          })
+        }
       } else {
-        console.error("Failed to load products:", response.status, response.statusText)
+        const errorData = await response.json().catch(() => ({}))
+        console.error("Failed to load products:", response.status, response.statusText, errorData)
+        toast({
+          title: "Error al cargar productos",
+          description: errorData.error || `Error ${response.status}: ${response.statusText}`,
+          variant: "destructive",
+        })
       }
     } catch (error) {
       console.error("Error loading products:", error)
+      toast({
+        title: "Error",
+        description: error instanceof Error ? error.message : "No se pudieron cargar los productos",
+        variant: "destructive",
+      })
     } finally {
       setLoading(false)
     }
@@ -193,6 +229,16 @@ export default function AdminProductsPage() {
         {loading ? (
           <div className="text-center py-12">
             <div className="text-lg text-gray-600">Cargando productos...</div>
+          </div>
+        ) : products.length === 0 ? (
+          <div className="text-center py-12">
+            <div className="text-lg text-gray-600 mb-4">No hay productos aún</div>
+            <Button asChild className="bg-purple-600 hover:bg-purple-700 text-white">
+              <Link href="/admin/productos/nuevo">
+                <Plus className="mr-2 h-4 w-4" />
+                Crear Primer Producto
+              </Link>
+            </Button>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
