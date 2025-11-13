@@ -392,7 +392,7 @@ export default function AdminDashboard() {
                       />
                     </div>
                     <div className="flex-1">
-                      <Link href={`/producto/${product.slug}`}>
+                      <Link href={`/producto/${product.slug || product.id}`}>
                         <h4 className="font-semibold text-sm text-gray-900 hover:text-purple-600 cursor-pointer hover:underline">{product.name}</h4>
                       </Link>
                       <p className="text-xs text-gray-600 capitalize">{product.category}</p>

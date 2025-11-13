@@ -271,7 +271,7 @@ export default function AdminProductsPage() {
                   </div>
                 </CardHeader>
                 <CardContent className="p-4">
-                  <Link href={`/producto/${product.slug}`}>
+                  <Link href={`/producto/${product.slug || product.id}`}>
                     <CardTitle className="text-lg mb-2 line-clamp-1 text-gray-900 hover:text-purple-600 cursor-pointer hover:underline">{product.name}</CardTitle>
                   </Link>
                   <div className="space-y-2 text-sm text-gray-600 mb-4">
@@ -284,7 +284,7 @@ export default function AdminProductsPage() {
                   </div>
                   <div className="flex gap-2">
                     <Button asChild variant="outline" size="sm" className="flex-1 border-purple-600 text-purple-600 hover:bg-purple-600 hover:text-white">
-                      <Link href={`/producto/${product.slug}`}>
+                      <Link href={`/producto/${product.slug || product.id}`}>
                         <Eye className="mr-2 h-4 w-4" />
                         Ver
                       </Link>
