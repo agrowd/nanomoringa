@@ -110,7 +110,7 @@ export function SearchBar({ isExpanded, onToggle }: SearchBarProps) {
   }
 
   const handleSuggestionClick = (product: Product) => {
-    router.push(`/producto/${product.slug}`)
+    router.push(`/producto/${product.slug || product.id}`)
     setSearchQuery("")
     setShowSuggestions(false)
     onToggle()
