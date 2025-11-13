@@ -1,14 +1,23 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import { usePathname } from "next/navigation"
 import { X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { ChatWindow } from "./chat-window"
 
 export function ChatWidget() {
+  const pathname = usePathname()
   const [isOpen, setIsOpen] = useState(false)
   const [hasNewMessage, setHasNewMessage] = useState(false)
   const [hasAutoOpened, setHasAutoOpened] = useState(false)
+
+  // No mostrar el chat en páginas de admin
+  const isAdminPage = pathname?.startsWith('/admin')
+  
+  if (isAdminPage) {
+    return null
+  }
 
   // Abrir automáticamente al cargar la página (solo una vez)
   useEffect(() => {

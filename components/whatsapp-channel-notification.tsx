@@ -1,14 +1,24 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import { usePathname } from "next/navigation"
 import { X, MessageCircle, Sparkles } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
 export function WhatsAppChannelNotification() {
+  const pathname = usePathname()
   const [isVisible, setIsVisible] = useState(false)
   const [lastShown, setLastShown] = useState<number | null>(null)
 
+  // No mostrar la notificación en páginas de admin
+  const isAdminPage = pathname?.startsWith('/admin')
+  
   useEffect(() => {
+    // Si estamos en admin, no mostrar la notificación
+    if (isAdminPage) {
+      return
+    }
+
     const checkAndShow = () => {
       // Verificar si el chat está cerrado
       const chatIsOpen = (window as any).chatWidgetIsOpen || false
@@ -38,7 +48,12 @@ export function WhatsAppChannelNotification() {
     const interval = setInterval(checkAndShow, 60000)
 
     return () => clearInterval(interval)
-  }, [lastShown])
+  }, [lastShown, isAdminPage])
+
+  // No renderizar nada si estamos en admin
+  if (isAdminPage) {
+    return null
+  }
 
   const handleDismiss = () => {
     setIsVisible(false)
