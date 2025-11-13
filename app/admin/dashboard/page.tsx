@@ -263,7 +263,7 @@ export default function AdminDashboard() {
           </Card>
         </div>
 
-        {/* Quick Actions */}
+        {/* Quick Actions - WhatsApp Bot incluido */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           <Card className="bg-white border-gray-200 shadow-sm hover:shadow-md transition-shadow">
             <CardHeader>
