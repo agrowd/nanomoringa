@@ -9,13 +9,13 @@ export function Footer() {
           <div className="col-span-1 md:col-span-2">
             <Link href="/" className="flex items-center gap-3 mb-6">
               <div className="w-12 h-12 rounded-full bg-primary-foreground flex items-center justify-center p-0.5 overflow-hidden shadow-lg">
-                <Image src="/brand/medicina-natural-logo.png" alt="Medicina Natural" width={48} height={48} className="object-contain" />
+                <Image src="/brand/nanomoringa-logo.png" alt="Nano Moringa" width={48} height={48} className="object-contain" />
               </div>
-              <span className="text-2xl font-bold text-primary-foreground">MEDICINA NATURAL</span>
+              <span className="text-2xl font-bold text-primary-foreground">NANO MORINGA</span>
             </Link>
             <p className="text-base text-primary-foreground/80 max-w-md leading-relaxed mb-6">
-              Bienestar natural con productos CBD de calidad. Aceites, cápsulas y gomitas con seguimiento personalizado. 
-              Envíos a todo el país con calidad certificada.
+              Productos Medicinales 100% naturales. Aceite de CBD micronizado para tu bienestar diario. 
+              Ventas por mayor y menor. Envíos a todo el país con asesoramiento personalizado.
             </p>
             <div className="text-xs text-primary-foreground/60 max-w-md leading-relaxed p-4 bg-primary-foreground/5 rounded-lg">
               <p className="font-semibold mb-2">Aviso Legal:</p>
@@ -54,12 +54,12 @@ export function Footer() {
             <h3 className="text-lg font-semibold mb-6 text-primary-foreground">Contacto</h3>
             <ul className="space-y-3 text-base text-primary-foreground/80">
               <li>
-                <a href="https://instagram.com/cbd.medicina.ok" target="_blank" rel="noopener noreferrer" className="hover:text-accent transition-colors flex items-center gap-2">
-                  <span>📷</span> @cbd.medicina.ok
+                <a href="https://instagram.com/nanomoringa" target="_blank" rel="noopener noreferrer" className="hover:text-accent transition-colors flex items-center gap-2">
+                  <span>📷</span> @nanomoringa
                 </a>
               </li>
               <li>
-                <a href="https://wa.me/5491140895557" target="_blank" rel="noopener noreferrer" className="hover:text-accent transition-colors flex items-center gap-2">
+                <a href="https://wa.me/5491158082486" target="_blank" rel="noopener noreferrer" className="hover:text-accent transition-colors flex items-center gap-2">
                   <span>💬</span> WhatsApp
                 </a>
               </li>
@@ -68,7 +68,7 @@ export function Footer() {
         </div>
 
         <div className="border-t border-primary-foreground/10 mt-12 pt-8 text-center">
-          <p className="text-base text-primary-foreground/60">&copy; {new Date().getFullYear()} Medicina Natural. Todos los derechos reservados.</p>
+          <p className="text-base text-primary-foreground/60">&copy; {new Date().getFullYear()} Nano Moringa. Todos los derechos reservados.</p>
         </div>
       </div>
     </footer>

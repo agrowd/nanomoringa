@@ -50,7 +50,7 @@ export default function AdminLoginPage() {
       <Card className="w-full max-w-md bg-white border-gray-200 shadow-lg">
         <CardHeader className="text-center">
           <div className="flex justify-center mb-4">
-            <Image src="/brand/medicina-natural-logo.png" alt="Medicina Natural" width={60} height={60} className="h-16 w-auto" />
+            <Image src="/brand/nanomoringa-logo.png" alt="Nano Moringa" width={60} height={60} className="h-16 w-auto" />
           </div>
           <CardTitle className="text-2xl font-bold text-gray-900">Panel de Administración</CardTitle>
           <CardDescription className="text-gray-600">Ingresa tus credenciales para acceder</CardDescription>

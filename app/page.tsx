@@ -36,11 +36,11 @@ export default function HomePage() {
     <>
       <Header />
       <main>
-        {/* Hero Section - Medicina Natural */}
-        <section className="relative min-h-[100vh] flex flex-col items-center justify-center bg-gradient-to-br from-[#213A2E] via-[#294E3A] to-[#213A2E] text-white overflow-hidden pt-24 pb-16">
+        {/* Hero Section - Nano Moringa */}
+        <section className="relative min-h-[100vh] flex flex-col items-center justify-center bg-gradient-to-br from-[#556B2F] via-[#6B8E23] to-[#556B2F] text-white overflow-hidden pt-24 pb-16">
           {/* Background Effects */}
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#294E3A]/50 to-[#294E3A]" />
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-green-500/10 via-transparent to-transparent"></div>
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#6B8E23]/50 to-[#556B2F]" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#6B8E23]/10 via-transparent to-transparent"></div>
           
           {/* Elementos flotantes naturales - Simplificado */}
           <div className="absolute top-20 left-10 w-24 h-24 bg-green-500/15 rounded-full blur-2xl animate-pulse"></div>
@@ -60,8 +60,8 @@ export default function HomePage() {
               <div className="relative">
                 <div className="w-36 h-36 sm:w-44 sm:h-44 md:w-52 md:h-52 rounded-full bg-white/95 flex items-center justify-center p-1 shadow-2xl animate-fade-in overflow-hidden">
                   <Image
-                    src="/brand/medicina-natural-logo.png"
-                    alt="Medicina Natural"
+                    src="/brand/nanomoringa-logo.png"
+                    alt="Nano Moringa"
                     width={200}
                     height={200}
                     className="object-contain"
@@ -69,19 +69,19 @@ export default function HomePage() {
                 </div>
                 <div className="absolute inset-0 bg-gradient-to-r from-green-400/30 to-emerald-400/30 rounded-full blur-2xl -z-10 animate-pulse"></div>
               </div>
-              <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight bg-gradient-to-r from-white via-green-100 to-white bg-clip-text text-transparent drop-shadow-2xl font-[family-name:var(--font-playfair)]">
-                MEDICINA NATURAL
+              <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight bg-gradient-to-r from-white via-[#F5F5DC] to-white bg-clip-text text-transparent drop-shadow-2xl font-[family-name:var(--font-playfair)]">
+                NANO MORINGA
               </h1>
             </div>
 
             {/* Subtitle */}
             <p className="text-2xl sm:text-3xl md:text-4xl text-white mb-8 tracking-wide font-semibold text-center px-4 font-[family-name:var(--font-playfair)]">
-              Bienestar Natural 🌿
+              Productos Medicinales 100% Naturales 🌿
             </p>
 
             {/* Description - MÍNIMA */}
             <p className="text-xl md:text-2xl text-gray-200 mb-12 max-w-2xl mx-auto text-center leading-relaxed">
-              Aceites naturales • Seguimiento personalizado
+              Aceite de CBD micronizado • Bienestar en cada gota
             </p>
 
             {/* Confianza Social */}
@@ -102,9 +102,9 @@ export default function HomePage() {
               </div>
               <div className="text-left">
                 <p className="text-sm text-gray-300">
-                  <span className="text-white font-bold text-xl">Miles</span> confían en nosotros
+                  <span className="text-white font-bold text-xl">21 mil</span> nos siguen
                 </p>
-                <p className="text-xs text-green-300">Comenzá tu bienestar</p>
+                <p className="text-xs text-green-300">Bienestar diario</p>
               </div>
             </div>
 
@@ -133,7 +133,7 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section className="py-16 bg-gradient-to-br from-[#213A2E] via-[#294E3A] to-[#213A2E] border-y border-accent/20">
+        <section className="py-16 bg-gradient-to-br from-[#556B2F] via-[#6B8E23] to-[#556B2F] border-y border-accent/20">
           <div className="container mx-auto px-4">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
               <div className="flex flex-col items-center text-center group">
@@ -153,8 +153,8 @@ export default function HomePage() {
                   </div>
                   <div className="absolute inset-0 bg-gradient-to-br from-emerald-400 to-emerald-600 rounded-full blur-lg opacity-0 group-hover:opacity-50 transition-opacity duration-300"></div>
                 </div>
-                <h3 className="font-bold text-white mb-1">CBD Certificado</h3>
-                <p className="text-xs text-emerald-200">Calidad garantizada</p>
+                <h3 className="font-bold text-white mb-1">100% Natural</h3>
+                <p className="text-xs text-emerald-200">Productos medicinales</p>
               </div>
               <div className="flex flex-col items-center text-center group">
                 <div className="relative mb-4">
@@ -163,8 +163,8 @@ export default function HomePage() {
                   </div>
                   <div className="absolute inset-0 bg-gradient-to-br from-teal-400 to-teal-600 rounded-full blur-lg opacity-0 group-hover:opacity-50 transition-opacity duration-300"></div>
                 </div>
-                <h3 className="font-bold text-white mb-1">Seguimiento 1:1</h3>
-                <p className="text-xs text-teal-200">Asesoramiento personal</p>
+                <h3 className="font-bold text-white mb-1">Micronizado</h3>
+                <p className="text-xs text-teal-200">Mejor absorción</p>
               </div>
               <div className="flex flex-col items-center text-center group">
                 <div className="relative mb-4">
@@ -173,8 +173,8 @@ export default function HomePage() {
                   </div>
                   <div className="absolute inset-0 bg-gradient-to-br from-lime-400 to-lime-600 rounded-full blur-lg opacity-0 group-hover:opacity-50 transition-opacity duration-300"></div>
                 </div>
-                <h3 className="font-bold text-white mb-1">Natural</h3>
-                <p className="text-xs text-lime-200">Sin aditivos</p>
+                <h3 className="font-bold text-white mb-1">Asesoramiento</h3>
+                <p className="text-xs text-lime-200">Personalizado</p>
               </div>
             </div>
           </div>

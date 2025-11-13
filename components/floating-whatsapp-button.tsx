@@ -8,7 +8,7 @@ import { useState, useEffect } from "react"
 
 export function FloatingWhatsAppButton() {
   const pathname = usePathname()
-  const phone = process.env.NEXT_PUBLIC_WA_PHONE || "5491140895557"
+  const phone = process.env.NEXT_PUBLIC_WA_PHONE || "5491158082486"
   const [showTooltip, setShowTooltip] = useState(false)
   const [isAnimating, setIsAnimating] = useState(true)
 
@@ -42,7 +42,7 @@ export function FloatingWhatsAppButton() {
   }
 
   const handleClick = () => {
-    const defaultMessage = `Hola 👋\n\nConsulto desde la web de Medicina Natural.\n\nNecesito ayuda general o información adicional.`
+    const defaultMessage = `Hola 👋\n\nConsulto desde la web de Nano Moringa.\n\nNecesito ayuda general o información adicional.`
     const url = buildWAUrl(phone, defaultMessage)
     window.open(url, "_blank")
   }

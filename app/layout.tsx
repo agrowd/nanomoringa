@@ -21,8 +21,8 @@ const playfair = Playfair_Display({
 })
 
 export const metadata: Metadata = {
-  title: "Medicina Natural - Bienestar con CBD · Aceites, Cápsulas y Gomitas",
-  description: "Bienestar natural con productos CBD de calidad certificada. Aceites, cápsulas y gomitas con seguimiento personalizado. Envíos a todo el país.",
+  title: "Nano Moringa - Productos Medicinales 100% Naturales · Aceite de CBD",
+  description: "Productos Medicinales 100% naturales. Aceite de CBD micronizado para tu bienestar diario. Ventas por mayor y menor. Envíos a todo el país con asesoramiento personalizado.",
 }
 
 export default function RootLayout({

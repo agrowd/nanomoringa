@@ -5,7 +5,7 @@ export const buildWAUrl = (phone: string, text: string): string => {
 }
 
 export const buildProductMessage = (productName: string, size: string, color: string, url: string): string => {
-  return `Hola, consulto desde Medicina Natural 🌿
+  return `Hola, consulto desde Nano Moringa 🌿
 
 Producto:
 • ${productName}
@@ -55,7 +55,7 @@ export const buildCartMessage = (
   const shippingCost = deliveryOption === "envio" ? 10000 : 0
   const total = subtotal + shippingCost
 
-  return `Hola, consulto desde Medicina Natural 🌿
+  return `Hola, consulto desde Nano Moringa 🌿
 
 *MI PEDIDO:*
 ${itemsList}

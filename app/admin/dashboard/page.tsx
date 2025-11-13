@@ -136,10 +136,10 @@ export default function AdminDashboard() {
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <Image src="/brand/medicina-natural-logo.png" alt="Medicina Natural" width={40} height={40} className="h-10 w-auto" />
+              <Image src="/brand/nanomoringa-logo.png" alt="Nano Moringa" width={40} height={40} className="h-10 w-auto" />
               <div>
                 <h1 className="text-2xl font-bold text-gray-900">Dashboard Admin</h1>
-                <p className="text-sm text-gray-600">Panel de administración Medicina Natural</p>
+                <p className="text-sm text-gray-600">Panel de administración Nano Moringa</p>
               </div>
             </div>
             <Button onClick={handleLogout} variant="outline" className="border-red-500 text-red-600 hover:bg-red-500 hover:text-white">

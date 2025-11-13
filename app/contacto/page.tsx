@@ -23,7 +23,7 @@ export default function ContactoPage() {
     e.preventDefault()
     // Redirigir a WhatsApp en lugar de email
     const message = `Hola, soy ${formData.name}\nEmail: ${formData.email}\n\nConsulta:\n${formData.message}`
-    const whatsappUrl = `https://wa.me/5491140895557?text=${encodeURIComponent(message)}`
+    const whatsappUrl = `https://wa.me/5491158082486?text=${encodeURIComponent(message)}`
     window.open(whatsappUrl, "_blank")
   }
 
@@ -91,7 +91,7 @@ export default function ContactoPage() {
                 <CardContent>
                   <Button
                     className="w-full bg-[#25D366] hover:bg-[#25D366]/90 text-lg py-6"
-                    onClick={() => window.open("https://wa.me/5491140895557", "_blank")}
+                    onClick={() => window.open("https://wa.me/5491158082486", "_blank")}
                   >
                     <MessageCircle className="mr-2 h-5 w-5" />
                     Abrir WhatsApp
@@ -108,9 +108,9 @@ export default function ContactoPage() {
                   <Button
                     variant="outline"
                     className="w-full"
-                    onClick={() => window.open("https://instagram.com/cbd.medicina.ok", "_blank")}
+                    onClick={() => window.open("https://instagram.com/nanomoringa", "_blank")}
                   >
-                    📷 @cbd.medicina.ok
+                    📷 @nanomoringa
                   </Button>
                 </CardContent>
               </Card>
