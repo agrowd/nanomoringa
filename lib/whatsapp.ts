@@ -52,7 +52,7 @@ export const buildCartMessage = (
     return sum + (price * qty)
   }, 0)
   
-  const shippingCost = deliveryOption === "envio" ? 10000 : 0
+  const shippingCost = 0 // Envío siempre GRATIS
   const total = subtotal + shippingCost
 
   return `Hola, consulto desde Nano Moringa 🌿
@@ -62,13 +62,11 @@ ${itemsList}
 
 *RESUMEN:*
 Subtotal: $${subtotal.toLocaleString('es-AR')}
-${deliveryOption === "envio" ? "Envío (GBA): $10.000" : "Retiro personal: GRATIS"}
+Envío: GRATIS
 *TOTAL: $${total.toLocaleString('es-AR')}*
 
 *ENTREGA:*
-${deliveryOption === "envio" ? "Envío a domicilio" : "Retiro personal"}
-${deliveryOption === "envio" ? "• GBA: $10.000" : ""}
-${deliveryOption === "envio" ? "• Interior: $35.000" : ""}
+${deliveryOption === "envio" ? "Envío a domicilio - GRATIS a todo el país" : "Retiro personal - GRATIS"}
 ${deliveryOption === "retiro" ? "• Coordinamos lugar y horario" : ""}
 
 ${note ? `*Nota:* ${note}` : ""}

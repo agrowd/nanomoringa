@@ -235,11 +235,11 @@ export function CartSummary() {
                     Envío a domicilio
                   </Label>
                   <div className="text-sm text-muted-foreground mt-1">
-                    <div>GBA: <span className="text-accent font-semibold">$10.000</span></div>
-                    <div>Interior: <span className="text-accent font-semibold">$35.000</span></div>
+                    A todo el país
                   </div>
                 </div>
               </div>
+              <span className="text-green-600 font-bold text-xl">GRATIS</span>
             </div>
             
             <div className="flex items-center justify-between p-4 border-2 border-border rounded-xl bg-card hover:border-accent transition-colors">
@@ -254,7 +254,7 @@ export function CartSummary() {
                   </div>
                 </div>
               </div>
-              <span className="text-accent font-bold text-xl">GRATIS</span>
+              <span className="text-green-600 font-bold text-xl">GRATIS</span>
             </div>
           </div>
         </RadioGroup>
@@ -279,27 +279,22 @@ export function CartSummary() {
       <div className="space-y-3">
         <Button 
           size="lg" 
-          className="w-full bg-gradient-to-r from-accent to-primary hover:from-primary hover:to-accent text-primary-foreground font-bold py-6 text-xl shadow-2xl shadow-accent/30 transition-all transform hover:scale-105" 
-          onClick={() => {
-            const chatButton = document.querySelector('[aria-label="Abrir chat"]') as HTMLButtonElement
-            if (chatButton) {
-              chatButton.click()
-            }
-          }}
+          className="w-full bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white font-bold py-6 text-xl shadow-2xl shadow-green-500/30 transition-all transform hover:scale-105" 
+          onClick={handleCheckout}
         >
           <MessageCircle className="mr-3 h-6 w-6" />
-          Consultar con Asesor
+          Finalizar Pedido por WhatsApp
         </Button>
 
-        <div className="bg-accent/10 border border-accent/30 rounded-xl p-4">
+        <div className="bg-green-50 border border-green-200 rounded-xl p-4">
           <div className="flex items-center gap-2 mb-2">
-            <Sparkles className="h-4 w-4 text-accent" />
-            <p className="text-sm font-semibold text-foreground">
-              Asesoramiento personalizado
+            <Sparkles className="h-4 w-4 text-green-600" />
+            <p className="text-sm font-semibold text-green-900">
+              Envío GRATIS a todo el país
             </p>
           </div>
-          <p className="text-xs text-muted-foreground">
-            Nuestro equipo te ayudará a elegir el producto ideal para vos
+          <p className="text-xs text-green-700">
+            Te enviaremos todos los detalles de tu pedido por WhatsApp
           </p>
         </div>
       </div>

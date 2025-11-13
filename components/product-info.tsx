@@ -6,7 +6,6 @@ import { Badge } from "@/components/ui/badge"
 import { useCart } from "@/lib/cart-store"
 import { useToast } from "@/hooks/use-toast"
 import { ShoppingCart, MessageCircle } from "lucide-react"
-import { buildWAUrl, buildProductMessage } from "@/lib/whatsapp"
 import type { Product } from "@/lib/types"
 
 interface ProductInfoProps {
@@ -105,20 +104,11 @@ export function ProductInfo({ product }: ProductInfoProps) {
         {/* Información de envío */}
         <div className="bg-green-50 border border-green-200 rounded-lg p-4 mb-4">
           <div className="flex items-center gap-2 mb-2">
-            <span className="text-green-700 font-semibold">🚚 Envíos disponibles:</span>
+            <span className="text-green-700 font-semibold">🚚 Envío GRATIS:</span>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm">
-            <div className="flex justify-between">
-              <span className="text-gray-800 font-medium">GBA:</span>
-              <span className="text-green-700 font-semibold">$10.000</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-gray-800 font-medium">Interior:</span>
-              <span className="text-green-700 font-semibold">$35.000</span>
-            </div>
-          </div>
-          <div className="mt-2 text-sm text-gray-800">
-            🤝 <span className="font-semibold">Punto de encuentro: GRATIS</span>
+          <div className="text-sm text-gray-800">
+            <p className="font-semibold text-green-700 mb-1">✨ Envío GRATIS a todo el país</p>
+            <p className="text-gray-600">También ofrecemos retiro personal sin costo</p>
           </div>
         </div>
 
@@ -230,26 +220,10 @@ export function ProductInfo({ product }: ProductInfoProps) {
         )}
       </div>
 
-      <div className="flex flex-col sm:flex-row gap-3">
-        <Button size="lg" variant="outline" className="flex-1 bg-transparent" onClick={handleWhatsAppInquiry}>
-          <MessageCircle className="mr-2 h-5 w-5" />
-          Consultar por WhatsApp
-        </Button>
-        
-        <Button 
-          size="lg" 
-          variant="outline" 
-          className="flex-1 bg-blue-50 border-blue-300 text-blue-700 hover:bg-blue-100 hover:text-blue-800"
-          onClick={() => {
-            const phone = process.env.NEXT_PUBLIC_WA_PHONE || "5491158082486"
-            const message = `¡Hola! Me interesa comprar *${product.name}* al por mayor. ¿Podrían darme información sobre precios y condiciones?\n\nProducto: ${window.location.href}`
-            const url = buildWAUrl(phone, message)
-            window.open(url, "_blank")
-          }}
-        >
-          <MessageCircle className="mr-2 h-5 w-5" />
-          Compra por Mayor
-        </Button>
+      <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+        <p className="text-sm text-blue-800 mb-2">
+          <strong>💡 Tip:</strong> Agregá este producto al carrito para finalizar tu pedido por WhatsApp con todos los detalles.
+        </p>
       </div>
 
       {/* Additional Info */}
