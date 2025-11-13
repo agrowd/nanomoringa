@@ -18,11 +18,35 @@ export default function HomePage() {
 
   useEffect(() => {
     const loadProducts = async () => {
-      // Cargar productos mockup directamente (sin API por ahora)
-      const { mockProducts } = await import("@/lib/mock-products")
-      setProducts(mockProducts)
-      setLoading(false)
-      console.log('[HomePage] Loaded', mockProducts.length, 'mock products')
+      try {
+        setLoading(true)
+        console.log('[HomePage] Loading products from API...')
+        const response = await fetch("/api/products")
+        
+        if (response.ok) {
+          const data = await response.json()
+          console.log('[HomePage] Loaded', data.length, 'products from API')
+          setProducts(data)
+        } else {
+          console.error('[HomePage] Failed to load products:', response.status, response.statusText)
+          // Fallback a productos mock si la API falla
+          const { mockProducts } = await import("@/lib/mock-products")
+          console.warn('[HomePage] Using mock products as fallback')
+          setProducts(mockProducts)
+        }
+      } catch (error) {
+        console.error('[HomePage] Error loading products:', error)
+        // Fallback a productos mock si hay error
+        try {
+          const { mockProducts } = await import("@/lib/mock-products")
+          console.warn('[HomePage] Using mock products as fallback due to error')
+          setProducts(mockProducts)
+        } catch (fallbackError) {
+          console.error('[HomePage] Fallback also failed:', fallbackError)
+        }
+      } finally {
+        setLoading(false)
+      }
     }
 
     loadProducts()

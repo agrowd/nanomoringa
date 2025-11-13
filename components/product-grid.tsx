@@ -17,11 +17,35 @@ export function ProductGrid() {
 
   useEffect(() => {
     const loadProducts = async () => {
-      // Cargar productos mockup directamente (sin API por ahora)
-      const { mockProducts } = await import("@/lib/mock-products")
-      setProducts(mockProducts)
-      setLoading(false)
-      console.log('[ProductGrid] Loaded', mockProducts.length, 'mock products')
+      try {
+        setLoading(true)
+        console.log('[ProductGrid] Loading products from API...')
+        const response = await fetch("/api/products")
+        
+        if (response.ok) {
+          const data = await response.json()
+          console.log('[ProductGrid] Loaded', data.length, 'products from API')
+          setProducts(data)
+        } else {
+          console.error('[ProductGrid] Failed to load products:', response.status, response.statusText)
+          // Fallback a productos mock si la API falla
+          const { mockProducts } = await import("@/lib/mock-products")
+          console.warn('[ProductGrid] Using mock products as fallback')
+          setProducts(mockProducts)
+        }
+      } catch (error) {
+        console.error('[ProductGrid] Error loading products:', error)
+        // Fallback a productos mock si hay error
+        try {
+          const { mockProducts } = await import("@/lib/mock-products")
+          console.warn('[ProductGrid] Using mock products as fallback due to error')
+          setProducts(mockProducts)
+        } catch (fallbackError) {
+          console.error('[ProductGrid] Fallback also failed:', fallbackError)
+        }
+      } finally {
+        setLoading(false)
+      }
     }
 
     loadProducts()
