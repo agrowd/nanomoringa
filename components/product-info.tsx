@@ -62,24 +62,6 @@ export function ProductInfo({ product }: ProductInfoProps) {
     })
   }
 
-  const handleWhatsAppInquiry = () => {
-    // Abrir el chat en lugar de WhatsApp directo
-    const chatButton = document.querySelector('[aria-label="Abrir chat"]') as HTMLButtonElement
-    if (chatButton) {
-      chatButton.click()
-      return
-    }
-    // Fallback a WhatsApp si no se encuentra el botón del chat
-    // Usar valores pre-seleccionados o valores por defecto
-    const finalSize = selectedSize || (product.sizes.length > 0 ? product.sizes[0] : "Único")
-    const finalColor = selectedColor || (product.colors.length > 0 ? product.colors[0] : "Sin variante")
-
-    const phone = process.env.NEXT_PUBLIC_WA_PHONE || "5491158082486"
-    const message = buildProductMessage(product.name, finalSize, finalColor, window.location.href)
-    const url = buildWAUrl(phone, message)
-    window.open(url, "_blank")
-  }
-
   return (
     <div className="space-y-6">
       <div>
