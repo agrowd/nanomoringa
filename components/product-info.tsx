@@ -36,19 +36,10 @@ export function ProductInfo({ product }: ProductInfoProps) {
     : 0
 
   const handleAddToCart = () => {
-    // Usar valores pre-seleccionados si no hay selección manual
-    const finalSize = selectedSize || (product.sizes.length > 0 ? product.sizes[0] : "")
-    const finalColor = selectedColor || (product.colors.length > 0 ? product.colors[0] : "")
+    // Usar valores pre-seleccionados o valores por defecto si no hay variantes
+    const finalSize = selectedSize || (product.sizes.length > 0 ? product.sizes[0] : "Único")
+    const finalColor = selectedColor || (product.colors.length > 0 ? product.colors[0] : "Sin variante")
     
-    if (!finalSize || !finalColor) {
-      toast({
-        title: "Producto sin variantes",
-        description: "Este producto no tiene presentaciones o variantes disponibles",
-        variant: "destructive",
-      })
-      return
-    }
-
     addItem({
       id: product.id,
       name: product.name,
@@ -61,9 +52,14 @@ export function ProductInfo({ product }: ProductInfoProps) {
       image: product.images[0],
     })
 
+    // Mensaje de confirmación adaptado según si tiene variantes o no
+    const variantText = (product.sizes.length > 0 || product.colors.length > 0)
+      ? ` (${finalSize} / ${finalColor})`
+      : ""
+    
     toast({
       title: "Agregado al carrito",
-      description: `${product.name} (${finalSize} / ${finalColor}) x${quantity}`,
+      description: `${product.name}${variantText} x${quantity}`,
     })
   }
 
@@ -75,18 +71,9 @@ export function ProductInfo({ product }: ProductInfoProps) {
       return
     }
     // Fallback a WhatsApp si no se encuentra el botón del chat
-    // Usar valores pre-seleccionados si no hay selección manual
-    const finalSize = selectedSize || (product.sizes.length > 0 ? product.sizes[0] : "")
-    const finalColor = selectedColor || (product.colors.length > 0 ? product.colors[0] : "")
-    
-    if (!finalSize || !finalColor) {
-      toast({
-        title: "Producto sin variantes",
-        description: "Este producto no tiene presentaciones o variantes disponibles",
-        variant: "destructive",
-      })
-      return
-    }
+    // Usar valores pre-seleccionados o valores por defecto
+    const finalSize = selectedSize || (product.sizes.length > 0 ? product.sizes[0] : "Único")
+    const finalColor = selectedColor || (product.colors.length > 0 ? product.colors[0] : "Sin variante")
 
     const phone = process.env.NEXT_PUBLIC_WA_PHONE || "5491158082486"
     const message = buildProductMessage(product.name, finalSize, finalColor, window.location.href)
