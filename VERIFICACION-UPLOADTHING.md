@@ -14,14 +14,14 @@
 
 **En Vercel (Producción):**
 ```env
-UPLOADTHING_SECRET=sk_live_11ef9d903e1c1fa088943e39b5fa64618a543fe37d2c7e2b59d2873048b3ce95
-UPLOADTHING_APP_ID=TU_APP_ID_AQUI
+UPLOADTHING_SECRET=sk_live_xxxxx  # Tu secret key de Uploadthing
+UPLOADTHING_APP_ID=xxxxx          # Tu app ID de Uploadthing
 ```
 
 **En .env.local (Local):**
 ```env
-UPLOADTHING_SECRET=sk_live_11ef9d903e1c1fa088943e39b5fa64618a543fe37d2c7e2b59d2873048b3ce95
-UPLOADTHING_APP_ID=TU_APP_ID_AQUI
+UPLOADTHING_SECRET=sk_live_xxxxx  # Tu secret key de Uploadthing
+UPLOADTHING_APP_ID=xxxxx          # Tu app ID de Uploadthing
 ```
 
 ## 🧪 Cómo verificar que funciona:
