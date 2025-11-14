@@ -1,13 +1,14 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useRef } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { X, Image as ImageIcon, Video } from "lucide-react"
+import { X, Image as ImageIcon, Video, Upload } from "lucide-react"
 import Image from "next/image"
 import { useToast } from "@/hooks/use-toast"
 import { UploadButton } from "@/lib/uploadthing"
+import { ImageCropModal } from "@/components/image-crop-modal"
 
 interface MediaManagerProps {
   images: string[]
@@ -18,6 +19,10 @@ interface MediaManagerProps {
 
 export function MediaManager({ images, videos, onImagesChange, onVideosChange }: MediaManagerProps) {
   const { toast } = useToast()
+  const fileInputRef = useRef<HTMLInputElement>(null)
+  const [cropModalOpen, setCropModalOpen] = useState(false)
+  const [imageToCrop, setImageToCrop] = useState<string | null>(null)
+  const [uploading, setUploading] = useState(false)
 
   const removeImage = (index: number) => {
     const newImages = images.filter((_, i) => i !== index)
@@ -35,6 +40,94 @@ export function MediaManager({ images, videos, onImagesChange, onVideosChange }:
       title: "Video eliminado",
       description: "El video ha sido eliminado correctamente.",
     })
+  }
+
+  const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0]
+    if (!file) return
+
+    // Validar que sea una imagen
+    if (!file.type.startsWith('image/')) {
+      toast({
+        title: "Error",
+        description: "Solo se permiten archivos de imagen",
+        variant: "destructive",
+      })
+      return
+    }
+
+    // Validar tamaño (max 10MB)
+    if (file.size > 10 * 1024 * 1024) {
+      toast({
+        title: "Error",
+        description: "La imagen debe ser menor a 10MB",
+        variant: "destructive",
+      })
+      return
+    }
+
+    // Crear preview y abrir modal de crop
+    const reader = new FileReader()
+    reader.onload = (e) => {
+      const imageSrc = e.target?.result as string
+      setImageToCrop(imageSrc)
+      setCropModalOpen(true)
+    }
+    reader.readAsDataURL(file)
+
+    // Limpiar el input
+    if (fileInputRef.current) {
+      fileInputRef.current.value = ''
+    }
+  }
+
+  const handleCropComplete = async (croppedImageUrl: string) => {
+    setUploading(true)
+    try {
+      // Convertir la URL del blob a un File
+      const response = await fetch(croppedImageUrl)
+      const blob = await response.blob()
+      const file = new File([blob], `cropped-image-${Date.now()}.jpg`, {
+        type: 'image/jpeg',
+      })
+
+      // Subir la imagen recortada usando Uploadthing
+      const formData = new FormData()
+      formData.append('file', file)
+      formData.append('type', 'image')
+
+      const uploadResponse = await fetch('/api/upload', {
+        method: 'POST',
+        body: formData,
+      })
+
+      if (!uploadResponse.ok) {
+        throw new Error('Error al subir la imagen')
+      }
+
+      const data = await uploadResponse.json()
+      
+      // Agregar la imagen a la lista
+      onImagesChange([...images, data.url])
+      
+      toast({
+        title: "Imagen subida",
+        description: "La imagen ha sido recortada y subida correctamente.",
+      })
+
+      // Limpiar la URL del blob
+      URL.revokeObjectURL(croppedImageUrl)
+    } catch (error) {
+      console.error('Error al subir imagen recortada:', error)
+      toast({
+        title: "Error al subir imagen",
+        description: "No se pudo subir la imagen recortada.",
+        variant: "destructive",
+      })
+    } finally {
+      setUploading(false)
+      setImageToCrop(null)
+    }
   }
 
   return (
@@ -82,27 +175,53 @@ export function MediaManager({ images, videos, onImagesChange, onVideosChange }:
             </div>
           )}
           
-          <UploadButton
-            endpoint="imageUploader"
-            onClientUploadComplete={(res) => {
-              if (res && res.length > 0) {
-                const newUrls = res.map((file) => file.url)
-                onImagesChange([...images, ...newUrls])
+          <div className="flex flex-col gap-2">
+            {/* Input file oculto para seleccionar imágenes */}
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/*"
+              onChange={handleFileSelect}
+              className="hidden"
+              id="image-upload-input"
+              disabled={uploading}
+            />
+            
+            {/* Botón para abrir el selector de archivos */}
+            <Button
+              type="button"
+              onClick={() => fileInputRef.current?.click()}
+              disabled={uploading}
+              className="bg-blue-600 hover:bg-blue-700 text-white"
+            >
+              <Upload className="h-4 w-4 mr-2" />
+              {uploading ? "Subiendo..." : "Subir y Recortar Imagen"}
+            </Button>
+
+            {/* Opción alternativa: Subir sin recortar (usando Uploadthing directamente) */}
+            <div className="text-center text-xs text-gray-500 py-2">o</div>
+            <UploadButton
+              endpoint="imageUploader"
+              onClientUploadComplete={(res) => {
+                if (res && res.length > 0) {
+                  const newUrls = res.map((file) => file.url)
+                  onImagesChange([...images, ...newUrls])
+                  toast({
+                    title: "Imágenes subidas",
+                    description: `${newUrls.length} imagen(es) agregada(s) correctamente.`,
+                  })
+                }
+              }}
+              onUploadError={(error: Error) => {
                 toast({
-                  title: "Imágenes subidas",
-                  description: `${newUrls.length} imagen(es) agregada(s) correctamente.`,
+                  title: "Error al subir imágenes",
+                  description: error.message || "Ocurrió un error inesperado.",
+                  variant: "destructive",
                 })
-              }
-            }}
-            onUploadError={(error: Error) => {
-              toast({
-                title: "Error al subir imágenes",
-                description: error.message || "Ocurrió un error inesperado.",
-                variant: "destructive",
-              })
-            }}
-            className="ut-button:bg-blue-600 ut-button:hover:bg-blue-700 ut-button:ut-uploading:bg-blue-400"
-          />
+              }}
+              className="ut-button:bg-gray-600 ut-button:hover:bg-gray-700 ut-button:ut-uploading:bg-gray-400"
+            />
+          </div>
         </CardContent>
       </Card>
 
@@ -195,6 +314,23 @@ export function MediaManager({ images, videos, onImagesChange, onVideosChange }:
           </div>
         </div>
       </div>
+
+      {/* Modal de recorte de imagen */}
+      {imageToCrop && (
+        <ImageCropModal
+          open={cropModalOpen}
+          onClose={() => {
+            setCropModalOpen(false)
+            setImageToCrop(null)
+            if (imageToCrop.startsWith('blob:')) {
+              URL.revokeObjectURL(imageToCrop)
+            }
+          }}
+          imageSrc={imageToCrop}
+          onCropComplete={handleCropComplete}
+          aspectRatio={1} // Cuadrado 1:1 para productos
+        />
+      )}
     </div>
   )
 }
