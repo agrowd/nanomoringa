@@ -41,24 +41,24 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-40 w-full border-b border-border bg-primary backdrop-blur supports-[backdrop-filter]:bg-primary/95">
-      <div className="container mx-auto flex h-18 items-center justify-between gap-4 px-4">
-        <Link href="/" className="flex items-center gap-3 shrink-0 group">
+      <div className="container mx-auto flex h-16 sm:h-18 items-center justify-between gap-2 sm:gap-4 px-3 sm:px-4">
+        <Link href="/" className="flex items-center gap-2 sm:gap-3 shrink-0 group">
           <div className="relative">
-            <div className="w-14 h-14 rounded-full bg-primary-foreground flex items-center justify-center p-1 overflow-hidden transition-transform duration-300 group-hover:scale-105 shadow-lg">
+            <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-primary-foreground flex items-center justify-center p-1 overflow-hidden transition-transform duration-300 group-hover:scale-105 shadow-lg">
               <Image
                 src="/brand/nanomoringa-logo.png"
                 alt="Nano Moringa"
-                width={52}
-                height={52}
-                className="object-contain"
+                width={48}
+                height={48}
+                className="object-contain w-full h-full"
               />
             </div>
             <div className="absolute inset-0 bg-gradient-to-r from-green-400/20 to-emerald-400/20 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-md"></div>
           </div>
         </Link>
 
-        {/* Desktop Navigation */}
-        <nav className="hidden lg:flex items-center gap-6">
+        {/* Desktop Navigation - Visible en pantallas grandes */}
+        <nav className="hidden lg:flex items-center gap-4 xl:gap-6">
           {navLinks.map((link) => {
             if (link.onClick) {
               return (
@@ -66,7 +66,7 @@ export function Header() {
                   key={link.href}
                   href={link.href}
                   onClick={link.onClick}
-                  className="text-sm font-medium transition-all duration-300 text-primary-foreground/90 hover:text-primary-foreground hover:bg-primary-foreground/10 px-3 py-2 rounded-lg cursor-pointer"
+                  className="text-sm xl:text-base font-medium transition-all duration-300 text-primary-foreground/90 hover:text-primary-foreground hover:bg-primary-foreground/10 px-2 xl:px-3 py-2 rounded-lg cursor-pointer whitespace-nowrap"
                 >
                   {link.label}
                 </a>
@@ -76,7 +76,7 @@ export function Header() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="text-sm font-medium transition-all duration-300 text-primary-foreground/90 hover:text-primary-foreground hover:bg-primary-foreground/10 px-3 py-2 rounded-lg"
+                className="text-sm xl:text-base font-medium transition-all duration-300 text-primary-foreground/90 hover:text-primary-foreground hover:bg-primary-foreground/10 px-2 xl:px-3 py-2 rounded-lg whitespace-nowrap"
               >
                 {link.label}
               </Link>
@@ -84,39 +84,40 @@ export function Header() {
           })}
         </nav>
 
-        <div className="flex items-center gap-2 relative">
-          {/* Search Bar */}
+        <div className="flex items-center gap-1 sm:gap-2 relative">
+          {/* Search Bar - Visible en todas las pantallas */}
           <div className="relative">
             <SearchBar isExpanded={isSearchExpanded} onToggle={toggleSearch} />
           </div>
 
+          {/* Carrito - Visible en todas las pantallas */}
           <Button 
             variant="ghost" 
             size="icon" 
             onClick={toggleCart}
-            className="relative text-white hover:bg-white/10 h-12 w-12"
+            className="relative text-white hover:bg-white/10 h-10 w-10 sm:h-12 sm:w-12"
           >
-            <ShoppingCart className="h-7 w-7" />
+            <ShoppingCart className="h-5 w-5 sm:h-6 sm:w-6" />
             {itemCount > 0 && (
-              <span className="absolute -top-1 -right-1 h-6 w-6 rounded-full bg-[#8B5CF6] text-xs font-bold flex items-center justify-center text-white animate-pulse">
+              <span className="absolute -top-1 -right-1 h-5 w-5 sm:h-6 sm:w-6 rounded-full bg-[#8B5CF6] text-xs font-bold flex items-center justify-center text-white animate-pulse">
                 {itemCount}
               </span>
             )}
           </Button>
 
-          {/* Mobile Menu */}
+          {/* Mobile Menu - Solo visible en pantallas pequeñas/medianas */}
           <Sheet>
             <SheetTrigger asChild className="lg:hidden">
-              <Button variant="ghost" size="icon" className="text-white hover:bg-white/10">
-                <Menu className="h-5 w-5" />
+              <Button variant="ghost" size="icon" className="text-white hover:bg-white/10 h-10 w-10 sm:h-12 sm:w-12">
+                <Menu className="h-5 w-5 sm:h-6 sm:w-6" />
               </Button>
             </SheetTrigger>
-            <SheetContent className="bg-[#11141D] border-white/10">
-              <SheetHeader>
-                <SheetTitle className="text-white">Menú</SheetTitle>
+            <SheetContent side="right" className="bg-[#11141D] border-white/10 w-[85vw] sm:w-[400px]">
+              <SheetHeader className="mb-6">
+                <SheetTitle className="text-white text-xl sm:text-2xl">Menú</SheetTitle>
               </SheetHeader>
 
-              <nav className="flex flex-col gap-4 mt-6">
+              <nav className="flex flex-col gap-3 sm:gap-4">
                 {navLinks.map((link) => {
                   if (link.onClick) {
                     return (
@@ -124,7 +125,7 @@ export function Header() {
                         key={link.href}
                         href={link.href}
                         onClick={link.onClick}
-                        className="text-lg font-medium text-gray-300 hover:text-white transition-colors cursor-pointer"
+                        className="text-base sm:text-lg font-medium text-gray-300 hover:text-white transition-colors cursor-pointer py-2 px-3 rounded-lg hover:bg-white/10"
                       >
                         {link.label}
                       </a>
@@ -134,7 +135,7 @@ export function Header() {
                     <Link
                       key={link.href}
                       href={link.href}
-                      className="text-lg font-medium text-gray-300 hover:text-white transition-colors"
+                      className="text-base sm:text-lg font-medium text-gray-300 hover:text-white transition-colors py-2 px-3 rounded-lg hover:bg-white/10"
                     >
                       {link.label}
                     </Link>
