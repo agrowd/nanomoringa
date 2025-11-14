@@ -208,6 +208,23 @@ export async function saveMessage(message: Omit<WhatsAppMessage, 'id' | 'created
   }
 }
 
+export async function updateMessageStatus(
+  messageId: number,
+  whatsappStatus: 'sent' | 'delivered' | 'read' | 'failed'
+): Promise<void> {
+  try {
+    await sql`
+      UPDATE whatsapp_messages 
+      SET whatsapp_status = ${whatsappStatus},
+          read = ${whatsappStatus === 'read' ? true : false},
+          read_at = ${whatsappStatus === 'read' ? new Date().toISOString() : null}
+      WHERE id = ${messageId}
+    `
+  } catch (error) {
+    console.error('Error updating message status:', error)
+  }
+}
+
 export async function getMessagesByConversation(
   conversationId: number,
   limit: number = 100

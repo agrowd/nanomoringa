@@ -6,11 +6,11 @@ import { getConversationByPhone, saveMessage, createOrUpdateConversation } from 
 export async function POST(request: Request) {
   try {
     const body = await request.json()
-    const { phone, message, message_type, media_url, sender_type = 'admin' } = body
+    const { phone, message, message_type, media_url, sender_type = 'admin', reply_to_message_id } = body
     
-    if (!phone || !message) {
+    if (!phone || (!message && !media_url)) {
       return NextResponse.json(
-        { error: 'phone and message required' },
+        { error: 'phone and message or media_url required' },
         { status: 400 }
       )
     }
@@ -26,13 +26,13 @@ export async function POST(request: Request) {
       conversation_id: conversation.id,
       sender_type,
       message_type: message_type || 'text',
-      message,
+      message: message || '',
       media_url,
-      read: true // Los mensajes que enviamos están leídos
+      read: true, // Los mensajes que enviamos están leídos
+      metadata: reply_to_message_id ? { reply_to: reply_to_message_id } : undefined
     })
     
     // Notificar al bot para que envíe el mensaje
-    // El bot escuchará este endpoint o usará webhook
     const botUrl = process.env.WHATSAPP_BOT_URL || 'http://localhost:5000'
     try {
       await fetch(`${botUrl}/api/send`, {
@@ -40,10 +40,11 @@ export async function POST(request: Request) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           phone,
-          message,
+          message: message || '',
           message_type,
           media_url,
-          message_id: savedMessage.id
+          conversation_id: conversation.id,
+          reply_to_message_id
         })
       })
     } catch (botError) {

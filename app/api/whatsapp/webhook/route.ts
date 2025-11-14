@@ -92,6 +92,21 @@ export async function POST(request: Request) {
         })
         break
         
+      case 'message_status_update':
+        // Actualizar estado de un mensaje (sent/delivered/read)
+        const { message_id, status } = data
+        if (message_id) {
+          const { updateMessageStatus } = await import('@/lib/whatsapp-db')
+          await updateMessageStatus(message_id, status)
+        }
+        
+        // Emitir evento SSE
+        emitEvent({
+          type: 'message_status_update',
+          data: { message_id, status }
+        })
+        break
+        
       default:
         console.log('Unknown event:', event)
     }

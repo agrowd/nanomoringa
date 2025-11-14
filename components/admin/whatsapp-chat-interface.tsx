@@ -41,6 +41,7 @@ export function WhatsAppChatInterface() {
   const [replyingTo, setReplyingTo] = useState<Message | null>(null)
   const [selectedVideo, setSelectedVideo] = useState<string | null>(null)
   const messagesEndRef = useRef<HTMLDivElement>(null)
+  const fileInputRef = useRef<HTMLInputElement>(null)
   const { toast } = useToast()
 
   // Cargar conversaciones desde la API
@@ -85,6 +86,22 @@ export function WhatsAppChatInterface() {
         // Reproducir sonido si hay mensaje nuevo
         if (data.type === "message_received") {
           playNotificationSound()
+        }
+      }
+      if (data.type === "message_status_update") {
+        // Actualizar estado del mensaje en la UI
+        if (selectedConversation) {
+          setSelectedConversation(prev => {
+            if (!prev) return prev
+            return {
+              ...prev,
+              messages: prev.messages.map(m => 
+                m.id === data.data.message_id?.toString() 
+                  ? { ...m, status: data.data.status === 'read' ? 'read' : data.data.status === 'delivered' ? 'delivered' : 'sent' }
+                  : m
+              )
+            }
+          })
         }
       }
     }
@@ -169,23 +186,38 @@ export function WhatsAppChatInterface() {
     conv.phone.includes(searchQuery)
   )
 
-  const handleSendMessage = async () => {
-    if (!messageText.trim() || !selectedConversation) return
+  const handleSendMessage = async (imageFile?: File) => {
+    const hasContent = messageText.trim() || imageFile
+    if (!hasContent || !selectedConversation) return
+
+    let mediaUrl: string | undefined
+    if (imageFile) {
+      // Convertir a base64
+      const reader = new FileReader()
+      mediaUrl = await new Promise((resolve) => {
+        reader.onload = (e) => resolve(e.target?.result as string)
+        reader.readAsDataURL(imageFile)
+      })
+    }
 
     const newMessage: Message = {
       id: `temp-${Date.now()}`,
-      text: messageText,
+      text: messageText || (imageFile ? "📷 Imagen" : ""),
       sender: "bot",
       timestamp: new Date(),
       status: "sending",
-      replyTo: replyingTo?.id
+      replyTo: replyingTo?.id,
+      media: mediaUrl ? {
+        type: "image",
+        url: mediaUrl
+      } : undefined
     }
 
     // Actualizar UI inmediatamente
     const updatedConversation = {
       ...selectedConversation,
       messages: [...selectedConversation.messages, newMessage],
-      lastMessage: messageText,
+      lastMessage: messageText || "📷 Imagen",
       lastMessageTime: new Date()
     }
 
@@ -195,6 +227,7 @@ export function WhatsAppChatInterface() {
     ))
 
     const messageToSend = messageText
+    const messageToReply = replyingTo
     setMessageText("")
     setReplyingTo(null)
 
@@ -206,7 +239,10 @@ export function WhatsAppChatInterface() {
         body: JSON.stringify({
           phone: selectedConversation.phone,
           message: messageToSend,
-          conversation_id: parseInt(selectedConversation.id)
+          message_type: imageFile ? "image" : "text",
+          media_url: mediaUrl,
+          conversation_id: parseInt(selectedConversation.id),
+          reply_to_message_id: messageToReply?.id ? parseInt(messageToReply.id) : undefined
         })
       })
       
@@ -456,8 +492,25 @@ export function WhatsAppChatInterface() {
                 </div>
               )}
               <div className="flex items-center gap-2">
-                <Button variant="ghost" size="icon" className="text-gray-600">
-                  <Paperclip className="h-5 w-5" />
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={(e) => {
+                    const file = e.target.files?.[0]
+                    if (file) {
+                      handleSendMessage(file)
+                    }
+                  }}
+                />
+                <Button 
+                  variant="ghost" 
+                  size="icon" 
+                  className="text-gray-600"
+                  onClick={() => fileInputRef.current?.click()}
+                >
+                  <ImageIcon className="h-5 w-5" />
                 </Button>
                 <Input
                   placeholder="Escribe un mensaje"
@@ -472,7 +525,7 @@ export function WhatsAppChatInterface() {
                   className="flex-1 bg-white border-gray-300"
                 />
                 <Button
-                  onClick={handleSendMessage}
+                  onClick={() => handleSendMessage()}
                   disabled={!messageText.trim()}
                   className="bg-[#25D366] hover:bg-[#20BA5A] text-white"
                 >

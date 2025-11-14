@@ -4,7 +4,7 @@ import { Inter, Playfair_Display } from "next/font/google"
 import "./globals.css"
 import { Toaster } from "@/components/ui/toaster"
 import { CartProvider } from "@/components/cart-provider"
-import { ChatWidget } from "@/components/chat-widget"
+import { WhatsAppFloatingChat } from "@/components/whatsapp-floating-chat"
 import { WhatsAppChannelNotification } from "@/components/whatsapp-channel-notification"
 import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin"
 import { extractRouterConfig } from "uploadthing/server"
@@ -45,7 +45,7 @@ export default function RootLayout({
         />
         <CartProvider>
           {children}
-          <ChatWidget />
+          <WhatsAppFloatingChat />
           <WhatsAppChannelNotification />
           <Toaster />
         </CartProvider>
