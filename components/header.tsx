@@ -42,14 +42,14 @@ export function Header() {
   return (
     <header className="sticky top-0 z-40 w-full border-b border-border bg-primary backdrop-blur supports-[backdrop-filter]:bg-primary/95">
       <div className="w-full max-w-[1920px] mx-auto flex h-14 sm:h-16 md:h-18 items-center gap-1.5 sm:gap-2 md:gap-4 px-2 sm:px-3 md:px-4 lg:px-8 xl:px-12">
-              <Link href="/" className="flex items-center gap-2 sm:gap-3 shrink-0 group">
+              <Link href="/" className="flex items-center gap-1 sm:gap-2 shrink-0 group">
                 <div className="relative">
-                  <div className="w-9 h-9 sm:w-12 sm:h-12 md:w-16 md:h-16 lg:w-20 lg:h-20 xl:w-24 xl:h-24 rounded-full bg-primary-foreground flex items-center justify-center p-0.5 sm:p-1 md:p-1.5 lg:p-2 overflow-hidden transition-transform duration-300 group-hover:scale-105 shadow-lg">
+                  <div className="w-8 h-8 sm:w-10 sm:h-10 md:w-14 md:h-14 lg:w-16 lg:h-16 xl:w-20 xl:h-20 rounded-full bg-primary-foreground flex items-center justify-center p-0.5 sm:p-1 md:p-1.5 lg:p-2 overflow-hidden transition-transform duration-300 group-hover:scale-105 shadow-lg">
                     <Image
                       src="/brand/nanomoringa-logo.png"
                       alt="Nano Moringa"
-                      width={80}
-                      height={80}
+                      width={64}
+                      height={64}
                       className="object-contain w-full h-full"
                     />
                   </div>
@@ -58,7 +58,7 @@ export function Header() {
               </Link>
 
         {/* Desktop Navigation - Oculto en mobile, visible desde md */}
-        <nav className="hidden md:flex items-center gap-4 lg:gap-6 xl:gap-8 justify-center flex-1 min-w-0">
+        <nav className="hidden md:flex items-center gap-2 lg:gap-4 xl:gap-6 justify-center flex-1 min-w-0 overflow-visible">
           {navLinks.map((link) => {
             if (link.onClick) {
               return (
@@ -66,7 +66,7 @@ export function Header() {
                   key={link.href}
                   href={link.href}
                   onClick={link.onClick}
-                  className="text-base lg:text-lg font-medium transition-all duration-300 text-primary-foreground/90 hover:text-primary-foreground hover:bg-primary-foreground/10 px-4 lg:px-5 py-2 rounded-lg cursor-pointer whitespace-nowrap flex-shrink-0"
+                  className="text-sm lg:text-base xl:text-lg font-medium transition-all duration-300 text-primary-foreground/90 hover:text-primary-foreground hover:bg-primary-foreground/10 px-2 lg:px-3 xl:px-4 py-2 rounded-lg cursor-pointer whitespace-nowrap flex-shrink-0 min-w-fit"
                 >
                   {link.label}
                 </a>
@@ -76,7 +76,7 @@ export function Header() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="text-base lg:text-lg font-medium transition-all duration-300 text-primary-foreground/90 hover:text-primary-foreground hover:bg-primary-foreground/10 px-4 lg:px-5 py-2 rounded-lg whitespace-nowrap flex-shrink-0"
+                className="text-sm lg:text-base xl:text-lg font-medium transition-all duration-300 text-primary-foreground/90 hover:text-primary-foreground hover:bg-primary-foreground/10 px-2 lg:px-3 xl:px-4 py-2 rounded-lg whitespace-nowrap flex-shrink-0 min-w-fit"
               >
                 {link.label}
               </Link>

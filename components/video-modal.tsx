@@ -32,8 +32,8 @@ export function VideoModal({ open, onClose, videoSrc, videoTitle }: VideoModalPr
 
   return (
     <Dialog open={open} onOpenChange={handleClose}>
-      <DialogContent className="max-w-6xl w-[95vw] max-h-[90vh] h-[90vh] sm:h-auto sm:max-h-[90vh] p-0 bg-black/95 flex flex-col">
-        <div className="relative w-full h-full flex-1 flex items-center justify-center min-h-0">
+      <DialogContent className="max-w-6xl w-[95vw] max-h-[95vh] p-0 bg-black/95 flex flex-col">
+        <div className="relative w-full flex-1 flex items-center justify-center min-h-[200px] max-h-[calc(95vh-40px)]">
           {/* Botón de cerrar */}
           <Button
             variant="ghost"
@@ -50,7 +50,7 @@ export function VideoModal({ open, onClose, videoSrc, videoTitle }: VideoModalPr
             src={videoSrc}
             controls
             autoPlay
-            className="w-full h-full max-h-full object-contain"
+            className="w-full h-full max-w-full max-h-full object-contain"
             onEnded={handleClose}
             playsInline
           />
