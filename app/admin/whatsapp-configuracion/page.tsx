@@ -34,7 +34,16 @@ export default function WhatsAppConfiguracionPage() {
     }
     loadBotStatus()
     loadBotMessages()
-  }, [isAuthenticated, router])
+    
+    // Polling automático cada 5 segundos si no está conectado (para actualizar QR)
+    const interval = setInterval(() => {
+      if (!isConnected) {
+        loadBotStatus()
+      }
+    }, 5000)
+    
+    return () => clearInterval(interval)
+  }, [isAuthenticated, router, isConnected])
 
   const loadBotStatus = async () => {
     try {

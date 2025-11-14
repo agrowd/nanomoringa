@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react"
 import { RefreshCw } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import Image from "next/image"
+import QRCode from "qrcode.react"
 
 interface WhatsAppQRProps {
   qrCode: string | null
@@ -15,10 +15,8 @@ export function WhatsAppQR({ qrCode, isLoading }: WhatsAppQRProps) {
 
   const handleRefresh = () => {
     setIsRefreshing(true)
-    // TODO: Recargar QR desde API
-    setTimeout(() => {
-      setIsRefreshing(false)
-    }, 1000)
+    // Recargar desde la página padre
+    window.location.reload()
   }
 
   if (isLoading) {
@@ -54,14 +52,13 @@ export function WhatsAppQR({ qrCode, isLoading }: WhatsAppQRProps) {
   return (
     <div className="flex flex-col items-center justify-center py-6 space-y-4">
       <div className="p-4 bg-white rounded-lg border-2 border-gray-200 shadow-sm">
-        {/* TODO: Usar librería de QR o mostrar como imagen base64 */}
         <div className="w-64 h-64 flex items-center justify-center bg-gray-50 rounded">
           {qrCode ? (
-            <Image
-              src={`data:image/png;base64,${qrCode}`}
-              alt="QR Code"
-              width={256}
-              height={256}
+            <QRCode
+              value={qrCode}
+              size={256}
+              level="H"
+              includeMargin={true}
               className="rounded"
             />
           ) : (
