@@ -317,9 +317,9 @@ export default function HomePage() {
               {/* Carrusel de imágenes adicionales */}
               <ImageCarousel images={[
                 "/uploads/nanomoringa-hero4.5.jpeg",
-                "/uploads/Nano Moringa 2110 (6).png",
-                "/uploads/Nano Moringa 2110 (7).png",
-                "/uploads/Nano Moringa 2110 (8).png"
+                "/uploads/Nano%20Moringa%202110%20(6).png",
+                "/uploads/Nano%20Moringa%202110%20(7).png",
+                "/uploads/Nano%20Moringa%202110%20(8).png"
               ]} />
             </div>
           </div>
