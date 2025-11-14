@@ -67,7 +67,7 @@ export function Header() {
                   href={link.href}
                   onClick={link.onClick}
                   className="text-base lg:text-lg font-medium transition-all duration-300 text-primary-foreground/90 hover:text-primary-foreground hover:bg-primary-foreground/10 px-4 lg:px-5 py-2 rounded-lg cursor-pointer"
-                  style={{ whiteSpace: 'nowrap', textOverflow: 'clip', overflow: 'visible' }}
+                  style={{ whiteSpace: 'nowrap', textOverflow: 'clip', overflow: 'visible', flex: '0 0 auto' }}
                 >
                   {link.label}
                 </a>
@@ -78,7 +78,7 @@ export function Header() {
                 key={link.href}
                 href={link.href}
                 className="text-base lg:text-lg font-medium transition-all duration-300 text-primary-foreground/90 hover:text-primary-foreground hover:bg-primary-foreground/10 px-4 lg:px-5 py-2 rounded-lg"
-                style={{ whiteSpace: 'nowrap', textOverflow: 'clip', overflow: 'visible' }}
+                style={{ whiteSpace: 'nowrap', textOverflow: 'clip', overflow: 'visible', flex: '0 0 auto' }}
               >
                 {link.label}
               </Link>
