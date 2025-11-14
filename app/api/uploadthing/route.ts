@@ -37,22 +37,74 @@ const handlers = createRouteHandler({
   } : undefined,
 })
 
-// Wrapper para agregar logs en tiempo de ejecución
+// Wrapper para agregar logs en tiempo de ejecución y manejo de errores
 export async function GET(request: Request) {
-  console.log('[Uploadthing GET] Request received at:', new Date().toISOString())
-  const tokenCheck = getToken()
-  if (!tokenCheck) {
-    console.error('[Uploadthing GET] Token not available in runtime!')
+  try {
+    console.log('[Uploadthing GET] Request received at:', new Date().toISOString())
+    const tokenCheck = getToken()
+    if (!tokenCheck) {
+      console.error('[Uploadthing GET] Token not available in runtime!')
+      return new Response(
+        JSON.stringify({ 
+          error: 'Uploadthing token not configured',
+          message: 'UPLOADTHING_TOKEN environment variable is missing or invalid'
+        }),
+        { 
+          status: 500,
+          headers: { 'Content-Type': 'application/json' }
+        }
+      )
+    }
+    return await handlers(request)
+  } catch (error) {
+    console.error('[Uploadthing GET] Error:', error)
+    console.error('[Uploadthing GET] Error stack:', error instanceof Error ? error.stack : 'No stack')
+    return new Response(
+      JSON.stringify({ 
+        error: 'Internal server error',
+        message: error instanceof Error ? error.message : 'Unknown error',
+        details: error instanceof Error ? error.stack : String(error)
+      }),
+      { 
+        status: 500,
+        headers: { 'Content-Type': 'application/json' }
+      }
+    )
   }
-  return handlers(request)
 }
 
 export async function POST(request: Request) {
-  console.log('[Uploadthing POST] Request received at:', new Date().toISOString())
-  const tokenCheck = getToken()
-  if (!tokenCheck) {
-    console.error('[Uploadthing POST] Token not available in runtime!')
+  try {
+    console.log('[Uploadthing POST] Request received at:', new Date().toISOString())
+    const tokenCheck = getToken()
+    if (!tokenCheck) {
+      console.error('[Uploadthing POST] Token not available in runtime!')
+      return new Response(
+        JSON.stringify({ 
+          error: 'Uploadthing token not configured',
+          message: 'UPLOADTHING_TOKEN environment variable is missing or invalid'
+        }),
+        { 
+          status: 500,
+          headers: { 'Content-Type': 'application/json' }
+        }
+      )
+    }
+    return await handlers(request)
+  } catch (error) {
+    console.error('[Uploadthing POST] Error:', error)
+    console.error('[Uploadthing POST] Error stack:', error instanceof Error ? error.stack : 'No stack')
+    return new Response(
+      JSON.stringify({ 
+        error: 'Internal server error',
+        message: error instanceof Error ? error.message : 'Unknown error',
+        details: error instanceof Error ? error.stack : String(error)
+      }),
+      { 
+        status: 500,
+        headers: { 'Content-Type': 'application/json' }
+      }
+    )
   }
-  return handlers(request)
 }
 
