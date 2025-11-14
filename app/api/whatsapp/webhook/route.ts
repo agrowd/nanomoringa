@@ -9,7 +9,7 @@ export async function POST(request: Request) {
     const { event, data } = body
     
     switch (event) {
-      case 'message_received':
+      case 'message_received': {
         // Mensaje recibido del usuario
         const { phone, name, message, message_type, media_url, whatsapp_message_id } = data
         
@@ -42,10 +42,11 @@ export async function POST(request: Request) {
           }
         })
         break
+      }
         
-      case 'message_sent':
+      case 'message_sent': {
         // Mensaje enviado por el bot
-        const { phone: sentPhone, message: sentMessage, message_id } = data
+        const { phone: sentPhone, message: sentMessage, message_id: whatsappMsgId } = data
         
         const sentConversation = await getConversationByPhone(sentPhone)
         if (sentConversation) {
@@ -54,7 +55,7 @@ export async function POST(request: Request) {
             sender_type: 'bot',
             message_type: 'text',
             message: sentMessage,
-            whatsapp_message_id: message_id,
+            whatsapp_message_id: whatsappMsgId,
             whatsapp_status: 'sent',
             read: true
           })
@@ -71,8 +72,9 @@ export async function POST(request: Request) {
           })
         }
         break
+      }
         
-      case 'status_update':
+      case 'status_update': {
         // Actualizar estado del bot (conectado, QR, etc.)
         await updateSession('client-cbd-new', {
           status: data.status,
@@ -91,21 +93,23 @@ export async function POST(request: Request) {
           }
         })
         break
+      }
         
-      case 'message_status_update':
+      case 'message_status_update': {
         // Actualizar estado de un mensaje (sent/delivered/read)
-        const { message_id, status } = data
-        if (message_id) {
+        const { message_id: msgId, status } = data
+        if (msgId) {
           const { updateMessageStatus } = await import('@/lib/whatsapp-db')
-          await updateMessageStatus(message_id, status)
+          await updateMessageStatus(msgId, status)
         }
         
         // Emitir evento SSE
         emitEvent({
           type: 'message_status_update',
-          data: { message_id, status }
+          data: { message_id: msgId, status }
         })
         break
+      }
         
       default:
         console.log('Unknown event:', event)
