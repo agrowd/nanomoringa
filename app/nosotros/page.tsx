@@ -44,8 +44,10 @@ export default function NosotrosPage() {
               </div>
               <div className="bg-card border border-border rounded-xl sm:rounded-2xl p-4 sm:p-6">
                 <div className="text-4xl sm:text-5xl mb-2 sm:mb-3">👥</div>
-                <h3 className="font-bold text-lg sm:text-xl mb-2">Seguimiento</h3>
-                <p className="text-muted-foreground text-sm sm:text-base">Asesoramiento 1:1</p>
+                <h3 className="font-bold text-lg sm:text-xl mb-2">Seguimiento Personalizado</h3>
+                <p className="text-muted-foreground text-sm sm:text-base leading-relaxed">
+                  Asesoramiento 1:1 adaptado a tus necesidades. Cada persona es única y por eso diseñamos un plan de tratamiento personalizado que se ajusta a tu estilo de vida, objetivos y condiciones específicas. Te acompañamos en cada paso del proceso.
+                </p>
               </div>
               <div className="bg-card border border-border rounded-xl sm:rounded-2xl p-4 sm:p-6 sm:col-span-2 md:col-span-1">
                 <div className="text-4xl sm:text-5xl mb-2 sm:mb-3">📦</div>
