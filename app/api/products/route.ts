@@ -171,11 +171,27 @@ export async function PUT(request: NextRequest) {
     const updatedProduct = await request.json()
     const { id: bodyId, ...updates } = updatedProduct
     
+    // Validar tamaño del payload (límite de 4MB para evitar 413 en Vercel)
+    const payloadSize = JSON.stringify(updatedProduct).length
+    const maxPayloadSize = 4 * 1024 * 1024 // 4MB (límite de Vercel)
+    
+    if (payloadSize > maxPayloadSize) {
+      console.error('[API PUT] Payload too large:', payloadSize, 'bytes')
+      return NextResponse.json({ 
+        error: "Payload too large", 
+        details: `El producto es demasiado grande (${Math.round(payloadSize / 1024 / 1024)}MB). Los videos en base64 ocupan mucho espacio. Máximo 4MB.`,
+        suggestion: "Considera usar un servicio de almacenamiento externo (Cloudinary, S3) para videos grandes.",
+        maxSize: maxPayloadSize,
+        currentSize: payloadSize
+      }, { status: 413 })
+    }
+    
     // Usar el ID de la URL si está disponible, sino del body
     const id = urlId || bodyId
     
     console.log('[API PUT] Updating product:', id)
-    console.log('[API PUT] Updates:', updates)
+    console.log('[API PUT] Payload size:', payloadSize, 'bytes', `(${(payloadSize / 1024 / 1024).toFixed(2)}MB)`)
+    console.log('[API PUT] Updates:', Object.keys(updates))
     
     // Usar sql template literal para manejar arrays correctamente
     
