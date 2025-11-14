@@ -98,9 +98,16 @@ export function MediaManager({ images, videos, onImagesChange, onVideosChange }:
       }
     }
 
-    // Para archivos grandes (>4MB), usar chunking
+    // Para archivos grandes (>3MB), usar chunking
     const CHUNK_SIZE = 3 * 1024 * 1024 // 3MB por chunk (dejamos margen para headers)
     const useChunking = fileToUpload.size > CHUNK_SIZE
+
+    console.log('[MediaManager] File size check:', {
+      size: fileToUpload.size,
+      sizeMB: (fileToUpload.size / (1024 * 1024)).toFixed(2),
+      chunkSize: CHUNK_SIZE,
+      useChunking
+    })
 
     if (useChunking) {
       console.log('[MediaManager] File is large, using chunking...')
@@ -108,6 +115,7 @@ export function MediaManager({ images, videos, onImagesChange, onVideosChange }:
     }
     
     // Upload normal para archivos pequeños
+    console.log('[MediaManager] File is small, using normal upload...')
     const formData = new FormData()
     formData.append('file', fileToUpload)
     formData.append('type', type)
@@ -140,13 +148,26 @@ export function MediaManager({ images, videos, onImagesChange, onVideosChange }:
     const totalChunks = Math.ceil(file.size / chunkSize)
     const chunks: Array<{ chunkIndex: number; chunkData: string }> = []
 
-    console.log(`[MediaManager] Uploading ${totalChunks} chunks...`)
+    console.log(`[MediaManager] Starting chunked upload:`, {
+      fileName: file.name,
+      fileSize: file.size,
+      fileSizeMB: (file.size / (1024 * 1024)).toFixed(2),
+      chunkSize,
+      totalChunks
+    })
 
     // Subir cada chunk
     for (let i = 0; i < totalChunks; i++) {
       const start = i * chunkSize
       const end = Math.min(start + chunkSize, file.size)
       const chunk = file.slice(start, end)
+
+      console.log(`[MediaManager] Preparing chunk ${i + 1}/${totalChunks}:`, {
+        start,
+        end,
+        chunkSize: chunk.size,
+        chunkSizeMB: (chunk.size / (1024 * 1024)).toFixed(2)
+      })
 
       const formData = new FormData()
       formData.append('chunk', chunk)
@@ -156,48 +177,73 @@ export function MediaManager({ images, videos, onImagesChange, onVideosChange }:
       formData.append('fileType', file.type)
       formData.append('uploadId', uploadId)
 
-      console.log(`[MediaManager] Uploading chunk ${i + 1}/${totalChunks}...`)
+      console.log(`[MediaManager] Uploading chunk ${i + 1}/${totalChunks} to /api/upload-chunk...`)
 
-      const response = await fetch('/api/upload-chunk', {
-        method: 'POST',
-        body: formData,
-      })
+      try {
+        const response = await fetch('/api/upload-chunk', {
+          method: 'POST',
+          body: formData,
+        })
 
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => ({ error: `Chunk ${i + 1} upload failed` }))
-        throw new Error(errorData.error || `Failed to upload chunk ${i + 1}`)
+        if (!response.ok) {
+          const errorText = await response.text()
+          console.error(`[MediaManager] Chunk ${i + 1} upload failed:`, response.status, errorText)
+          let errorData
+          try {
+            errorData = JSON.parse(errorText)
+          } catch {
+            errorData = { error: `Chunk ${i + 1} upload failed with status ${response.status}` }
+          }
+          throw new Error(errorData.error || `Failed to upload chunk ${i + 1}`)
+        }
+
+        const result = await response.json()
+        console.log(`[MediaManager] Chunk ${i + 1}/${totalChunks} uploaded successfully`)
+        chunks.push({
+          chunkIndex: result.chunkIndex,
+          chunkData: result.chunkData,
+        })
+      } catch (error) {
+        console.error(`[MediaManager] Error uploading chunk ${i + 1}:`, error)
+        throw error
       }
-
-      const result = await response.json()
-      chunks.push({
-        chunkIndex: result.chunkIndex,
-        chunkData: result.chunkData,
-      })
     }
 
     // Recombinar chunks
-    console.log('[MediaManager] Combining chunks...')
-    const combineResponse = await fetch('/api/upload-complete', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        chunks,
-        fileName: file.name,
-        fileType: file.type,
-        uploadId,
-      }),
-    })
+    console.log('[MediaManager] All chunks uploaded, combining...')
+    try {
+      const combineResponse = await fetch('/api/upload-complete', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          chunks,
+          fileName: file.name,
+          fileType: file.type,
+          uploadId,
+        }),
+      })
 
-    if (!combineResponse.ok) {
-      const errorData = await combineResponse.json().catch(() => ({ error: 'Failed to combine chunks' }))
-      throw new Error(errorData.error || 'Failed to combine chunks')
+      if (!combineResponse.ok) {
+        const errorText = await combineResponse.text()
+        console.error('[MediaManager] Combine failed:', combineResponse.status, errorText)
+        let errorData
+        try {
+          errorData = JSON.parse(errorText)
+        } catch {
+          errorData = { error: `Failed to combine chunks: ${combineResponse.status}` }
+        }
+        throw new Error(errorData.error || 'Failed to combine chunks')
+      }
+
+      const result = await combineResponse.json()
+      console.log('[MediaManager] Upload successful:', result.fileName)
+      return result.url
+    } catch (error) {
+      console.error('[MediaManager] Error combining chunks:', error)
+      throw error
     }
-
-    const result = await combineResponse.json()
-    console.log('[MediaManager] Upload successful:', result.fileName)
-    return result.url
   }
 
   const handleFileUpload = async (files: FileList, type: 'image' | 'video') => {
