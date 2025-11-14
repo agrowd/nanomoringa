@@ -61,7 +61,7 @@ export function WhatsAppChatWindow({
         {
           id: "3",
           conversationId: conversation.id,
-          messageText: "ACEITE DE CANNABIS MEDICINAL 🌿\n🌿BENEFICIOS DE USAR CBD 🌿...",
+          messageText: "ACEITE MEDICINAL NATURAL 🌿\n🌿BENEFICIOS DEL ACEITE MICRONIZADO 🌿...",
           sender: "admin",
           fromWhatsApp: false,
           timestamp: new Date(Date.now() - 3400000),

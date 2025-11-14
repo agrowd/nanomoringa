@@ -3,7 +3,7 @@ import type { Product } from "./types"
 // Productos mockup para desarrollo sin base de datos - Nano Moringa
 export const mockProducts: Product[] = [
   {
-    id: "aceite-cbd-nano-moringa",
+    id: "aceite-nano-moringa",
     name: "Aceite Nano Moringa",
     slug: "aceite-nano-moringa",
     description: "Aceite micronizado para mejor absorción diaria. Producto medicinal 100% natural.",
@@ -16,15 +16,15 @@ export const mockProducts: Product[] = [
     sizes: ["30ml", "60ml"],
     colors: ["Natural"],
     images: [
-      "/uploads/hero-aceite.jpg",
-      "/uploads/beneficios-cbd.png",
+      "/uploads/nanomoringa-hero1.png",
+      "/uploads/nanomoringa-hero-2.png",
       "/placeholder.svg"
     ],
     videos: [],
     tags: ["micronizado", "bienestar-diario", "bestseller", "natural", "100-natural"],
     stock: 50,
     featured: true,
-    sku: "NANO-CBD-30",
+    sku: "NANO-30",
     createdAt: new Date().toISOString(),
     created_at: new Date().toISOString(),
     is_on_sale: true,
@@ -57,7 +57,7 @@ export const mockProducts: Product[] = [
     is_on_sale: false,
   },
   {
-    id: "aceite-cbd-nano-moringa-60ml",
+    id: "aceite-nano-moringa-60ml",
     name: "Aceite Nano Moringa 60ml",
     slug: "aceite-nano-moringa-60ml",
     description: "Presentación grande de aceite micronizado. Ideal para uso continuo.",
@@ -68,13 +68,14 @@ export const mockProducts: Product[] = [
     sizes: ["60ml"],
     colors: ["Natural"],
     images: [
+      "/uploads/nanomoringa-hero4.jpeg",
       "/placeholder.svg"
     ],
     videos: [],
     tags: ["presentacion-grande", "uso-continuo", "rutina", "constancia"],
     stock: 30,
     featured: false,
-    sku: "NANO-CBD-60",
+    sku: "NANO-60",
     createdAt: new Date().toISOString(),
     created_at: new Date().toISOString(),
   },
