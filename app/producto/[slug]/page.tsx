@@ -108,7 +108,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
         <main className="min-h-screen bg-background">
           <div className="container mx-auto px-4 py-8">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 mb-12">
-              <ProductGallery images={product.images} productName={product.name} />
+              <ProductGallery images={product.images} videos={product.videos} productName={product.name} />
               <ProductInfo product={product} />
             </div>
 

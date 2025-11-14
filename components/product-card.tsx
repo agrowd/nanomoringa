@@ -26,15 +26,18 @@ export function ProductCard({ product }: ProductCardProps) {
     ? Math.round(((product.compareAt! - product.price) / product.compareAt!) * 100)
     : 0
 
-  const currentImage = product.images[currentImageIndex] || "/placeholder.svg"
-  const hasMultipleImages = product.images.length > 1
+  // Combinar imágenes y videos
+  const allMedia = [...(product.images || []), ...(product.videos || [])]
+  const isVideo = (index: number) => index >= (product.images?.length || 0)
+  const currentMedia = allMedia[currentImageIndex] || "/placeholder.svg"
+  const hasMultipleMedia = allMedia.length > 1
 
   const nextImage = () => {
-    setCurrentImageIndex((prev) => (prev + 1) % product.images.length)
+    setCurrentImageIndex((prev) => (prev + 1) % allMedia.length)
   }
 
   const prevImage = () => {
-    setCurrentImageIndex((prev) => (prev - 1 + product.images.length) % product.images.length)
+    setCurrentImageIndex((prev) => (prev - 1 + allMedia.length) % allMedia.length)
   }
 
   // Swipe gestures para móvil
@@ -56,17 +59,17 @@ export function ProductCard({ product }: ProductCardProps) {
     const isLeftSwipe = distance > minSwipeDistance
     const isRightSwipe = distance < -minSwipeDistance
 
-    if (isLeftSwipe && hasMultipleImages) {
+    if (isLeftSwipe && hasMultipleMedia) {
       nextImage()
     }
-    if (isRightSwipe && hasMultipleImages) {
+    if (isRightSwipe && hasMultipleMedia) {
       prevImage()
     }
   }
 
   // Mostrar hint de swipe en móvil
   useEffect(() => {
-    if (hasMultipleImages && window.innerWidth <= 768) {
+    if (hasMultipleMedia && window.innerWidth <= 768) {
       const timer = setTimeout(() => setShowHint(true), 1000)
       const hideTimer = setTimeout(() => setShowHint(false), 4000)
       return () => {
@@ -74,7 +77,7 @@ export function ProductCard({ product }: ProductCardProps) {
         clearTimeout(hideTimer)
       }
     }
-  }, [hasMultipleImages])
+  }, [hasMultipleMedia])
 
   // Animación de hint
   useEffect(() => {
@@ -120,18 +123,28 @@ export function ProductCard({ product }: ProductCardProps) {
           onTouchMove={onTouchMove}
           onTouchEnd={onTouchEnd}
         >
-          {/* Imagen principal */}
+          {/* Media principal */}
           <Link href={`/producto/${product.slug || product.id}`}>
-            <Image
-              src={currentImage}
-              alt={product.name}
-              fill
-              className="object-cover group-hover:scale-105 transition-transform duration-300"
-            />
+            {isVideo(currentImageIndex) ? (
+              <video
+                src={currentMedia}
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                muted
+                loop
+                playsInline
+              />
+            ) : (
+              <Image
+                src={currentMedia}
+                alt={product.name}
+                fill
+                className="object-cover group-hover:scale-105 transition-transform duration-300"
+              />
+            )}
           </Link>
 
           {/* Controles de navegación - Desktop */}
-          {hasMultipleImages && isHovered && (
+          {hasMultipleMedia && isHovered && (
             <>
               <Button
                 variant="ghost"
@@ -161,7 +174,7 @@ export function ProductCard({ product }: ProductCardProps) {
           )}
 
           {/* Controles de navegación - Móvil */}
-          {hasMultipleImages && (
+          {hasMultipleMedia && (
             <>
               <Button
                 variant="ghost"
@@ -202,17 +215,28 @@ export function ProductCard({ product }: ProductCardProps) {
             {product.stock === 0 && <Badge variant="destructive">Agotado</Badge>}
           </div>
 
-          {/* Indicador de múltiples imágenes */}
-          {hasMultipleImages && (
+          {/* Indicador de múltiples media */}
+          {hasMultipleMedia && (
             <div className="absolute top-3 right-3">
               <Badge className="bg-black/70 text-white text-xs">
-                {currentImageIndex + 1}/{product.images.length}
+                {currentImageIndex + 1}/{allMedia.length}
+              </Badge>
+            </div>
+          )}
+          {/* Indicador de video */}
+          {isVideo(currentImageIndex) && (
+            <div className="absolute top-3 right-3 mt-8">
+              <Badge className="bg-purple-500/90 text-white text-xs flex items-center gap-1">
+                <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M8 5v14l11-7z" />
+                </svg>
+                Video
               </Badge>
             </div>
           )}
 
           {/* Hint de swipe para móvil */}
-          {showHint && hasMultipleImages && (
+          {showHint && hasMultipleMedia && (
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 md:hidden">
               <div className="bg-purple-500/90 backdrop-blur-sm rounded-lg px-4 py-2 text-center animate-pulse">
                 <p className="text-white text-sm font-medium">← Desliza →</p>
@@ -221,10 +245,10 @@ export function ProductCard({ product }: ProductCardProps) {
           )}
 
           {/* Miniaturas de navegación - Desktop */}
-          {hasMultipleImages && isHovered && (
+          {hasMultipleMedia && isHovered && (
             <div className="absolute bottom-3 left-3 right-3 hidden md:block">
               <div className="flex gap-1 justify-center">
-                {product.images.slice(0, 4).map((_, index) => (
+                {allMedia.slice(0, 4).map((_, index) => (
                   <button
                     key={index}
                     className={`w-3 h-3 rounded-full transition-all duration-200 border-2 ${
@@ -239,18 +263,18 @@ export function ProductCard({ product }: ProductCardProps) {
                     }}
                   />
                 ))}
-                {product.images.length > 4 && (
-                  <span className="text-white/80 text-xs ml-1">+{product.images.length - 4}</span>
+                {allMedia.length > 4 && (
+                  <span className="text-white/80 text-xs ml-1">+{allMedia.length - 4}</span>
                 )}
               </div>
             </div>
           )}
 
           {/* Miniaturas de navegación - Móvil */}
-          {hasMultipleImages && (
+          {hasMultipleMedia && (
             <div className="absolute bottom-3 left-3 right-3 md:hidden">
               <div className="flex gap-2 justify-center">
-                {product.images.slice(0, 4).map((_, index) => (
+                {allMedia.slice(0, 4).map((_, index) => (
                   <button
                     key={index}
                     className={`w-4 h-4 rounded-full transition-all duration-200 border-2 ${
@@ -265,15 +289,15 @@ export function ProductCard({ product }: ProductCardProps) {
                     }}
                   />
                 ))}
-                {product.images.length > 4 && (
-                  <span className="text-white/80 text-xs ml-1">+{product.images.length - 4}</span>
+                {allMedia.length > 4 && (
+                  <span className="text-white/80 text-xs ml-1">+{allMedia.length - 4}</span>
                 )}
               </div>
             </div>
           )}
 
           {/* Mensaje informativo */}
-          {!hasMultipleImages && (
+          {!hasMultipleMedia && (
             <div className="absolute bottom-3 left-3 right-3">
               <div className="bg-black/70 backdrop-blur-sm rounded-lg px-3 py-2 text-center">
                 <p className="text-white text-xs font-medium">Presiona para ver más</p>

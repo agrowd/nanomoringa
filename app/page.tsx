@@ -80,13 +80,13 @@ export default function HomePage() {
             {/* Logo and Title Section */}
             <div className="flex flex-col items-center justify-center gap-6 mb-12">
               <div className="relative">
-                <div className="w-36 h-36 sm:w-44 sm:h-44 md:w-52 md:h-52 rounded-full bg-white/95 flex items-center justify-center p-1 shadow-2xl animate-fade-in overflow-hidden">
+                <div className="w-36 h-36 sm:w-44 sm:h-44 md:w-52 md:h-52 rounded-full bg-white/95 flex items-center justify-center p-0 shadow-2xl animate-fade-in overflow-hidden">
                   <Image
                     src="/brand/nanomoringa-logo.png"
                     alt="Nano Moringa"
-                    width={200}
-                    height={200}
-                    className="object-contain"
+                    width={208}
+                    height={208}
+                    className="object-cover w-full h-full"
                   />
                 </div>
                 <div className="absolute inset-0 bg-gradient-to-r from-green-400/30 to-emerald-400/30 rounded-full blur-2xl -z-10 animate-pulse"></div>
@@ -133,6 +133,13 @@ export default function HomePage() {
             {/* Action Buttons */}
             <div className="flex flex-col sm:flex-row gap-6 justify-center mb-16">
               <Button
+                asChild
+                size="lg"
+                className="bg-white/95 text-[#556B2F] hover:bg-white text-2xl px-12 py-8 font-bold shadow-2xl transition-all duration-300 transform hover:scale-110 rounded-2xl border-2 border-white"
+              >
+                <Link href="/catalogo">🌿 Ver Productos</Link>
+              </Button>
+              <Button
                 onClick={() => {
                   const chatButton = document.querySelector('[aria-label="Abrir chat"]') as HTMLButtonElement
                   if (chatButton) chatButton.click()
@@ -141,13 +148,6 @@ export default function HomePage() {
                 className="bg-gradient-to-r from-[#4A8F53] to-[#3A7A43] hover:from-[#3A7A43] hover:to-[#2A6A33] text-white text-2xl px-12 py-8 font-bold shadow-2xl shadow-green-500/30 transition-all duration-300 transform hover:scale-110 rounded-2xl"
               >
                 💬 Consultar con Asesor
-              </Button>
-              <Button
-                asChild
-                size="lg"
-                className="bg-white/95 text-[#556B2F] hover:bg-white text-2xl px-12 py-8 font-bold shadow-2xl transition-all duration-300 transform hover:scale-110 rounded-2xl border-2 border-white"
-              >
-                <Link href="/catalogo">🌿 Ver Productos</Link>
               </Button>
             </div>
 
