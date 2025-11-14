@@ -220,37 +220,47 @@ export function MediaManager({ images, videos, onImagesChange, onVideosChange }:
       }
     }
 
-    // Recombinar chunks
-    console.log('[MediaManager] All chunks uploaded, combining...')
+    // Recombinar chunks en el cliente (evita límite de payload en Vercel)
+    console.log('[MediaManager] All chunks uploaded, combining in client...')
     try {
-      const combineResponse = await fetch('/api/upload-complete', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          chunks,
-          fileName: file.name,
-          fileType: file.type,
-          uploadId,
-        }),
-      })
-
-      if (!combineResponse.ok) {
-        const errorText = await combineResponse.text()
-        console.error('[MediaManager] Combine failed:', combineResponse.status, errorText)
-        let errorData
-        try {
-          errorData = JSON.parse(errorText)
-        } catch {
-          errorData = { error: `Failed to combine chunks: ${combineResponse.status}` }
+      // Ordenar chunks por índice
+      const sortedChunks = chunks.sort((a, b) => a.chunkIndex - b.chunkIndex)
+      
+      // Convertir cada chunk de base64 a Uint8Array y combinarlos
+      const allBytes: Uint8Array[] = []
+      for (const chunk of sortedChunks) {
+        const binaryString = atob(chunk.chunkData)
+        const bytes = new Uint8Array(binaryString.length)
+        for (let i = 0; i < binaryString.length; i++) {
+          bytes[i] = binaryString.charCodeAt(i)
         }
-        throw new Error(errorData.error || 'Failed to combine chunks')
+        allBytes.push(bytes)
       }
-
-      const result = await combineResponse.json()
-      console.log('[MediaManager] Upload successful:', result.fileName)
-      return result.url
+      
+      // Combinar todos los bytes
+      const totalLength = allBytes.reduce((sum, arr) => sum + arr.length, 0)
+      const combinedBytes = new Uint8Array(totalLength)
+      let offset = 0
+      for (const bytes of allBytes) {
+        combinedBytes.set(bytes, offset)
+        offset += bytes.length
+      }
+      
+      // Convertir a base64 completo
+      const binaryString = String.fromCharCode(...combinedBytes)
+      const combinedBase64 = btoa(binaryString)
+      
+      // Generar nombre único para el archivo
+      const timestamp = Date.now()
+      const randomString = Math.random().toString(36).substring(2, 8)
+      const fileExtension = file.name.split('.').pop()
+      const fileName = `${timestamp}_${randomString}.${fileExtension}`
+      
+      // Crear data URL
+      const publicUrl = `data:${file.type};base64,${combinedBase64}`
+      
+      console.log('[MediaManager] Upload successful (combined in client):', fileName)
+      return publicUrl
     } catch (error) {
       console.error('[MediaManager] Error combining chunks:', error)
       throw error
