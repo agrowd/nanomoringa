@@ -9,11 +9,12 @@ import { Badge } from "@/components/ui/badge"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
 import { useToast } from "@/hooks/use-toast"
-import { ArrowLeft, LogOut, QrCode, MessageSquare, RefreshCw, Save, MessageCircle } from "lucide-react"
+import { ArrowLeft, LogOut, QrCode, MessageSquare, RefreshCw, Save, MessageCircle, Image as ImageIcon } from "lucide-react"
 import Image from "next/image"
 import { WhatsAppStatus } from "@/components/admin/whatsapp-status"
 import { WhatsAppQR } from "@/components/admin/whatsapp-qr"
 import { WhatsAppConversations } from "@/components/admin/whatsapp-conversations"
+import { BotMessagesEditor, type BotMessage } from "@/components/admin/bot-messages-editor"
 
 export default function WhatsAppConfiguracionPage() {
   const { isAuthenticated, logout } = useAdminAuth()
@@ -22,8 +23,9 @@ export default function WhatsAppConfiguracionPage() {
   const [isConnected, setIsConnected] = useState(false)
   const [qrCode, setQrCode] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(true)
-  const [botMessages, setBotMessages] = useState<string>("")
+  const [botMessages, setBotMessages] = useState<BotMessage[]>([])
   const [isSaving, setIsSaving] = useState(false)
+  const [isEditorOpen, setIsEditorOpen] = useState(false)
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -56,25 +58,41 @@ export default function WhatsAppConfiguracionPage() {
   const loadBotMessages = async () => {
     try {
       // TODO: Hacer fetch a /api/whatsapp/bot-messages
-      // Por ahora mock - mensaje inicial por defecto
-      const defaultMessage = `¡Hola! 👋 Bienvenido a Nano Moringa 🌿
-
-Soy tu asistente virtual y estoy aquí para ayudarte con información sobre nuestros productos naturales.
-
-¿En qué puedo ayudarte hoy?`
-      setBotMessages(defaultMessage)
+      // Por ahora mock - mensajes iniciales por defecto
+      const defaultMessages: BotMessage[] = [
+        {
+          id: "msg-1",
+          type: "text",
+          content: "¡Hola! 👋 Bienvenido a Nano Moringa 🌿",
+          delay: 0,
+        },
+        {
+          id: "msg-2",
+          type: "text",
+          content: "Soy tu asistente virtual y estoy aquí para ayudarte con información sobre nuestros productos naturales.",
+          delay: 1,
+        },
+        {
+          id: "msg-3",
+          type: "text",
+          content: "¿En qué puedo ayudarte hoy?",
+          delay: 1,
+        },
+      ]
+      setBotMessages(defaultMessages)
     } catch (error) {
       console.error("Error loading bot messages:", error)
     }
   }
 
-  const handleSaveMessages = async () => {
+  const handleSaveMessages = async (messages: BotMessage[]) => {
     try {
       setIsSaving(true)
-      // TODO: Hacer POST a /api/whatsapp/bot-messages
+      // TODO: Hacer POST a /api/whatsapp/bot-messages con el formato JSON
       // Por ahora solo simular
       await new Promise(resolve => setTimeout(resolve, 500))
       
+      setBotMessages(messages)
       toast({
         title: "Mensajes guardados",
         description: "La cadena de mensajes iniciales se ha actualizado correctamente.",
@@ -244,30 +262,47 @@ Soy tu asistente virtual y estoy aquí para ayudarte con información sobre nues
             </CardTitle>
             <p className="text-sm text-gray-600 mt-2">
               Edita los mensajes que se enviarán automáticamente cuando una persona inicie una conversación.
-              Puedes usar saltos de línea para crear múltiples mensajes.
+              Puedes agregar texto, imágenes y configurar delays entre mensajes.
             </p>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="bot-messages">Mensajes del Bot</Label>
-              <Textarea
-                id="bot-messages"
-                value={botMessages}
-                onChange={(e) => setBotMessages(e.target.value)}
-                placeholder="Escribe los mensajes que se enviarán al inicio de la conversación..."
-                className="min-h-[200px] font-mono text-sm"
-              />
-              <p className="text-xs text-gray-500">
-                Cada línea será un mensaje separado. Usa saltos de línea para crear múltiples mensajes.
-              </p>
-            </div>
+            {/* Vista previa de mensajes */}
+            {botMessages.length > 0 && (
+              <div className="space-y-2 p-4 bg-gray-50 rounded-lg border border-gray-200">
+                <p className="text-sm font-semibold text-gray-700 mb-2">Vista Previa ({botMessages.length} mensajes):</p>
+                <div className="space-y-2 max-h-48 overflow-y-auto">
+                  {botMessages.map((msg, index) => (
+                    <div key={msg.id} className="flex items-start gap-2 text-xs">
+                      <Badge variant="outline" className="text-xs">
+                        #{index + 1}
+                      </Badge>
+                      {msg.type === "image" ? (
+                        <span className="text-gray-600 flex items-center gap-1">
+                          <ImageIcon className="h-3 w-3" />
+                          Imagen
+                        </span>
+                      ) : (
+                        <span className="text-gray-600 truncate flex-1">
+                          {msg.content.substring(0, 50)}{msg.content.length > 50 ? "..." : ""}
+                        </span>
+                      )}
+                      {msg.delay > 0 && (
+                        <Badge variant="outline" className="text-xs">
+                          +{msg.delay}s
+                        </Badge>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
             <Button
-              onClick={handleSaveMessages}
-              disabled={isSaving}
-              className="w-full sm:w-auto bg-green-600 hover:bg-green-700 text-white"
+              onClick={() => setIsEditorOpen(true)}
+              className="w-full bg-purple-600 hover:bg-purple-700 text-white"
             >
-              <Save className="mr-2 h-4 w-4" />
-              {isSaving ? "Guardando..." : "Guardar Mensajes"}
+              <MessageCircle className="mr-2 h-4 w-4" />
+              {botMessages.length > 0 ? "Editar Mensajes" : "Crear Cadena de Mensajes"}
             </Button>
           </CardContent>
         </Card>
@@ -294,6 +329,14 @@ Soy tu asistente virtual y estoy aquí para ayudarte con información sobre nues
           </CardContent>
         </Card>
       </div>
+
+      {/* Editor Modal */}
+      <BotMessagesEditor
+        open={isEditorOpen}
+        onClose={() => setIsEditorOpen(false)}
+        messages={botMessages}
+        onSave={handleSaveMessages}
+      />
     </div>
   )
 }
