@@ -41,7 +41,7 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-40 w-full border-b border-border bg-primary backdrop-blur supports-[backdrop-filter]:bg-primary/95">
-      <div className="container mx-auto flex h-16 sm:h-18 items-center justify-between gap-2 sm:gap-4 px-3 sm:px-4 lg:px-8 xl:px-12">
+      <div className="container mx-auto flex h-16 sm:h-18 items-center gap-2 sm:gap-4 px-3 sm:px-4 lg:px-8 xl:px-12">
         <Link href="/" className="flex items-center gap-2 sm:gap-3 shrink-0 group">
           <div className="relative">
             <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-primary-foreground flex items-center justify-center p-1 overflow-hidden transition-transform duration-300 group-hover:scale-105 shadow-lg">
@@ -58,7 +58,7 @@ export function Header() {
         </Link>
 
         {/* Desktop Navigation - Visible en pantallas medianas y grandes */}
-        <nav className="hidden md:flex items-center gap-4 lg:gap-6 xl:gap-8 flex-1 justify-center overflow-visible">
+        <nav className="hidden md:flex items-center gap-4 lg:gap-6 xl:gap-8 flex-1 justify-center shrink-0">
           {navLinks.map((link) => {
             if (link.onClick) {
               return (
@@ -84,7 +84,7 @@ export function Header() {
           })}
         </nav>
 
-        <div className="flex items-center gap-1 sm:gap-2 relative">
+        <div className="flex items-center gap-1 sm:gap-2 relative shrink-0 ml-auto">
           {/* Search Bar - Visible en todas las pantallas */}
           <div className="relative">
             <SearchBar isExpanded={isSearchExpanded} onToggle={toggleSearch} />
