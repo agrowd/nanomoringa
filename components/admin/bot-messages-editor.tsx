@@ -248,15 +248,15 @@ export function BotMessagesEditor({ open, onClose, messages: initialMessages, on
   return (
     <>
       <Dialog open={open} onOpenChange={handleCancel}>
-        <DialogContent className="max-w-4xl w-[95vw] max-h-[90vh] flex flex-col">
-          <DialogHeader>
+        <DialogContent className="max-w-4xl w-[95vw] max-h-[90vh] flex flex-col p-0 gap-0">
+          <DialogHeader className="flex-shrink-0 px-6 pt-6 pb-4 border-b">
             <DialogTitle>Editor de Cadena de Mensajes del Bot</DialogTitle>
             <p className="text-sm text-gray-600 mt-2">
               Construye la secuencia de mensajes que se enviarán automáticamente. Puedes agregar texto, imágenes y configurar delays entre mensajes.
             </p>
           </DialogHeader>
 
-          <div className="flex-1 overflow-y-auto space-y-4 py-4">
+          <div className="flex-1 overflow-y-auto space-y-4 py-4 px-6 min-h-0">
             {messages.length === 0 ? (
               <div className="text-center py-12 text-gray-500">
                 <MessageIcon className="h-12 w-12 mx-auto mb-4 text-gray-300" />
@@ -289,7 +289,7 @@ export function BotMessagesEditor({ open, onClose, messages: initialMessages, on
             )}
           </div>
 
-          <DialogFooter className="flex-shrink-0 gap-2">
+          <DialogFooter className="flex-shrink-0 gap-2 px-6 pb-6 pt-4 border-t bg-gray-50">
             <Button variant="outline" onClick={handleCancel}>
               Cancelar
             </Button>
