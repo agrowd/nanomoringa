@@ -69,33 +69,34 @@ function SortableMessageItem({ message, index, onEdit, onDelete }: SortableMessa
 
   return (
     <div ref={setNodeRef} style={style} className="relative">
-      <Card className="p-4 border-2 border-gray-200 hover:border-purple-500 transition-colors">
-        <div className="flex items-start gap-3">
+      <Card className="p-2 sm:p-4 border-2 border-gray-200 hover:border-purple-500 transition-colors">
+        <div className="flex items-start gap-2 sm:gap-3">
           <Button
             variant="ghost"
             size="icon"
-            className="h-6 w-6 cursor-grab active:cursor-grabbing mt-1"
+            className="h-5 w-5 sm:h-6 sm:w-6 cursor-grab active:cursor-grabbing mt-0.5 sm:mt-1 flex-shrink-0"
             {...attributes}
             {...listeners}
           >
-            <GripVertical className="h-4 w-4 text-gray-400" />
+            <GripVertical className="h-3 w-3 sm:h-4 sm:w-4 text-gray-400" />
           </Button>
           
-          <div className="flex-1">
-            <div className="flex items-center gap-2 mb-2">
-              <Badge variant={message.type === "image" ? "default" : "secondary"}>
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center gap-1.5 sm:gap-2 mb-1.5 sm:mb-2 flex-wrap">
+              <Badge variant={message.type === "image" ? "default" : "secondary"} className="text-xs">
                 {message.type === "image" ? (
                   <>
-                    <ImageIcon className="h-3 w-3 mr-1" />
-                    Imagen
+                    <ImageIcon className="h-2.5 w-2.5 sm:h-3 sm:w-3 mr-0.5 sm:mr-1" />
+                    <span className="hidden sm:inline">Imagen</span>
+                    <span className="sm:hidden">Img</span>
                   </>
                 ) : (
                   "Texto"
                 )}
               </Badge>
               {message.delay > 0 && (
-                <Badge variant="outline" className="flex items-center gap-1">
-                  <Clock className="h-3 w-3" />
+                <Badge variant="outline" className="flex items-center gap-0.5 sm:gap-1 text-xs">
+                  <Clock className="h-2.5 w-2.5 sm:h-3 sm:w-3" />
                   {message.delay}s
                 </Badge>
               )}
@@ -103,7 +104,7 @@ function SortableMessageItem({ message, index, onEdit, onDelete }: SortableMessa
             </div>
 
             {message.type === "image" ? (
-              <div className="relative w-full max-w-xs aspect-square rounded-lg overflow-hidden bg-gray-100 border border-gray-300">
+              <div className="relative w-full max-w-full sm:max-w-xs aspect-square rounded-lg overflow-hidden bg-gray-100 border border-gray-300">
                 <Image
                   src={message.content}
                   alt="Imagen del mensaje"
@@ -112,28 +113,28 @@ function SortableMessageItem({ message, index, onEdit, onDelete }: SortableMessa
                 />
               </div>
             ) : (
-              <p className="text-sm text-gray-700 whitespace-pre-wrap bg-gray-50 p-2 rounded border border-gray-200">
+              <p className="text-xs sm:text-sm text-gray-700 whitespace-pre-wrap bg-gray-50 p-1.5 sm:p-2 rounded border border-gray-200 break-words">
                 {message.content || "(Mensaje vacío)"}
               </p>
             )}
           </div>
 
-          <div className="flex gap-1">
+          <div className="flex gap-0.5 sm:gap-1 flex-shrink-0">
             <Button
               variant="ghost"
               size="icon"
-              className="h-8 w-8"
+              className="h-7 w-7 sm:h-8 sm:w-8"
               onClick={onEdit}
             >
-              <Edit className="h-4 w-4" />
+              <Edit className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
             </Button>
             <Button
               variant="ghost"
               size="icon"
-              className="h-8 w-8 text-red-600 hover:text-red-700"
+              className="h-7 w-7 sm:h-8 sm:w-8 text-red-600 hover:text-red-700"
               onClick={onDelete}
             >
-              <Trash2 className="h-4 w-4" />
+              <Trash2 className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
             </Button>
           </div>
         </div>
@@ -322,16 +323,16 @@ export function BotMessagesEditor({ open, onClose, messages: initialMessages, on
             </p>
           </DialogHeader>
 
-          <div className="space-y-4 py-4 px-4 sm:px-6 overflow-y-auto flex-1 min-h-0">
+          <div className="space-y-3 sm:space-y-4 py-3 sm:py-4 px-4 sm:px-6 overflow-y-auto flex-1 min-h-0">
             {/* Tipo de mensaje */}
-            <div className="space-y-2">
-              <Label>Tipo de Mensaje</Label>
+            <div className="space-y-1.5 sm:space-y-2">
+              <Label className="text-sm sm:text-base">Tipo de Mensaje</Label>
               <div className="flex gap-2">
                 <Button
                   type="button"
                   variant={messageType === "text" ? "default" : "outline"}
                   onClick={() => setMessageType("text")}
-                  className="flex-1"
+                  className="flex-1 text-xs sm:text-sm h-9 sm:h-10"
                 >
                   Texto
                 </Button>
@@ -339,9 +340,9 @@ export function BotMessagesEditor({ open, onClose, messages: initialMessages, on
                   type="button"
                   variant={messageType === "image" ? "default" : "outline"}
                   onClick={() => setMessageType("image")}
-                  className="flex-1"
+                  className="flex-1 text-xs sm:text-sm h-9 sm:h-10"
                 >
-                  <ImageIcon className="mr-2 h-4 w-4" />
+                  <ImageIcon className="mr-1 sm:mr-2 h-3.5 w-3.5 sm:h-4 sm:w-4" />
                   Imagen
                 </Button>
               </div>
@@ -349,19 +350,19 @@ export function BotMessagesEditor({ open, onClose, messages: initialMessages, on
 
             {/* Contenido según tipo */}
             {messageType === "text" ? (
-              <div className="space-y-2">
-                <Label htmlFor="message-text">Mensaje de Texto</Label>
+              <div className="space-y-1.5 sm:space-y-2">
+                <Label htmlFor="message-text" className="text-sm sm:text-base">Mensaje de Texto</Label>
                 <Textarea
                   id="message-text"
                   value={messageText}
                   onChange={(e) => setMessageText(e.target.value)}
                   placeholder="Escribe el mensaje que se enviará..."
-                  className="min-h-[120px]"
+                  className="min-h-[100px] sm:min-h-[120px] text-sm sm:text-base"
                 />
               </div>
             ) : (
-              <div className="space-y-2">
-                <Label>Imagen</Label>
+              <div className="space-y-1.5 sm:space-y-2">
+                <Label className="text-sm sm:text-base">Imagen</Label>
                 {messageImage ? (
                   <div className="relative w-full max-w-md aspect-square rounded-lg overflow-hidden bg-gray-100 border-2 border-gray-300">
                     <Image
@@ -380,7 +381,7 @@ export function BotMessagesEditor({ open, onClose, messages: initialMessages, on
                     </Button>
                   </div>
                 ) : (
-                  <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center">
+                  <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 sm:p-8 text-center">
                     <UploadButton
                       endpoint="imageUploader"
                       onClientUploadComplete={(res) => {
@@ -399,7 +400,7 @@ export function BotMessagesEditor({ open, onClose, messages: initialMessages, on
                           variant: "destructive",
                         })
                       }}
-                      className="ut-button:bg-purple-600 ut-button:hover:bg-purple-700"
+                      className="ut-button:bg-purple-600 ut-button:hover:bg-purple-700 ut-button:text-xs sm:ut-button:text-sm"
                     />
                   </div>
                 )}
@@ -407,8 +408,8 @@ export function BotMessagesEditor({ open, onClose, messages: initialMessages, on
             )}
 
             {/* Delay */}
-            <div className="space-y-2">
-              <Label htmlFor="message-delay">Delay antes de enviar (segundos)</Label>
+            <div className="space-y-1.5 sm:space-y-2">
+              <Label htmlFor="message-delay" className="text-sm sm:text-base">Delay antes de enviar (segundos)</Label>
               <Input
                 id="message-delay"
                 type="number"
@@ -417,6 +418,7 @@ export function BotMessagesEditor({ open, onClose, messages: initialMessages, on
                 value={messageDelay}
                 onChange={(e) => setMessageDelay(Number(e.target.value))}
                 placeholder="0"
+                className="text-sm sm:text-base h-9 sm:h-10"
               />
               <p className="text-xs text-gray-500">
                 Tiempo de espera antes de enviar este mensaje. 0 = enviar inmediatamente después del anterior.
