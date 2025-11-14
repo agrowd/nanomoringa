@@ -58,7 +58,7 @@ export function Header() {
               </Link>
 
         {/* Desktop Navigation - Oculto en mobile, visible desde md */}
-        <nav className="hidden md:flex items-center gap-2 lg:gap-4 xl:gap-6 justify-center flex-1 min-w-0 overflow-visible">
+        <nav className="hidden md:flex items-center gap-3 lg:gap-5 xl:gap-6 justify-center flex-1 overflow-visible">
           {navLinks.map((link) => {
             if (link.onClick) {
               return (
@@ -66,7 +66,7 @@ export function Header() {
                   key={link.href}
                   href={link.href}
                   onClick={link.onClick}
-                  className="text-sm lg:text-base xl:text-lg font-medium transition-all duration-300 text-primary-foreground/90 hover:text-primary-foreground hover:bg-primary-foreground/10 px-2 lg:px-3 xl:px-4 py-2 rounded-lg cursor-pointer whitespace-nowrap flex-shrink-0 min-w-fit"
+                  className="text-sm lg:text-base xl:text-lg font-medium transition-all duration-300 text-primary-foreground/90 hover:text-primary-foreground hover:bg-primary-foreground/10 px-3 lg:px-4 xl:px-5 py-2 rounded-lg cursor-pointer whitespace-nowrap flex-shrink-0"
                 >
                   {link.label}
                 </a>
@@ -76,7 +76,7 @@ export function Header() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="text-sm lg:text-base xl:text-lg font-medium transition-all duration-300 text-primary-foreground/90 hover:text-primary-foreground hover:bg-primary-foreground/10 px-2 lg:px-3 xl:px-4 py-2 rounded-lg whitespace-nowrap flex-shrink-0 min-w-fit"
+                className="text-sm lg:text-base xl:text-lg font-medium transition-all duration-300 text-primary-foreground/90 hover:text-primary-foreground hover:bg-primary-foreground/10 px-3 lg:px-4 xl:px-5 py-2 rounded-lg whitespace-nowrap flex-shrink-0"
               >
                 {link.label}
               </Link>
