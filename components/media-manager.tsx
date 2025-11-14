@@ -226,29 +226,8 @@ export function MediaManager({ images, videos, onImagesChange, onVideosChange }:
       // Ordenar chunks por índice
       const sortedChunks = chunks.sort((a, b) => a.chunkIndex - b.chunkIndex)
       
-      // Convertir cada chunk de base64 a Uint8Array y combinarlos
-      const allBytes: Uint8Array[] = []
-      for (const chunk of sortedChunks) {
-        const binaryString = atob(chunk.chunkData)
-        const bytes = new Uint8Array(binaryString.length)
-        for (let i = 0; i < binaryString.length; i++) {
-          bytes[i] = binaryString.charCodeAt(i)
-        }
-        allBytes.push(bytes)
-      }
-      
-      // Combinar todos los bytes
-      const totalLength = allBytes.reduce((sum, arr) => sum + arr.length, 0)
-      const combinedBytes = new Uint8Array(totalLength)
-      let offset = 0
-      for (const bytes of allBytes) {
-        combinedBytes.set(bytes, offset)
-        offset += bytes.length
-      }
-      
-      // Convertir a base64 completo
-      const binaryString = String.fromCharCode(...combinedBytes)
-      const combinedBase64 = btoa(binaryString)
+      // Combinar todos los base64 strings directamente (más eficiente)
+      const combinedBase64 = sortedChunks.map(chunk => chunk.chunkData).join('')
       
       // Generar nombre único para el archivo
       const timestamp = Date.now()
@@ -256,10 +235,14 @@ export function MediaManager({ images, videos, onImagesChange, onVideosChange }:
       const fileExtension = file.name.split('.').pop()
       const fileName = `${timestamp}_${randomString}.${fileExtension}`
       
-      // Crear data URL
+      // Crear data URL directamente con el base64 combinado
       const publicUrl = `data:${file.type};base64,${combinedBase64}`
       
-      console.log('[MediaManager] Upload successful (combined in client):', fileName)
+      console.log('[MediaManager] Upload successful (combined in client):', fileName, {
+        totalChunks: sortedChunks.length,
+        combinedSize: combinedBase64.length,
+        combinedSizeMB: (combinedBase64.length / (1024 * 1024)).toFixed(2)
+      })
       return publicUrl
     } catch (error) {
       console.error('[MediaManager] Error combining chunks:', error)
