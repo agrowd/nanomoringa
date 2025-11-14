@@ -25,6 +25,11 @@ const playfair = Playfair_Display({
 export const metadata: Metadata = {
   title: "Nano Moringa - Productos Medicinales 100% Naturales",
   description: "Productos Medicinales 100% naturales. Aceites micronizados para tu bienestar diario. Ventas por mayor y menor. Envíos a todo el país con asesoramiento personalizado.",
+  icons: {
+    icon: "/favicon.svg",
+    shortcut: "/favicon.svg",
+    apple: "/favicon.svg",
+  },
 }
 
 export default function RootLayout({

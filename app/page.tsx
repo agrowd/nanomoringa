@@ -69,13 +69,13 @@ export default function HomePage() {
 
     return (
       <div className="relative">
-        <div className="rounded-2xl overflow-hidden shadow-xl border-2 border-primary/20 aspect-[16/9] bg-gradient-to-br from-accent/20 to-primary/20">
+        <div className="rounded-2xl overflow-hidden shadow-xl border-2 border-primary/20 aspect-[16/9] bg-gradient-to-br from-accent/20 to-primary/20 flex items-center justify-center">
           <Image
             src={images[currentIndex]}
             alt={`Imagen ${currentIndex + 1} de Nano Moringa`}
             width={1200}
             height={675}
-            className="w-full h-full object-cover"
+            className="w-full h-full object-contain"
           />
         </div>
         {images.length > 1 && (
@@ -322,31 +322,31 @@ export default function HomePage() {
 
               {/* Galería de imágenes principales - Grid visual */}
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 mb-8 sm:mb-12">
-                <div className="rounded-2xl overflow-hidden shadow-xl border-2 border-primary/20 aspect-square">
+                <div className="rounded-2xl overflow-hidden shadow-xl border-2 border-primary/20 aspect-square bg-white flex items-center justify-center">
                   <Image
                     src="/uploads/nanomoringa-hero1.png"
                     alt="Producto natural Nano Moringa"
                     width={600}
                     height={600}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-contain"
                   />
                 </div>
-                <div className="rounded-2xl overflow-hidden shadow-xl border-2 border-primary/20 aspect-square">
+                <div className="rounded-2xl overflow-hidden shadow-xl border-2 border-primary/20 aspect-square bg-white flex items-center justify-center">
                   <Image
                     src="/uploads/nanomoringa-hero-2.png"
                     alt="Producto natural Nano Moringa"
                     width={600}
                     height={600}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-contain"
                   />
                 </div>
-                <div className="rounded-2xl overflow-hidden shadow-xl border-2 border-primary/20 aspect-square">
+                <div className="rounded-2xl overflow-hidden shadow-xl border-2 border-primary/20 aspect-square bg-white flex items-center justify-center">
                   <Image
                     src="/uploads/nanomoringa-hero4.jpeg"
                     alt="Producto natural Nano Moringa"
                     width={600}
                     height={600}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-contain"
                   />
                 </div>
               </div>

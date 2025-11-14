@@ -1,4 +1,26 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-  <rect width="100" height="100" fill="#8B5CF6"/>
-  <text y="0.9em" font-size="60" text-anchor="middle" x="50" fill="white">🛒</text>
+<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Fondo blanco -->
+  <rect width="32" height="32" fill="white" rx="4"/>
+  
+  <!-- Gotero/Botella de aceite -->
+  <!-- Cuerpo del gotero (redondeado) -->
+  <path d="M16 5C14.3 5 13 6.3 13 8V19.5C13 20.9 14.1 22 15.5 22H16.5C17.9 22 19 20.9 19 19.5V8C19 6.3 17.7 5 16 5Z" fill="#294E3A"/>
+  
+  <!-- Aceite dentro del gotero (verde medio) -->
+  <path d="M16 6.5C15.4 6.5 14.8 6.8 14.8 7.5V18.5C14.8 19.2 15.4 19.5 16 19.5C16.6 19.5 17.2 19.2 17.2 18.5V7.5C17.2 6.8 16.6 6.5 16 6.5Z" fill="#4A8F53"/>
+  
+  <!-- Cuello del gotero -->
+  <rect x="15.2" y="22" width="1.6" height="2.5" fill="#294E3A" rx="0.2"/>
+  
+  <!-- Tapa del gotero -->
+  <rect x="14" y="24.5" width="4" height="1.5" rx="0.3" fill="#294E3A"/>
+  
+  <!-- Gota cayendo -->
+  <ellipse cx="16" cy="27.5" rx="1.2" ry="1.8" fill="#4A8F53"/>
+  
+  <!-- Detalle de brillo en el aceite (reflejo) -->
+  <ellipse cx="15.2" cy="9" rx="0.8" ry="1.2" fill="#6B8E23" opacity="0.5"/>
+  
+  <!-- Línea de separación en el cuello -->
+  <line x1="15.2" y1="23.5" x2="16.8" y2="23.5" stroke="#3A7A43" stroke-width="0.3"/>
 </svg>
