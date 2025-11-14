@@ -76,36 +76,47 @@ export function MediaManager({ images, videos, onImagesChange, onVideosChange }:
   }
 
   const uploadFile = async (file: File, type: 'image' | 'video'): Promise<string> => {
-    let fileToUpload = file
-    
+    console.log('[MediaManager] ===== UPLOAD FILE START =====')
     console.log('[MediaManager] Uploading file:', {
       name: file.name,
       size: file.size,
+      sizeMB: (file.size / (1024 * 1024)).toFixed(2),
       type: file.type
     })
+    
+    // Para videos, SIEMPRE usar chunking si es mayor a 2MB
+    // Para imágenes, comprimir primero
+    let fileToUpload = file
+    const CHUNK_SIZE = 3 * 1024 * 1024 // 3MB por chunk
+    const CHUNK_THRESHOLD = 2 * 1024 * 1024 // 2MB threshold para activar chunking
+    
+    // Para videos grandes, usar chunking directamente
+    if (type === 'video' && file.size > CHUNK_THRESHOLD) {
+      console.log('[MediaManager] Video is large, using chunking directly...')
+      return await uploadFileInChunks(file, type, CHUNK_SIZE)
+    }
     
     // Comprimir imágenes para reducir el tamaño
     if (type === 'image') {
       try {
         console.log('[MediaManager] Compressing image...')
-        // Comprimir más agresivamente para reducir el payload total
         const quality = file.size > 2 * 1024 * 1024 ? 0.6 : 0.8
         fileToUpload = await compressImage(file, quality)
-        console.log('[MediaManager] Compressed size:', fileToUpload.size)
+        console.log('[MediaManager] Compressed size:', fileToUpload.size, 'MB:', (fileToUpload.size / (1024 * 1024)).toFixed(2))
       } catch (error) {
         console.warn('[MediaManager] Compression failed, using original file')
         fileToUpload = file
       }
     }
 
-    // Para archivos grandes (>3MB), usar chunking
-    const CHUNK_SIZE = 3 * 1024 * 1024 // 3MB por chunk (dejamos margen para headers)
-    const useChunking = fileToUpload.size > CHUNK_SIZE
+    // Verificar si necesita chunking después de compresión
+    const useChunking = fileToUpload.size > CHUNK_THRESHOLD
 
     console.log('[MediaManager] File size check:', {
-      size: fileToUpload.size,
+      originalSize: file.size,
+      processedSize: fileToUpload.size,
       sizeMB: (fileToUpload.size / (1024 * 1024)).toFixed(2),
-      chunkSize: CHUNK_SIZE,
+      chunkThreshold: CHUNK_THRESHOLD,
       useChunking
     })
 
