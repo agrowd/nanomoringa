@@ -58,7 +58,7 @@ export function Header() {
         </Link>
 
         {/* Desktop Navigation - Visible en pantallas medianas y grandes */}
-        <nav className="hidden md:flex items-center gap-4 lg:gap-6 xl:gap-8 justify-center flex-grow" style={{ minWidth: 0 }}>
+        <nav className="hidden md:flex items-center gap-4 lg:gap-6 xl:gap-8 justify-center flex-1 min-w-0">
           {navLinks.map((link) => {
             if (link.onClick) {
               return (
@@ -66,8 +66,7 @@ export function Header() {
                   key={link.href}
                   href={link.href}
                   onClick={link.onClick}
-                  className="text-base lg:text-lg font-medium transition-all duration-300 text-primary-foreground/90 hover:text-primary-foreground hover:bg-primary-foreground/10 px-4 lg:px-5 py-2 rounded-lg cursor-pointer"
-                  style={{ whiteSpace: 'nowrap', textOverflow: 'clip', overflow: 'visible', flex: '0 0 auto' }}
+                  className="text-base lg:text-lg font-medium transition-all duration-300 text-primary-foreground/90 hover:text-primary-foreground hover:bg-primary-foreground/10 px-4 lg:px-5 py-2 rounded-lg cursor-pointer whitespace-nowrap flex-shrink-0"
                 >
                   {link.label}
                 </a>
@@ -77,8 +76,7 @@ export function Header() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="text-base lg:text-lg font-medium transition-all duration-300 text-primary-foreground/90 hover:text-primary-foreground hover:bg-primary-foreground/10 px-4 lg:px-5 py-2 rounded-lg"
-                style={{ whiteSpace: 'nowrap', textOverflow: 'clip', overflow: 'visible', flex: '0 0 auto' }}
+                className="text-base lg:text-lg font-medium transition-all duration-300 text-primary-foreground/90 hover:text-primary-foreground hover:bg-primary-foreground/10 px-4 lg:px-5 py-2 rounded-lg whitespace-nowrap flex-shrink-0"
               >
                 {link.label}
               </Link>
