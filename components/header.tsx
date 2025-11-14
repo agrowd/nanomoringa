@@ -42,20 +42,20 @@ export function Header() {
   return (
     <header className="sticky top-0 z-40 w-full border-b border-border bg-primary backdrop-blur supports-[backdrop-filter]:bg-primary/95">
       <div className="w-full max-w-[1920px] mx-auto flex h-16 sm:h-18 items-center gap-2 sm:gap-4 px-3 sm:px-4 lg:px-8 xl:px-12">
-        <Link href="/" className="flex items-center gap-2 sm:gap-3 shrink-0 group">
-          <div className="relative">
-            <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-primary-foreground flex items-center justify-center p-1 overflow-hidden transition-transform duration-300 group-hover:scale-105 shadow-lg">
-              <Image
-                src="/brand/nanomoringa-logo.png"
-                alt="Nano Moringa"
-                width={48}
-                height={48}
-                className="object-contain w-full h-full"
-              />
-            </div>
-            <div className="absolute inset-0 bg-gradient-to-r from-green-400/20 to-emerald-400/20 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-md"></div>
-          </div>
-        </Link>
+              <Link href="/" className="flex items-center gap-2 sm:gap-3 shrink-0 group">
+                <div className="relative">
+                  <div className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 rounded-full bg-primary-foreground flex items-center justify-center p-1.5 sm:p-2 overflow-hidden transition-transform duration-300 group-hover:scale-105 shadow-lg">
+                    <Image
+                      src="/brand/nanomoringa-logo.png"
+                      alt="Nano Moringa"
+                      width={80}
+                      height={80}
+                      className="object-contain w-full h-full"
+                    />
+                  </div>
+                  <div className="absolute inset-0 bg-gradient-to-r from-green-400/20 to-emerald-400/20 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-md"></div>
+                </div>
+              </Link>
 
         {/* Desktop Navigation - Siempre visible excepto en mobile muy pequeño */}
         <nav className="flex items-center gap-4 lg:gap-6 xl:gap-8 justify-center flex-1 min-w-0">

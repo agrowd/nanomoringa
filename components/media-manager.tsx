@@ -4,11 +4,28 @@ import { useState, useRef } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { X, Image as ImageIcon, Video, Upload } from "lucide-react"
+import { X, Image as ImageIcon, Video, Upload, ArrowUp, ArrowDown, GripVertical } from "lucide-react"
 import Image from "next/image"
 import { useToast } from "@/hooks/use-toast"
 import { UploadButton } from "@/lib/uploadthing"
 import { ImageCropModal } from "@/components/image-crop-modal"
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  DragEndEvent,
+} from "@dnd-kit/core"
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  useSortable,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable"
+import { CSS } from "@dnd-kit/utilities"
 
 interface MediaManagerProps {
   images: string[]
@@ -17,12 +34,190 @@ interface MediaManagerProps {
   onVideosChange: (videos: string[]) => void
 }
 
+interface SortableImageItemProps {
+  image: string
+  index: number
+  total: number
+  onRemove: () => void
+  onMoveUp: () => void
+  onMoveDown: () => void
+}
+
+interface SortableVideoItemProps {
+  video: string
+  index: number
+  total: number
+  onRemove: () => void
+  onMoveUp: () => void
+  onMoveDown: () => void
+}
+
+function SortableImageItem({ image, index, total, onRemove, onMoveUp, onMoveDown }: SortableImageItemProps) {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id: `image-${index}` })
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    opacity: isDragging ? 0.5 : 1,
+  }
+
+  return (
+    <div ref={setNodeRef} style={style} className="relative group">
+      <div className="aspect-square rounded-lg overflow-hidden bg-gray-100 border-2 border-transparent group-hover:border-purple-500 transition-colors">
+        <Image
+          src={image}
+          alt={`Imagen ${index + 1}`}
+          fill
+          className="object-cover"
+        />
+      </div>
+      <div className="absolute top-2 left-2 flex gap-1">
+        <Button
+          variant="secondary"
+          size="icon"
+          className="h-6 w-6 bg-white/90 hover:bg-white opacity-0 group-hover:opacity-100 transition-opacity cursor-grab active:cursor-grabbing"
+          {...attributes}
+          {...listeners}
+        >
+          <GripVertical className="h-3 w-3" />
+        </Button>
+      </div>
+      <div className="absolute top-2 right-2 flex gap-1">
+        {index > 0 && (
+          <Button
+            variant="secondary"
+            size="icon"
+            className="h-6 w-6 bg-white/90 hover:bg-white opacity-0 group-hover:opacity-100 transition-opacity"
+            onClick={onMoveUp}
+            title="Mover arriba"
+          >
+            <ArrowUp className="h-3 w-3" />
+          </Button>
+        )}
+        {index < total - 1 && (
+          <Button
+            variant="secondary"
+            size="icon"
+            className="h-6 w-6 bg-white/90 hover:bg-white opacity-0 group-hover:opacity-100 transition-opacity"
+            onClick={onMoveDown}
+            title="Mover abajo"
+          >
+            <ArrowDown className="h-3 w-3" />
+          </Button>
+        )}
+        <Button
+          variant="destructive"
+          size="icon"
+          className="h-6 w-6 bg-white/90 hover:bg-white opacity-0 group-hover:opacity-100 transition-opacity"
+          onClick={onRemove}
+          title="Eliminar"
+        >
+          <X className="h-3 w-3" />
+        </Button>
+      </div>
+      <Badge className="absolute bottom-2 left-2 text-xs">
+        {index === 0 ? "Principal" : `#${index + 1}`}
+      </Badge>
+    </div>
+  )
+}
+
+function SortableVideoItem({ video, index, total, onRemove, onMoveUp, onMoveDown }: SortableVideoItemProps) {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id: `video-${index}` })
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    opacity: isDragging ? 0.5 : 1,
+  }
+
+  return (
+    <div ref={setNodeRef} style={style} className="relative group">
+      <div className="aspect-video rounded-lg overflow-hidden bg-gray-100 border-2 border-transparent group-hover:border-purple-500 transition-colors">
+        <video
+          src={video}
+          controls
+          className="w-full h-full object-cover"
+        />
+      </div>
+      <div className="absolute top-2 left-2 flex gap-1">
+        <Button
+          variant="secondary"
+          size="icon"
+          className="h-6 w-6 bg-white/90 hover:bg-white opacity-0 group-hover:opacity-100 transition-opacity cursor-grab active:cursor-grabbing"
+          {...attributes}
+          {...listeners}
+        >
+          <GripVertical className="h-3 w-3" />
+        </Button>
+      </div>
+      <div className="absolute top-2 right-2 flex gap-1">
+        {index > 0 && (
+          <Button
+            variant="secondary"
+            size="icon"
+            className="h-6 w-6 bg-white/90 hover:bg-white opacity-0 group-hover:opacity-100 transition-opacity"
+            onClick={onMoveUp}
+            title="Mover arriba"
+          >
+            <ArrowUp className="h-3 w-3" />
+          </Button>
+        )}
+        {index < total - 1 && (
+          <Button
+            variant="secondary"
+            size="icon"
+            className="h-6 w-6 bg-white/90 hover:bg-white opacity-0 group-hover:opacity-100 transition-opacity"
+            onClick={onMoveDown}
+            title="Mover abajo"
+          >
+            <ArrowDown className="h-3 w-3" />
+          </Button>
+        )}
+        <Button
+          variant="destructive"
+          size="icon"
+          className="h-6 w-6 bg-white/90 hover:bg-white opacity-0 group-hover:opacity-100 transition-opacity"
+          onClick={onRemove}
+          title="Eliminar"
+        >
+          <X className="h-3 w-3" />
+        </Button>
+      </div>
+      <Badge className="absolute bottom-2 left-2 text-xs">
+        Video #{index + 1}
+      </Badge>
+    </div>
+  )
+}
+
 export function MediaManager({ images, videos, onImagesChange, onVideosChange }: MediaManagerProps) {
   const { toast } = useToast()
   const fileInputRef = useRef<HTMLInputElement>(null)
   const [cropModalOpen, setCropModalOpen] = useState(false)
   const [imageToCrop, setImageToCrop] = useState<string | null>(null)
   const [uploading, setUploading] = useState(false)
+
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  )
 
   const removeImage = (index: number) => {
     const newImages = images.filter((_, i) => i !== index)
@@ -40,6 +235,78 @@ export function MediaManager({ images, videos, onImagesChange, onVideosChange }:
       title: "Video eliminado",
       description: "El video ha sido eliminado correctamente.",
     })
+  }
+
+  const moveImageUp = (index: number) => {
+    if (index === 0) return
+    const newImages = arrayMove(images, index, index - 1)
+    onImagesChange(newImages)
+    toast({
+      title: "Orden actualizado",
+      description: "La imagen se movió correctamente.",
+    })
+  }
+
+  const moveImageDown = (index: number) => {
+    if (index === images.length - 1) return
+    const newImages = arrayMove(images, index, index + 1)
+    onImagesChange(newImages)
+    toast({
+      title: "Orden actualizado",
+      description: "La imagen se movió correctamente.",
+    })
+  }
+
+  const moveVideoUp = (index: number) => {
+    if (index === 0) return
+    const newVideos = arrayMove(videos, index, index - 1)
+    onVideosChange(newVideos)
+    toast({
+      title: "Orden actualizado",
+      description: "El video se movió correctamente.",
+    })
+  }
+
+  const moveVideoDown = (index: number) => {
+    if (index === videos.length - 1) return
+    const newVideos = arrayMove(videos, index, index + 1)
+    onVideosChange(newVideos)
+    toast({
+      title: "Orden actualizado",
+      description: "El video se movió correctamente.",
+    })
+  }
+
+  const handleImagesDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event
+
+    if (over && active.id !== over.id) {
+      const oldIndex = images.findIndex((_, i) => `image-${i}` === active.id)
+      const newIndex = images.findIndex((_, i) => `image-${i}` === over.id)
+
+      const newImages = arrayMove(images, oldIndex, newIndex)
+      onImagesChange(newImages)
+      toast({
+        title: "Orden actualizado",
+        description: "Las imágenes se reordenaron correctamente.",
+      })
+    }
+  }
+
+  const handleVideosDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event
+
+    if (over && active.id !== over.id) {
+      const oldIndex = videos.findIndex((_, i) => `video-${i}` === active.id)
+      const newIndex = videos.findIndex((_, i) => `video-${i}` === over.id)
+
+      const newVideos = arrayMove(videos, oldIndex, newIndex)
+      onVideosChange(newVideos)
+      toast({
+        title: "Orden actualizado",
+        description: "Los videos se reordenaron correctamente.",
+      })
+    }
   }
 
   const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -142,31 +409,30 @@ export function MediaManager({ images, videos, onImagesChange, onVideosChange }:
         </CardHeader>
         <CardContent>
           {images.length > 0 ? (
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 mb-4">
-              {images.map((image, index) => (
-                <div key={index} className="relative group">
-                  <div className="aspect-square rounded-lg overflow-hidden bg-gray-100">
-                    <Image
-                      src={image}
-                      alt={`Imagen ${index + 1}`}
-                      fill
-                      className="object-cover"
+            <DndContext
+              sensors={sensors}
+              collisionDetection={closestCenter}
+              onDragEnd={handleImagesDragEnd}
+            >
+              <SortableContext
+                items={images.map((_, i) => `image-${i}`)}
+                strategy={verticalListSortingStrategy}
+              >
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 mb-4">
+                  {images.map((image, index) => (
+                    <SortableImageItem
+                      key={`image-${index}`}
+                      image={image}
+                      index={index}
+                      total={images.length}
+                      onRemove={() => removeImage(index)}
+                      onMoveUp={() => moveImageUp(index)}
+                      onMoveDown={() => moveImageDown(index)}
                     />
-                  </div>
-                  <Button
-                    variant="destructive"
-                    size="icon"
-                    className="absolute top-2 right-2 h-6 w-6 opacity-0 group-hover:opacity-100 transition-opacity"
-                    onClick={() => removeImage(index)}
-                  >
-                    <X className="h-3 w-3" />
-                  </Button>
-                  <Badge className="absolute bottom-2 left-2 text-xs">
-                    {index === 0 ? "Principal" : `#${index + 1}`}
-                  </Badge>
+                  ))}
                 </div>
-              ))}
-            </div>
+              </SortableContext>
+            </DndContext>
           ) : (
             <div className="text-center py-8 text-gray-500 mb-4">
               <ImageIcon className="h-12 w-12 mx-auto mb-4 text-gray-300" />
@@ -235,30 +501,30 @@ export function MediaManager({ images, videos, onImagesChange, onVideosChange }:
         </CardHeader>
         <CardContent>
           {videos.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
-              {videos.map((video, index) => (
-                <div key={index} className="relative group">
-                  <div className="aspect-video rounded-lg overflow-hidden bg-gray-100">
-                    <video
-                      src={video}
-                      controls
-                      className="w-full h-full object-cover"
+            <DndContext
+              sensors={sensors}
+              collisionDetection={closestCenter}
+              onDragEnd={handleVideosDragEnd}
+            >
+              <SortableContext
+                items={videos.map((_, i) => `video-${i}`)}
+                strategy={verticalListSortingStrategy}
+              >
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+                  {videos.map((video, index) => (
+                    <SortableVideoItem
+                      key={`video-${index}`}
+                      video={video}
+                      index={index}
+                      total={videos.length}
+                      onRemove={() => removeVideo(index)}
+                      onMoveUp={() => moveVideoUp(index)}
+                      onMoveDown={() => moveVideoDown(index)}
                     />
-                  </div>
-                  <Button
-                    variant="destructive"
-                    size="icon"
-                    className="absolute top-2 right-2 h-6 w-6 opacity-0 group-hover:opacity-100 transition-opacity"
-                    onClick={() => removeVideo(index)}
-                  >
-                    <X className="h-3 w-3" />
-                  </Button>
-                  <Badge className="absolute bottom-2 left-2 text-xs">
-                    Video #{index + 1}
-                  </Badge>
+                  ))}
                 </div>
-              ))}
-            </div>
+              </SortableContext>
+            </DndContext>
           ) : (
             <div className="text-center py-8 text-gray-500 mb-4">
               <Video className="h-12 w-12 mx-auto mb-4 text-gray-300" />

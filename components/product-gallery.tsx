@@ -5,6 +5,7 @@ import Image from "next/image"
 import { Card } from "@/components/ui/card"
 import { ChevronLeft, ChevronRight, ZoomIn, X, Maximize2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { VideoModal } from "@/components/video-modal"
 
 interface ProductGalleryProps {
   images: string[]
@@ -16,6 +17,8 @@ export function ProductGallery({ images, videos = [], productName }: ProductGall
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isZoomed, setIsZoomed] = useState(false)
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [isVideoModalOpen, setIsVideoModalOpen] = useState(false)
+  const [selectedVideoSrc, setSelectedVideoSrc] = useState<string>("")
   
   // Combinar imágenes y videos en un solo array
   const allMedia = [...images, ...videos]
@@ -35,11 +38,24 @@ export function ProductGallery({ images, videos = [], productName }: ProductGall
   }
 
   const openModal = () => {
-    setIsModalOpen(true)
+    if (isVideo(currentIndex)) {
+      setSelectedVideoSrc(currentMedia)
+      setIsVideoModalOpen(true)
+    } else {
+      setIsModalOpen(true)
+    }
   }
 
   const closeModal = () => {
     setIsModalOpen(false)
+  }
+
+  const handleVideoClick = (videoSrc: string, e?: React.MouseEvent) => {
+    if (e) {
+      e.stopPropagation()
+    }
+    setSelectedVideoSrc(videoSrc)
+    setIsVideoModalOpen(true)
   }
 
   return (
@@ -151,9 +167,13 @@ export function ProductGallery({ images, videos = [], productName }: ProductGall
           {allMedia.map((media, index) => (
             <button
               key={index}
-              onClick={() => {
-                setCurrentIndex(index)
-                openModal()
+              onClick={(e) => {
+                if (isVideo(index)) {
+                  handleVideoClick(media, e)
+                } else {
+                  setCurrentIndex(index)
+                  openModal()
+                }
               }}
               className={`relative aspect-square overflow-hidden rounded-lg border-2 transition-all cursor-pointer ${
                 index === currentIndex ? "border-[#8B5CF6]" : "border-transparent hover:border-muted-foreground"
@@ -292,6 +312,14 @@ export function ProductGallery({ images, videos = [], productName }: ProductGall
           </div>
         </div>
       )}
+      
+      {/* Video Modal */}
+      <VideoModal
+        open={isVideoModalOpen}
+        onClose={() => setIsVideoModalOpen(false)}
+        videoSrc={selectedVideoSrc}
+        videoTitle={productName}
+      />
     </div>
   )
 }

@@ -270,8 +270,8 @@ export default function HomePage() {
           <div className="container mx-auto px-4">
             <div className="max-w-7xl mx-auto">
               {/* Video principal - Grande y destacado */}
-              <div className="mb-8 sm:mb-12 lg:mb-16">
-                <div className="rounded-3xl overflow-hidden shadow-2xl border-4 border-primary/20 bg-black flex items-center justify-center" style={{ minHeight: '300px', maxHeight: '600px' }}>
+              <div className="mb-8 sm:mb-12 lg:mb-16 relative">
+                <div className="rounded-3xl overflow-hidden shadow-2xl border-4 border-primary/20 bg-gradient-to-br from-[#4A8F53] via-[#3A7A43] to-[#2A6A33] flex items-center justify-center relative" style={{ minHeight: '300px', maxHeight: '600px' }}>
                   <video
                     src="/uploads/video-nanomoringa.mp4"
                     className="w-full h-auto max-h-[600px] object-contain"
@@ -279,7 +279,35 @@ export default function HomePage() {
                     loop
                     muted
                     playsInline
+                    id="hero-video"
                   />
+                  {/* Botón de audio estético - Solo visible en desktop */}
+                  <div className="hidden md:block absolute bottom-6 right-6">
+                    <button
+                      onClick={(e) => {
+                        e.preventDefault()
+                        const video = document.getElementById('hero-video') as HTMLVideoElement
+                        if (video) {
+                          video.muted = !video.muted
+                          const button = e.currentTarget
+                          if (video.muted) {
+                            button.classList.remove('bg-green-600')
+                            button.classList.add('bg-white/20')
+                          } else {
+                            button.classList.remove('bg-white/20')
+                            button.classList.add('bg-green-600')
+                          }
+                        }
+                      }}
+                      className="group relative w-14 h-14 rounded-full bg-white/20 hover:bg-green-600 transition-all duration-300 flex items-center justify-center backdrop-blur-sm border-2 border-white/30 hover:border-green-400 shadow-lg hover:shadow-green-500/50"
+                      title="Activar/Desactivar audio"
+                    >
+                      <svg className="w-6 h-6 text-white transition-transform group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+                      </svg>
+                      <div className="absolute inset-0 rounded-full bg-green-500/20 opacity-0 group-hover:opacity-100 transition-opacity animate-ping"></div>
+                    </button>
+                  </div>
                 </div>
               </div>
 
