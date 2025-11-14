@@ -6,6 +6,9 @@ import { Toaster } from "@/components/ui/toaster"
 import { CartProvider } from "@/components/cart-provider"
 import { ChatWidget } from "@/components/chat-widget"
 import { WhatsAppChannelNotification } from "@/components/whatsapp-channel-notification"
+import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin"
+import { extractRouterConfig } from "uploadthing/server"
+import { ourFileRouter } from "@/app/api/uploadthing/core"
 
 const inter = Inter({
   subsets: ["latin"],
