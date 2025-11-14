@@ -41,7 +41,7 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-40 w-full border-b border-border bg-primary backdrop-blur supports-[backdrop-filter]:bg-primary/95">
-      <div className="container mx-auto flex h-16 sm:h-18 items-center gap-2 sm:gap-4 px-3 sm:px-4 lg:px-8 xl:px-12">
+      <div className="w-full max-w-[1920px] mx-auto flex h-16 sm:h-18 items-center gap-2 sm:gap-4 px-3 sm:px-4 lg:px-8 xl:px-12">
         <Link href="/" className="flex items-center gap-2 sm:gap-3 shrink-0 group">
           <div className="relative">
             <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-primary-foreground flex items-center justify-center p-1 overflow-hidden transition-transform duration-300 group-hover:scale-105 shadow-lg">
@@ -66,7 +66,7 @@ export function Header() {
                   key={link.href}
                   href={link.href}
                   onClick={link.onClick}
-                  className="text-base lg:text-lg font-medium transition-all duration-300 text-primary-foreground/90 hover:text-primary-foreground hover:bg-primary-foreground/10 px-4 lg:px-5 py-2 rounded-lg cursor-pointer whitespace-nowrap"
+                  className="text-base lg:text-lg font-medium transition-all duration-300 text-primary-foreground/90 hover:text-primary-foreground hover:bg-primary-foreground/10 px-4 lg:px-5 py-2 rounded-lg cursor-pointer whitespace-nowrap block"
                 >
                   {link.label}
                 </a>
@@ -76,7 +76,7 @@ export function Header() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="text-base lg:text-lg font-medium transition-all duration-300 text-primary-foreground/90 hover:text-primary-foreground hover:bg-primary-foreground/10 px-4 lg:px-5 py-2 rounded-lg whitespace-nowrap"
+                className="text-base lg:text-lg font-medium transition-all duration-300 text-primary-foreground/90 hover:text-primary-foreground hover:bg-primary-foreground/10 px-4 lg:px-5 py-2 rounded-lg whitespace-nowrap block"
               >
                 {link.label}
               </Link>
