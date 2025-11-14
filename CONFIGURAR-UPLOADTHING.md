@@ -2,7 +2,7 @@
 
 ## ✅ Clave SECRET recibida
 ```
-UPLOADTHING_SECRET=sk_live_11ef9d903e1c1fa088943e39b5fa64618a543fe37d2c7e2b59d2873048b3ce95
+UPLOADTHING_SECRET=sk_live_xxxxx  # Tu secret key de Uploadthing
 ```
 
 ## 📋 PASO 1: Obtener el APP_ID
@@ -17,8 +17,8 @@ UPLOADTHING_SECRET=sk_live_11ef9d903e1c1fa088943e39b5fa64618a543fe37d2c7e2b59d28
 Edita tu archivo `.env.local` y agrega estas dos líneas:
 
 ```env
-UPLOADTHING_SECRET=sk_live_11ef9d903e1c1fa088943e39b5fa64618a543fe37d2c7e2b59d2873048b3ce95
-UPLOADTHING_APP_ID=TU_APP_ID_AQUI
+UPLOADTHING_SECRET=sk_live_xxxxx  # Tu secret key de Uploadthing
+UPLOADTHING_APP_ID=xxxxx          # Tu app ID de Uploadthing
 ```
 
 ## ☁️ PASO 3: Configurar en Vercel (PRODUCCIÓN)
@@ -30,7 +30,7 @@ UPLOADTHING_APP_ID=TU_APP_ID_AQUI
 
    **Variable 1:**
    - Name: `UPLOADTHING_SECRET`
-   - Value: `sk_live_11ef9d903e1c1fa088943e39b5fa64618a543fe37d2c7e2b59d2873048b3ce95`
+   - Value: `sk_live_xxxxx` (tu secret key de Uploadthing)
    - Environment: `Production`, `Preview`, `Development` (marca las tres)
 
    **Variable 2:**
