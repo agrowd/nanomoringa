@@ -5,6 +5,21 @@ import { NextRequest } from 'next/server'
 
 const clients = new Set<ReadableStreamDefaultController>()
 
+// Función para emitir eventos a todos los clientes conectados
+export function emitEvent(event: { type: string; data: any }) {
+  const message = JSON.stringify(event)
+  const data = `data: ${message}\n\n`
+  
+  clients.forEach((controller) => {
+    try {
+      controller.enqueue(data)
+    } catch (error) {
+      // Cliente desconectado, removerlo
+      clients.delete(controller)
+    }
+  })
+}
+
 export async function GET(request: NextRequest) {
   const stream = new ReadableStream({
     start(controller) {
@@ -17,7 +32,11 @@ export async function GET(request: NextRequest) {
       // Limpiar cuando el cliente se desconecta
       request.signal.addEventListener('abort', () => {
         clients.delete(controller)
-        controller.close()
+        try {
+          controller.close()
+        } catch (e) {
+          // Ignorar errores al cerrar
+        }
       })
     }
   })
@@ -28,21 +47,6 @@ export async function GET(request: NextRequest) {
       'Cache-Control': 'no-cache',
       'Connection': 'keep-alive',
       'X-Accel-Buffering': 'no'
-    }
-  })
-}
-
-// Función para emitir eventos a todos los clientes conectados
-export function emitEvent(event: { type: string; data: any }) {
-  const message = JSON.stringify(event)
-  const data = `data: ${message}\n\n`
-  
-  clients.forEach((controller) => {
-    try {
-      controller.enqueue(data)
-    } catch (error) {
-      // Cliente desconectado, removerlo
-      clients.delete(controller)
     }
   })
 }

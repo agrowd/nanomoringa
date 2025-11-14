@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import { getConversationByPhone, saveMessage, createOrUpdateConversation, updateSession } from '@/lib/whatsapp-db'
+import { emitEvent } from '../events/route'
 
 // Webhook para recibir eventos del bot
 export async function POST(request: Request) {
@@ -18,7 +19,7 @@ export async function POST(request: Request) {
           'active'
         )
         
-        await saveMessage({
+        const savedMessage = await saveMessage({
           conversation_id: conversation.id,
           sender_type: 'user',
           sender_name: name,
@@ -29,7 +30,17 @@ export async function POST(request: Request) {
           read: false
         })
         
-        // Emitir evento SSE (se implementará después)
+        // Emitir evento SSE
+        emitEvent({
+          type: 'message_received',
+          data: {
+            conversation_id: conversation.id,
+            message_id: savedMessage.id,
+            phone,
+            name,
+            message
+          }
+        })
         break
         
       case 'message_sent':
@@ -38,7 +49,7 @@ export async function POST(request: Request) {
         
         const sentConversation = await getConversationByPhone(sentPhone)
         if (sentConversation) {
-          await saveMessage({
+          const savedSentMessage = await saveMessage({
             conversation_id: sentConversation.id,
             sender_type: 'bot',
             message_type: 'text',
@@ -46,6 +57,17 @@ export async function POST(request: Request) {
             whatsapp_message_id: message_id,
             whatsapp_status: 'sent',
             read: true
+          })
+          
+          // Emitir evento SSE
+          emitEvent({
+            type: 'message_sent',
+            data: {
+              conversation_id: sentConversation.id,
+              message_id: savedSentMessage.id,
+              phone: sentPhone,
+              message: sentMessage
+            }
           })
         }
         break
@@ -57,6 +79,16 @@ export async function POST(request: Request) {
           qr_code: data.qr_code,
           phone_number: data.phone_number,
           last_connected_at: data.connected_at
+        })
+        
+        // Emitir evento SSE
+        emitEvent({
+          type: 'status_update',
+          data: {
+            status: data.status,
+            qr_code: data.qr_code,
+            phone_number: data.phone_number
+          }
         })
         break
         

@@ -43,47 +43,122 @@ export function WhatsAppChatInterface() {
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const { toast } = useToast()
 
-  // Mock data - En producción esto vendrá de la API
+  // Cargar conversaciones desde la API
   useEffect(() => {
-    // Simular carga de conversaciones
-    const mockConversations: Conversation[] = [
-      {
-        id: "1",
-        name: "Juan Pérez",
-        phone: "+5491158082486",
-        lastMessage: "Hola, quiero consultar sobre productos",
-        lastMessageTime: new Date(),
-        unreadCount: 2,
-        messages: [
-          {
-            id: "m1",
-            text: "Hola, quiero consultar sobre productos",
-            sender: "user",
-            timestamp: new Date(Date.now() - 3600000),
-            status: "read"
-          },
-          {
-            id: "m2",
-            text: "¡Hola! 👋 Te ayudo con gusto. ¿Qué producto te interesa?",
-            sender: "bot",
-            timestamp: new Date(Date.now() - 3500000),
-            status: "read"
-          },
-          {
-            id: "m3",
-            text: "Me interesa el aceite",
-            sender: "user",
-            timestamp: new Date(Date.now() - 3400000),
-            status: "read"
+    const loadConversations = async () => {
+      try {
+        const response = await fetch("/api/whatsapp/conversations")
+        if (response.ok) {
+          const data = await response.json()
+          const convs: Conversation[] = data.map((conv: any) => ({
+            id: conv.id.toString(),
+            name: conv.name,
+            phone: conv.phone,
+            lastMessage: conv.lastMessage || "",
+            lastMessageTime: new Date(conv.lastMessageTime || conv.updated_at),
+            unreadCount: conv.unreadCount || 0,
+            messages: [] // Se cargarán cuando se seleccione
+          }))
+          setConversations(convs)
+          if (convs.length > 0 && !selectedConversation) {
+            setSelectedConversation(convs[0])
           }
-        ]
+        }
+      } catch (error) {
+        console.error("Error loading conversations:", error)
+        toast({
+          title: "Error",
+          description: "No se pudieron cargar las conversaciones",
+          variant: "destructive",
+        })
       }
-    ]
-    setConversations(mockConversations)
-    if (mockConversations.length > 0) {
-      setSelectedConversation(mockConversations[0])
     }
-  }, [])
+    
+    loadConversations()
+    
+    // SSE para tiempo real
+    const eventSource = new EventSource("/api/whatsapp/events")
+    eventSource.onmessage = (event) => {
+      const data = JSON.parse(event.data)
+      if (data.type === "message_received" || data.type === "message_sent") {
+        loadConversations()
+        // Reproducir sonido si hay mensaje nuevo
+        if (data.type === "message_received") {
+          playNotificationSound()
+        }
+      }
+    }
+    
+    return () => {
+      eventSource.close()
+    }
+  }, [toast])
+  
+  // Cargar mensajes cuando se selecciona una conversación
+  useEffect(() => {
+    if (!selectedConversation) return
+    
+    const loadMessages = async () => {
+      try {
+        const response = await fetch(`/api/whatsapp/messages?conversationId=${selectedConversation.id}`)
+        if (response.ok) {
+          const data = await response.json()
+          const msgs: Message[] = data.map((msg: any) => ({
+            id: msg.id.toString(),
+            text: msg.message,
+            sender: msg.sender_type === "user" ? "user" : "bot",
+            timestamp: new Date(msg.created_at),
+            status: msg.read ? "read" : msg.whatsapp_status || "sent",
+            media: msg.media_url ? {
+              type: msg.message_type === "image" ? "image" : "file",
+              url: msg.media_url
+            } : undefined
+          }))
+          
+          setSelectedConversation({
+            ...selectedConversation,
+            messages: msgs
+          })
+          
+          // Marcar como leído
+          const unreadMessages = msgs.filter(m => m.sender === "user" && m.status !== "read")
+          if (unreadMessages.length > 0) {
+            unreadMessages.forEach(msg => {
+              fetch(`/api/whatsapp/messages/${msg.id}/read`, { method: "POST" }).catch(console.error)
+            })
+          }
+        }
+      } catch (error) {
+        console.error("Error loading messages:", error)
+      }
+    }
+    
+    loadMessages()
+    
+    // Polling para nuevos mensajes cada 3 segundos
+    const interval = setInterval(loadMessages, 3000)
+    return () => clearInterval(interval)
+  }, [selectedConversation?.id, toast])
+  
+  // Función para reproducir sonido
+  const playNotificationSound = () => {
+    const audio = new Audio("/sounds/whatsapp-notification.mp3")
+    audio.volume = 0.5
+    audio.play().catch(() => {
+      // Si no hay archivo, usar beep del navegador
+      const beep = new AudioContext()
+      const oscillator = beep.createOscillator()
+      const gainNode = beep.createGain()
+      oscillator.connect(gainNode)
+      gainNode.connect(beep.destination)
+      oscillator.frequency.value = 800
+      oscillator.type = "sine"
+      gainNode.gain.setValueAtTime(0.3, beep.currentTime)
+      gainNode.gain.exponentialRampToValueAtTime(0.01, beep.currentTime + 0.5)
+      oscillator.start(beep.currentTime)
+      oscillator.stop(beep.currentTime + 0.5)
+    })
+  }
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
@@ -94,11 +169,11 @@ export function WhatsAppChatInterface() {
     conv.phone.includes(searchQuery)
   )
 
-  const handleSendMessage = () => {
+  const handleSendMessage = async () => {
     if (!messageText.trim() || !selectedConversation) return
 
     const newMessage: Message = {
-      id: `m${Date.now()}`,
+      id: `temp-${Date.now()}`,
       text: messageText,
       sender: "bot",
       timestamp: new Date(),
@@ -106,7 +181,7 @@ export function WhatsAppChatInterface() {
       replyTo: replyingTo?.id
     }
 
-    // Actualizar conversación
+    // Actualizar UI inmediatamente
     const updatedConversation = {
       ...selectedConversation,
       messages: [...selectedConversation.messages, newMessage],
@@ -119,38 +194,60 @@ export function WhatsAppChatInterface() {
       c.id === selectedConversation.id ? updatedConversation : c
     ))
 
+    const messageToSend = messageText
     setMessageText("")
     setReplyingTo(null)
 
-    // Simular envío
-    setTimeout(() => {
-      const sentMessage: Message = { ...newMessage, status: "sent" }
-      const updated = {
-        ...updatedConversation,
-        messages: updatedConversation.messages.map(m =>
-          m.id === newMessage.id ? sentMessage : m
-        )
-      }
-      setSelectedConversation(updated)
-      setConversations(conversations.map(c =>
-        c.id === selectedConversation.id ? updated : c
-      ))
-
-      // Simular entregado
-      setTimeout(() => {
-        const deliveredMessage: Message = { ...sentMessage, status: "delivered" }
-        const updated2 = {
-          ...updated,
-          messages: updated.messages.map(m =>
-            m.id === newMessage.id ? deliveredMessage : m
+    // Enviar a través de la API
+    try {
+      const response = await fetch("/api/whatsapp/send", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          phone: selectedConversation.phone,
+          message: messageToSend,
+          conversation_id: parseInt(selectedConversation.id)
+        })
+      })
+      
+      if (response.ok) {
+        const result = await response.json()
+        // Actualizar mensaje con ID real
+        const sentMessage: Message = {
+          ...newMessage,
+          id: result.message?.id?.toString() || newMessage.id,
+          status: "sent"
+        }
+        const updated = {
+          ...updatedConversation,
+          messages: updatedConversation.messages.map(m =>
+            m.id === newMessage.id ? sentMessage : m
           )
         }
-        setSelectedConversation(updated2)
+        setSelectedConversation(updated)
         setConversations(conversations.map(c =>
-          c.id === selectedConversation.id ? updated2 : c
+          c.id === selectedConversation.id ? updated : c
         ))
-      }, 1000)
-    }, 500)
+      } else {
+        throw new Error("Error al enviar mensaje")
+      }
+    } catch (error) {
+      console.error("Error sending message:", error)
+      toast({
+        title: "Error",
+        description: "No se pudo enviar el mensaje",
+        variant: "destructive",
+      })
+      // Revertir mensaje
+      const reverted = {
+        ...selectedConversation,
+        messages: selectedConversation.messages.filter(m => m.id !== newMessage.id)
+      }
+      setSelectedConversation(reverted)
+      setConversations(conversations.map(c =>
+        c.id === selectedConversation.id ? reverted : c
+      ))
+    }
   }
 
   const getStatusIcon = (status: Message["status"]) => {
