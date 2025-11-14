@@ -1,5 +1,11 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // Aumentar el límite de tamaño del body para uploads de videos
+  experimental: {
+    serverActions: {
+      bodySizeLimit: '50mb',
+    },
+  },
   eslint: {
     ignoreDuringBuilds: true,
   },

@@ -30,11 +30,15 @@ export async function POST(request: NextRequest) {
       }, { status: 400 })
     }
 
-    // Verificar el tamaño del archivo (máximo 5MB)
-    const maxSize = 5 * 1024 * 1024 // 5MB
+    // Verificar el tamaño del archivo (máximo 50MB para videos, 10MB para imágenes)
+    const maxImageSize = 10 * 1024 * 1024 // 10MB para imágenes
+    const maxVideoSize = 50 * 1024 * 1024 // 50MB para videos
+    const maxSize = type === 'video' ? maxVideoSize : maxImageSize
+    
     if (file.size > maxSize) {
+      const maxSizeMB = type === 'video' ? 50 : 10
       return NextResponse.json({ 
-        error: "File too large. Maximum size is 5MB." 
+        error: `File too large. Maximum size is ${maxSizeMB}MB.` 
       }, { status: 400 })
     }
 

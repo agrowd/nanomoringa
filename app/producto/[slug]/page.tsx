@@ -113,42 +113,6 @@ export default async function ProductPage({ params }: ProductPageProps) {
             </div>
 
             <ProductTabs product={product} />
-
-            {/* Sección de Cupones */}
-            <section className="py-12 bg-gradient-to-r from-purple-500/10 to-pink-500/10 rounded-2xl border border-purple-500/20">
-              <div className="container mx-auto px-4 text-center">
-                <div className="max-w-2xl mx-auto">
-                  <h3 className="text-2xl font-bold text-gray-900 mb-4">
-                    🎟️ ¡Aprovechá Cupones Exclusivos!
-                  </h3>
-                  <p className="text-gray-600 mb-6">
-                    Aplicá cupones de descuento sobre este producto y obtené hasta 50% OFF adicional. 
-                    Los cupones se suman a cualquier descuento que ya tenga el producto.
-                  </p>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                    <div className="bg-white/50 rounded-lg p-4">
-                      <div className="text-2xl mb-2">🎯</div>
-                      <h4 className="font-bold text-gray-900 mb-1">Cupones Acumulables</h4>
-                      <p className="text-sm text-gray-600">Se suman a los descuentos existentes</p>
-                    </div>
-                    <div className="bg-white/50 rounded-lg p-4">
-                      <div className="text-2xl mb-2">📱</div>
-                      <h4 className="font-bold text-gray-900 mb-1">Canal Exclusivo</h4>
-                      <p className="text-sm text-gray-600">Más cupones en nuestro canal de WhatsApp</p>
-                    </div>
-                  </div>
-                  <Button 
-                    asChild
-                    size="lg"
-                    className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-bold"
-                  >
-                    <a href="https://whatsapp.com/channel/0029Vb6grAvJuyA3fHqw1R1J" target="_blank" rel="noopener noreferrer">
-                      🎟️ Unirse al Canal
-                    </a>
-                  </Button>
-                </div>
-              </div>
-            </section>
           </div>
         </main>
         <Footer />
