@@ -57,8 +57,8 @@ export function Header() {
                 </div>
               </Link>
 
-        {/* Desktop Navigation - Oculto en mobile, visible desde md */}
-        <nav className="hidden md:flex items-center gap-3 lg:gap-5 xl:gap-6 justify-center flex-1 overflow-visible">
+        {/* Desktop Navigation - Visible desde md */}
+        <nav className="flex items-center gap-3 lg:gap-5 xl:gap-6 justify-center flex-1 overflow-visible md:flex hidden">
           {navLinks.map((link) => {
             if (link.onClick) {
               return (
@@ -105,9 +105,9 @@ export function Header() {
             )}
           </Button>
 
-          {/* Mobile Menu - Solo visible en pantallas pequeñas y medianas */}
+          {/* Mobile Menu - Solo visible cuando el menú está colapsado (mobile) */}
           <Sheet>
-            <SheetTrigger asChild className="md:hidden">
+            <SheetTrigger asChild className="flex md:hidden">
               <Button variant="ghost" size="icon" className="text-white hover:bg-white/10 h-8 w-8 sm:h-10 sm:w-10">
                 <Menu className="h-4 w-4 sm:h-5 sm:w-5" />
               </Button>

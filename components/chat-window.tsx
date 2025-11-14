@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { ChatForm } from "./chat-form"
 import { ChatMessages } from "./chat-messages"
+import { useToast } from "@/hooks/use-toast"
 
 interface Message {
   id: string
@@ -19,8 +20,87 @@ export function ChatWindow({ onClose }: { onClose: () => void }) {
   const [isFormSubmitted, setIsFormSubmitted] = useState(false)
   const [userInfo, setUserInfo] = useState<{ name: string; phone: string } | null>(null)
   const [inputValue, setInputValue] = useState("")
+  const [conversationId, setConversationId] = useState<number | null>(null)
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
+  const { toast } = useToast()
+
+  // Cargar datos guardados
+  useEffect(() => {
+    const savedName = localStorage.getItem("wa-chat-name")
+    const savedPhone = localStorage.getItem("wa-chat-phone")
+    const savedConvId = localStorage.getItem("wa-chat-conversation-id")
+    
+    if (savedName && savedPhone) {
+      setUserInfo({ name: savedName, phone: savedPhone })
+      setIsFormSubmitted(true)
+      if (savedConvId) {
+        setConversationId(parseInt(savedConvId))
+        loadMessages(parseInt(savedConvId))
+      }
+    } else {
+      // Mensaje inicial del bot
+      const welcomeMessage: Message = {
+        id: '1',
+        text: '¡Hola! 👋 Soy tu asistente de Nano Moringa. Para ayudarte mejor, necesito algunos datos básicos.',
+        sender: 'bot',
+        timestamp: new Date()
+      }
+      setMessages([welcomeMessage])
+    }
+  }, [])
+
+  // SSE para tiempo real
+  useEffect(() => {
+    if (!conversationId) return
+
+    const eventSource = new EventSource("/api/whatsapp/events")
+    eventSource.onmessage = (event) => {
+      const data = JSON.parse(event.data)
+      if (data.type === "message_received" || data.type === "message_sent") {
+        if (data.data?.conversation_id === conversationId) {
+          loadMessages(conversationId)
+          playNotificationSound()
+        }
+      }
+    }
+
+    return () => {
+      eventSource.close()
+    }
+  }, [conversationId])
+
+  const loadMessages = async (convId: number) => {
+    try {
+      const response = await fetch(`/api/whatsapp/messages?conversationId=${convId}`)
+      if (response.ok) {
+        const data = await response.json()
+        const msgs: Message[] = data.map((msg: any) => ({
+          id: msg.id.toString(),
+          text: msg.message,
+          sender: msg.sender_type === "user" ? "user" : "bot",
+          timestamp: new Date(msg.created_at)
+        }))
+        setMessages(msgs)
+      }
+    } catch (error) {
+      console.error("Error loading messages:", error)
+    }
+  }
+
+  const playNotificationSound = () => {
+    const beep = new AudioContext()
+    const oscillator = beep.createOscillator()
+    const gainNode = beep.createGain()
+    oscillator.connect(gainNode)
+    gainNode.connect(beep.destination)
+    oscillator.frequency.value = 800
+    oscillator.type = "sine"
+    gainNode.gain.setValueAtTime(0.3, beep.currentTime)
+    gainNode.gain.exponentialRampToValueAtTime(0.01, beep.currentTime + 0.5)
+    oscillator.start(beep.currentTime)
+    oscillator.stop(beep.currentTime + 0.5)
+  }
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
@@ -30,40 +110,48 @@ export function ChatWindow({ onClose }: { onClose: () => void }) {
     scrollToBottom()
   }, [messages])
 
-  useEffect(() => {
-    // Mensaje inicial del bot
-    if (!isFormSubmitted) {
-      const welcomeMessage: Message = {
-        id: '1',
-        text: '¡Hola! 👋 Soy tu asistente de Nano Moringa. Para ayudarte mejor, necesito algunos datos básicos.',
-        sender: 'bot',
-        timestamp: new Date()
-      }
-      setMessages([welcomeMessage])
-    }
-  }, [isFormSubmitted])
-
-  const handleFormSubmit = (name: string, phone: string) => {
+  const handleFormSubmit = async (name: string, phone: string) => {
     setUserInfo({ name, phone })
     setIsFormSubmitted(true)
     
-    // Mensajes automáticos después del formulario
-    const botMessages = [
-      {
-        id: Date.now().toString(),
-        text: `¡Perfecto ${name}! 🎉 Ahora puedo ayudarte mejor.`,
-        sender: 'bot' as const,
-        timestamp: new Date()
-      },
-      {
-        id: (Date.now() + 1).toString(),
-        text: '¿En qué te puedo ayudar hoy? Puedo contarte sobre nuestros productos naturales, ayudarte a elegir el ideal para vos, o resolver cualquier duda que tengas.',
-        sender: 'bot' as const,
-        timestamp: new Date()
-      }
-    ]
+    // Crear conversación en BD
+    try {
+      const response = await fetch("/api/whatsapp/messages", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          phone,
+          name,
+          sender_type: "user",
+          message: "Hola, quiero consultar sobre productos"
+        })
+      })
 
-    setMessages(prev => [...prev, ...botMessages])
+      if (response.ok) {
+        const data = await response.json()
+        const convId = data.conversation_id
+        
+        setConversationId(convId)
+        localStorage.setItem("wa-chat-name", name)
+        localStorage.setItem("wa-chat-phone", phone)
+        localStorage.setItem("wa-chat-conversation-id", convId.toString())
+        
+        // Cargar mensajes
+        loadMessages(convId)
+        
+        toast({
+          title: "Chat iniciado",
+          description: "Tu consulta ha sido enviada",
+        })
+      }
+    } catch (error) {
+      console.error("Error starting chat:", error)
+      toast({
+        title: "Error",
+        description: "No se pudo iniciar el chat",
+        variant: "destructive",
+      })
+    }
     
     // Focus en el input después de mostrar los mensajes
     setTimeout(() => {
@@ -71,29 +159,47 @@ export function ChatWindow({ onClose }: { onClose: () => void }) {
     }, 500)
   }
 
-  const handleSendMessage = (text: string) => {
-    if (!text.trim()) return
+  const handleSendMessage = async (text: string) => {
+    if (!text.trim() || !conversationId) return
 
     const userMessage: Message = {
-      id: Date.now().toString(),
+      id: `temp-${Date.now()}`,
       text: text.trim(),
       sender: 'user',
       timestamp: new Date()
     }
 
     setMessages(prev => [...prev, userMessage])
+    const textToSend = text.trim()
     setInputValue("")
 
-    // Respuesta automática del bot
-    setTimeout(() => {
-      const botResponse: Message = {
-        id: (Date.now() + 1).toString(),
-        text: '¡Gracias por tu mensaje! Te voy a conectar con nuestro equipo de asesores especializados. En unos minutos te van a contactar por WhatsApp para darte una atención personalizada. 💚',
-        sender: 'bot',
-        timestamp: new Date()
+    try {
+      const response = await fetch("/api/whatsapp/messages", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          phone: userInfo?.phone,
+          name: userInfo?.name,
+          sender_type: "user",
+          message: textToSend,
+          conversation_id: conversationId
+        })
+      })
+
+      if (response.ok) {
+        loadMessages(conversationId)
+      } else {
+        throw new Error("Error al enviar mensaje")
       }
-      setMessages(prev => [...prev, botResponse])
-    }, 1500)
+    } catch (error) {
+      console.error("Error sending message:", error)
+      setMessages(prev => prev.filter(m => m.id !== userMessage.id))
+      toast({
+        title: "Error",
+        description: "No se pudo enviar el mensaje",
+        variant: "destructive",
+      })
+    }
   }
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
