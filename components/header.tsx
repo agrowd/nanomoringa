@@ -44,13 +44,13 @@ export function Header() {
       <div className="container mx-auto flex h-18 items-center justify-between gap-4 px-4">
         <Link href="/" className="flex items-center gap-3 shrink-0 group">
           <div className="relative">
-            <div className="w-14 h-14 aspect-square rounded-full bg-primary-foreground flex items-center justify-center p-0.5 overflow-hidden transition-transform duration-300 group-hover:scale-105 shadow-lg">
+            <div className="w-14 h-14 rounded-full bg-primary-foreground flex items-center justify-center p-1 overflow-hidden transition-transform duration-300 group-hover:scale-105 shadow-lg">
               <Image
                 src="/brand/nanomoringa-logo.png"
                 alt="Nano Moringa"
-                width={56}
-                height={56}
-                className="object-contain w-full h-full"
+                width={52}
+                height={52}
+                className="object-contain"
               />
             </div>
             <div className="absolute inset-0 bg-gradient-to-r from-green-400/20 to-emerald-400/20 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-md"></div>
@@ -58,7 +58,7 @@ export function Header() {
         </Link>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center gap-6 flex-1 justify-center">
+        <nav className="hidden lg:flex items-center gap-6">
           {navLinks.map((link) => {
             if (link.onClick) {
               return (
@@ -106,7 +106,7 @@ export function Header() {
 
           {/* Mobile Menu */}
           <Sheet>
-            <SheetTrigger asChild className="md:hidden">
+            <SheetTrigger asChild className="lg:hidden">
               <Button variant="ghost" size="icon" className="text-white hover:bg-white/10">
                 <Menu className="h-5 w-5" />
               </Button>
