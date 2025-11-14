@@ -304,6 +304,12 @@ export function MediaManager({ images, videos, onImagesChange, onVideosChange }:
         }
 
         // Subir archivo real al servidor
+        console.log('[MediaManager] About to call uploadFile with:', {
+          name: file.name,
+          size: file.size,
+          sizeMB: (file.size / (1024 * 1024)).toFixed(2),
+          type: type
+        })
         const uploadedUrl = await uploadFile(file, type)
         newUrls.push(uploadedUrl)
         console.log('[MediaManager] URL added:', uploadedUrl.substring(0, 50) + '...')
