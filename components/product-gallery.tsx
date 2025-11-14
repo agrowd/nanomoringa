@@ -210,16 +210,16 @@ export function ProductGallery({ images, videos = [], productName }: ProductGall
 
       {/* Modal for fullscreen image view */}
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 bg-black/90 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="relative w-full h-full max-w-6xl max-h-[90vh] flex flex-col">
+        <div className="fixed inset-0 z-50 bg-black/90 backdrop-blur-sm flex items-center justify-center p-0 sm:p-4">
+          <div className="relative w-full h-full sm:max-w-6xl sm:max-h-[90vh] flex flex-col">
             {/* Close button */}
             <Button
               variant="ghost"
               size="icon"
-              className="absolute top-4 right-4 z-10 bg-white/10 hover:bg-white/20 text-white"
+              className="absolute top-2 right-2 sm:top-4 sm:right-4 z-10 bg-white/10 hover:bg-white/20 text-white h-8 w-8 sm:h-10 sm:w-10"
               onClick={closeModal}
             >
-              <X className="h-6 w-6" />
+              <X className="h-4 w-4 sm:h-6 sm:w-6" />
             </Button>
 
             {/* Main media */}
@@ -251,32 +251,32 @@ export function ProductGallery({ images, videos = [], productName }: ProductGall
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/10 hover:bg-white/20 text-white"
+                  className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 bg-white/10 hover:bg-white/20 text-white h-8 w-8 sm:h-10 sm:w-10"
                   onClick={goToPrevious}
                 >
-                  <ChevronLeft className="h-8 w-8" />
+                  <ChevronLeft className="h-5 w-5 sm:h-8 sm:w-8" />
                 </Button>
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/10 hover:bg-white/20 text-white"
+                  className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 bg-white/10 hover:bg-white/20 text-white h-8 w-8 sm:h-10 sm:w-10"
                   onClick={goToNext}
                 >
-                  <ChevronRight className="h-8 w-8" />
+                  <ChevronRight className="h-5 w-5 sm:h-8 sm:w-8" />
                 </Button>
 
                 {/* Media counter */}
-                <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-black/70 text-white px-3 py-1 rounded-full text-sm">
+                <div className="absolute bottom-2 sm:bottom-4 left-1/2 -translate-x-1/2 bg-black/70 text-white px-2 py-1 sm:px-3 rounded-full text-xs sm:text-sm">
                   {currentIndex + 1} / {allMedia.length}
                 </div>
 
                 {/* Thumbnail strip */}
-                <div className="flex gap-2 mt-4 justify-center overflow-x-auto pb-2">
+                <div className="flex gap-2 mt-2 sm:mt-4 justify-center overflow-x-auto pb-2 px-2">
                   {allMedia.map((media, index) => (
                     <button
                       key={index}
                       onClick={() => setCurrentIndex(index)}
-                      className={`relative w-16 h-16 overflow-hidden rounded-lg border-2 transition-all flex-shrink-0 ${
+                      className={`relative w-12 h-12 sm:w-16 sm:h-16 overflow-hidden rounded-lg border-2 transition-all flex-shrink-0 ${
                         index === currentIndex ? "border-white" : "border-white/30 hover:border-white/60"
                       }`}
                     >
