@@ -70,11 +70,11 @@ export default function HomePage() {
           <div className="absolute top-40 right-20 w-20 h-20 bg-lime-500/15 rounded-full blur-2xl animate-pulse delay-500"></div>
           <div className="absolute bottom-40 left-20 w-28 h-28 bg-teal-500/15 rounded-full blur-2xl animate-pulse delay-700"></div>
           
-          {/* Hojas flotantes decorativas */}
-          <div className="absolute top-32 right-24 text-6xl opacity-10 animate-float-slow">🌿</div>
-          <div className="absolute bottom-32 left-24 text-5xl opacity-10 animate-float-medium">🍃</div>
-          <div className="absolute top-60 left-32 text-4xl opacity-10 animate-float-fast">🌱</div>
-          <div className="absolute bottom-60 right-32 text-5xl opacity-10 animate-float-slow">💚</div>
+          {/* Hojas flotantes decorativas - Ocultas en mobile para mejor rendimiento */}
+          <div className="hidden md:block absolute top-32 right-24 text-6xl opacity-10 animate-float-slow">🌿</div>
+          <div className="hidden md:block absolute bottom-32 left-24 text-5xl opacity-10 animate-float-medium">🍃</div>
+          <div className="hidden md:block absolute top-60 left-32 text-4xl opacity-10 animate-float-fast">🌱</div>
+          <div className="hidden md:block absolute bottom-60 right-32 text-5xl opacity-10 animate-float-slow">💚</div>
 
           <div className="container mx-auto px-4 relative z-10 text-center max-w-6xl pt-20">
             {/* Logo and Title Section */}
@@ -97,45 +97,45 @@ export default function HomePage() {
             </div>
 
             {/* Subtitle */}
-            <p className="text-2xl sm:text-3xl md:text-4xl text-white mb-8 tracking-wide font-semibold text-center px-4 font-[family-name:var(--font-playfair)]">
+            <p className="text-xl sm:text-2xl md:text-3xl lg:text-4xl text-white mb-6 sm:mb-8 tracking-wide font-semibold text-center px-4 font-[family-name:var(--font-playfair)]">
               Productos Medicinales 100% Naturales 🌿
             </p>
 
             {/* Description - MÍNIMA */}
-            <p className="text-xl md:text-2xl text-gray-200 mb-12 max-w-2xl mx-auto text-center leading-relaxed">
+            <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-gray-200 mb-8 sm:mb-12 max-w-2xl mx-auto text-center leading-relaxed px-4">
               Aceites micronizados • Bienestar en cada gota
             </p>
 
             {/* Confianza Social */}
-            <div className="flex items-center justify-center gap-4 mb-12">
-              <div className="flex -space-x-3">
-                <div className="w-14 h-14 rounded-full bg-gradient-to-br from-green-600 to-emerald-600 border-2 border-[#294E3A] flex items-center justify-center shadow-lg text-2xl">
+            <div className="flex items-center justify-center gap-3 sm:gap-4 mb-8 sm:mb-12">
+              <div className="flex -space-x-2 sm:-space-x-3">
+                <div className="w-10 h-10 sm:w-12 sm:h-14 rounded-full bg-gradient-to-br from-green-600 to-emerald-600 border-2 border-[#294E3A] flex items-center justify-center shadow-lg text-xl sm:text-2xl">
                   🌿
                 </div>
-                <div className="w-14 h-14 rounded-full bg-gradient-to-br from-emerald-600 to-teal-600 border-2 border-[#294E3A] flex items-center justify-center shadow-lg text-2xl">
+                <div className="w-10 h-10 sm:w-12 sm:h-14 rounded-full bg-gradient-to-br from-emerald-600 to-teal-600 border-2 border-[#294E3A] flex items-center justify-center shadow-lg text-xl sm:text-2xl">
                   💚
                 </div>
-                <div className="w-14 h-14 rounded-full bg-gradient-to-br from-teal-600 to-green-600 border-2 border-[#294E3A] flex items-center justify-center shadow-lg text-2xl">
+                <div className="w-10 h-10 sm:w-12 sm:h-14 rounded-full bg-gradient-to-br from-teal-600 to-green-600 border-2 border-[#294E3A] flex items-center justify-center shadow-lg text-xl sm:text-2xl">
                   ✨
                 </div>
-                <div className="w-14 h-14 rounded-full bg-gradient-to-br from-lime-600 to-green-600 border-2 border-[#294E3A] flex items-center justify-center shadow-lg text-2xl">
+                <div className="w-10 h-10 sm:w-12 sm:h-14 rounded-full bg-gradient-to-br from-lime-600 to-green-600 border-2 border-[#294E3A] flex items-center justify-center shadow-lg text-xl sm:text-2xl">
                   🌱
                 </div>
               </div>
               <div className="text-left">
-                <p className="text-sm text-gray-300">
-                  <span className="text-white font-bold text-xl">21 mil</span> nos siguen
+                <p className="text-xs sm:text-sm text-gray-300">
+                  <span className="text-white font-bold text-base sm:text-lg lg:text-xl">21 mil</span> nos siguen
                 </p>
                 <p className="text-xs text-green-300">Bienestar diario</p>
               </div>
             </div>
 
             {/* Action Buttons */}
-            <div className="flex flex-col sm:flex-row gap-6 justify-between items-center mb-16 max-w-4xl mx-auto w-full px-4">
+            <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-between items-center mb-12 sm:mb-16 max-w-4xl mx-auto w-full px-4">
               <Button
                 asChild
                 size="lg"
-                className="bg-white/95 text-[#556B2F] hover:bg-white text-2xl px-12 py-8 font-bold shadow-2xl transition-all duration-300 transform hover:scale-110 rounded-2xl border-2 border-white"
+                className="bg-white/95 text-[#556B2F] hover:bg-white text-base sm:text-xl lg:text-2xl px-6 sm:px-10 lg:px-12 py-4 sm:py-6 lg:py-8 font-bold shadow-2xl transition-all duration-300 transform hover:scale-110 rounded-xl sm:rounded-2xl border-2 border-white w-full sm:w-auto"
               >
                 <Link href="/catalogo">🌿 Ver Productos</Link>
               </Button>
@@ -145,7 +145,7 @@ export default function HomePage() {
                   if (chatButton) chatButton.click()
                 }}
                 size="lg"
-                className="bg-gradient-to-r from-[#4A8F53] to-[#3A7A43] hover:from-[#3A7A43] hover:to-[#2A6A33] text-white text-2xl px-12 py-8 font-bold shadow-2xl shadow-green-500/30 transition-all duration-300 transform hover:scale-110 rounded-2xl"
+                className="bg-gradient-to-r from-[#4A8F53] to-[#3A7A43] hover:from-[#3A7A43] hover:to-[#2A6A33] text-white text-base sm:text-xl lg:text-2xl px-6 sm:px-10 lg:px-12 py-4 sm:py-6 lg:py-8 font-bold shadow-2xl shadow-green-500/30 transition-all duration-300 transform hover:scale-110 rounded-xl sm:rounded-2xl w-full sm:w-auto"
               >
                 💬 Consultar con Asesor
               </Button>
@@ -158,47 +158,47 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section className="py-16 bg-gradient-to-br from-[#556B2F] via-[#6B8E23] to-[#556B2F] border-y border-accent/20">
+        <section className="py-12 sm:py-16 bg-gradient-to-br from-[#556B2F] via-[#6B8E23] to-[#556B2F] border-y border-accent/20">
           <div className="container mx-auto px-4">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 md:gap-8">
               <div className="flex flex-col items-center text-center group">
-                <div className="relative mb-4">
-                  <div className="w-16 h-16 bg-gradient-to-br from-green-600 to-green-800 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-lg shadow-green-500/25">
-                    <Truck className="h-8 w-8 text-white" />
+                <div className="relative mb-3 sm:mb-4">
+                  <div className="w-12 h-12 sm:w-14 md:w-16 sm:h-14 md:h-16 bg-gradient-to-br from-green-600 to-green-800 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-lg shadow-green-500/25">
+                    <Truck className="h-5 w-5 sm:h-6 sm:w-6 md:h-8 md:w-8 text-white" />
                   </div>
                   <div className="absolute inset-0 bg-gradient-to-br from-green-400 to-green-600 rounded-full blur-lg opacity-0 group-hover:opacity-50 transition-opacity duration-300"></div>
                 </div>
-                <h3 className="font-bold text-white mb-1">Envíos</h3>
+                <h3 className="font-bold text-white mb-1 text-sm sm:text-base">Envíos</h3>
                 <p className="text-xs text-green-200">A todo el país</p>
               </div>
               <div className="flex flex-col items-center text-center group">
                 <div className="relative mb-4">
-                  <div className="w-16 h-16 bg-gradient-to-br from-emerald-600 to-emerald-800 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-lg shadow-emerald-500/25">
-                    <Shield className="h-8 w-8 text-white" />
+                  <div className="w-12 h-12 sm:w-14 md:w-16 sm:h-14 md:h-16 bg-gradient-to-br from-emerald-600 to-emerald-800 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-lg shadow-emerald-500/25">
+                    <Shield className="h-5 w-5 sm:h-6 sm:w-6 md:h-8 md:w-8 text-white" />
                   </div>
                   <div className="absolute inset-0 bg-gradient-to-br from-emerald-400 to-emerald-600 rounded-full blur-lg opacity-0 group-hover:opacity-50 transition-opacity duration-300"></div>
                 </div>
-                <h3 className="font-bold text-white mb-1">100% Natural</h3>
+                <h3 className="font-bold text-white mb-1 text-sm sm:text-base">100% Natural</h3>
                 <p className="text-xs text-emerald-200">Productos medicinales</p>
               </div>
               <div className="flex flex-col items-center text-center group">
-                <div className="relative mb-4">
-                  <div className="w-16 h-16 bg-gradient-to-br from-teal-600 to-teal-800 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-lg shadow-teal-500/25">
-                    <Clock className="h-8 w-8 text-white" />
+                <div className="relative mb-3 sm:mb-4">
+                  <div className="w-12 h-12 sm:w-14 md:w-16 sm:h-14 md:h-16 bg-gradient-to-br from-teal-600 to-teal-800 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-lg shadow-teal-500/25">
+                    <Clock className="h-5 w-5 sm:h-6 sm:w-6 md:h-8 md:w-8 text-white" />
                   </div>
                   <div className="absolute inset-0 bg-gradient-to-br from-teal-400 to-teal-600 rounded-full blur-lg opacity-0 group-hover:opacity-50 transition-opacity duration-300"></div>
                 </div>
-                <h3 className="font-bold text-white mb-1">Micronizado</h3>
+                <h3 className="font-bold text-white mb-1 text-sm sm:text-base">Micronizado</h3>
                 <p className="text-xs text-teal-200">Mejor absorción</p>
               </div>
               <div className="flex flex-col items-center text-center group">
-                <div className="relative mb-4">
-                  <div className="w-16 h-16 bg-gradient-to-br from-lime-600 to-lime-800 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-lg shadow-lime-500/25">
-                    <Star className="h-8 w-8 text-white" />
+                <div className="relative mb-3 sm:mb-4">
+                  <div className="w-12 h-12 sm:w-14 md:w-16 sm:h-14 md:h-16 bg-gradient-to-br from-lime-600 to-lime-800 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-lg shadow-lime-500/25">
+                    <Star className="h-5 w-5 sm:h-6 sm:w-6 md:h-8 md:w-8 text-white" />
                   </div>
                   <div className="absolute inset-0 bg-gradient-to-br from-lime-400 to-lime-600 rounded-full blur-lg opacity-0 group-hover:opacity-50 transition-opacity duration-300"></div>
                 </div>
-                <h3 className="font-bold text-white mb-1">Asesoramiento</h3>
+                <h3 className="font-bold text-white mb-1 text-sm sm:text-base">Asesoramiento</h3>
                 <p className="text-xs text-lime-200">Personalizado</p>
               </div>
             </div>
@@ -206,11 +206,11 @@ export default function HomePage() {
         </section>
 
         {/* Sección Visual - SOLO IMÁGENES (Meta Ads Optimized) */}
-        <section className="py-20 bg-gradient-to-br from-background via-muted to-background">
+        <section className="py-12 sm:py-16 lg:py-20 bg-gradient-to-br from-background via-muted to-background">
           <div className="container mx-auto px-4">
             <div className="max-w-7xl mx-auto">
               {/* Imagen principal - Grande y destacada */}
-              <div className="mb-16">
+              <div className="mb-8 sm:mb-12 lg:mb-16">
                 <div className="rounded-3xl overflow-hidden shadow-2xl border-4 border-primary/20 aspect-[16/9]">
                   <Image
                     src="/uploads/beneficios-cbd.png"
@@ -224,7 +224,7 @@ export default function HomePage() {
               </div>
 
               {/* Galería de imágenes - Grid visual */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
                 <div className="rounded-2xl overflow-hidden shadow-xl border-2 border-primary/20 aspect-square">
                   <Image
                     src="/uploads/hero-aceite.jpg"
@@ -256,17 +256,17 @@ export default function HomePage() {
         </section>
 
         {/* Featured Products Section */}
-        <section id="featured-products" className="py-20 bg-primary/5">
+        <section id="featured-products" className="py-12 sm:py-16 lg:py-20 bg-primary/5">
           <div className="container mx-auto px-4">
-            <div className="flex items-center justify-center mb-12">
+            <div className="flex items-center justify-center mb-8 sm:mb-12">
               <div className="text-center">
-                <div className="text-6xl mb-4">🌿</div>
-                <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-primary font-[family-name:var(--font-playfair)]">Nuestros Productos</h2>
-                <p className="text-muted-foreground mt-4 text-xl">Calidad • Seguimiento • Resultados</p>
+                <div className="text-4xl sm:text-5xl lg:text-6xl mb-3 sm:mb-4">🌿</div>
+                <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-primary font-[family-name:var(--font-playfair)] px-4">Nuestros Productos</h2>
+                <p className="text-muted-foreground mt-3 sm:mt-4 text-base sm:text-lg lg:text-xl px-4">Calidad • Seguimiento • Resultados</p>
               </div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
               {loading ? (
                 // Skeleton loading para productos destacados
                 Array.from({ length: 4 }).map((_, i) => (
@@ -284,8 +284,8 @@ export default function HomePage() {
             </div>
 
             {/* Botón VER TODO al final de los productos */}
-            <div className="flex justify-center mt-12">
-              <Button asChild size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground font-bold px-12 py-7 text-2xl shadow-2xl shadow-accent/30 transition-all duration-300 transform hover:scale-110 rounded-2xl">
+            <div className="flex justify-center mt-8 sm:mt-12">
+              <Button asChild size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground font-bold px-6 sm:px-10 lg:px-12 py-4 sm:py-6 lg:py-7 text-base sm:text-xl lg:text-2xl shadow-2xl shadow-accent/30 transition-all duration-300 transform hover:scale-110 rounded-xl sm:rounded-2xl">
                 <Link href="/catalogo">
                   Ver Todo 🌿
                 </Link>
@@ -294,33 +294,33 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section className="py-20 bg-primary text-primary-foreground">
+        <section className="py-12 sm:py-16 lg:py-20 bg-primary text-primary-foreground">
           <div className="container mx-auto px-4">
-            <div className="text-center mb-16">
-              <h2 className="text-4xl md:text-5xl font-bold mb-6 font-[family-name:var(--font-playfair)]">Tu Bienestar, Nuestra Prioridad</h2>
+            <div className="text-center mb-8 sm:mb-12 lg:mb-16">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 sm:mb-6 font-[family-name:var(--font-playfair)] px-4">Tu Bienestar, Nuestra Prioridad</h2>
             </div>
 
-            <div className="grid md:grid-cols-3 gap-10">
-              <div className="bg-primary-foreground/10 border border-primary-foreground/20 rounded-2xl p-10 hover:bg-primary-foreground/15 transition-all hover:scale-105">
-                <div className="text-7xl mb-6">🧪</div>
-                <h3 className="text-2xl font-bold mb-3">Certificado</h3>
-                <p className="text-primary-foreground/80 text-lg">
+            <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8 lg:gap-10">
+              <div className="bg-primary-foreground/10 border border-primary-foreground/20 rounded-xl sm:rounded-2xl p-6 sm:p-8 lg:p-10 hover:bg-primary-foreground/15 transition-all hover:scale-105">
+                <div className="text-5xl sm:text-6xl lg:text-7xl mb-4 sm:mb-6">🧪</div>
+                <h3 className="text-xl sm:text-2xl font-bold mb-2 sm:mb-3">Certificado</h3>
+                <p className="text-primary-foreground/80 text-base sm:text-lg">
                   Laboratorio verificado
                 </p>
               </div>
 
-              <div className="bg-primary-foreground/10 border border-primary-foreground/20 rounded-2xl p-10 hover:bg-primary-foreground/15 transition-all hover:scale-105">
-                <div className="text-7xl mb-6">👥</div>
-                <h3 className="text-2xl font-bold mb-3">Acompañamiento</h3>
-                <p className="text-primary-foreground/80 text-lg">
+              <div className="bg-primary-foreground/10 border border-primary-foreground/20 rounded-xl sm:rounded-2xl p-6 sm:p-8 lg:p-10 hover:bg-primary-foreground/15 transition-all hover:scale-105">
+                <div className="text-5xl sm:text-6xl lg:text-7xl mb-4 sm:mb-6">👥</div>
+                <h3 className="text-xl sm:text-2xl font-bold mb-2 sm:mb-3">Acompañamiento</h3>
+                <p className="text-primary-foreground/80 text-base sm:text-lg">
                   Asesoramiento personal
                 </p>
               </div>
 
-              <div className="bg-primary-foreground/10 border border-primary-foreground/20 rounded-2xl p-10 hover:bg-primary-foreground/15 transition-all hover:scale-105">
-                <div className="text-7xl mb-6">📦</div>
-                <h3 className="text-2xl font-bold mb-3">Envíos</h3>
-                <p className="text-primary-foreground/80 text-lg">
+              <div className="bg-primary-foreground/10 border border-primary-foreground/20 rounded-xl sm:rounded-2xl p-6 sm:p-8 lg:p-10 hover:bg-primary-foreground/15 transition-all hover:scale-105 sm:col-span-2 md:col-span-1">
+                <div className="text-5xl sm:text-6xl lg:text-7xl mb-4 sm:mb-6">📦</div>
+                <h3 className="text-xl sm:text-2xl font-bold mb-2 sm:mb-3">Envíos</h3>
+                <p className="text-primary-foreground/80 text-base sm:text-lg">
                   A todo el país
                 </p>
               </div>
@@ -329,19 +329,19 @@ export default function HomePage() {
         </section>
 
         {/* CTA Consulta Section - MUY VISUAL */}
-        <section className="py-20 bg-gradient-to-br from-background to-muted border-t border-border">
+        <section className="py-12 sm:py-16 lg:py-20 bg-gradient-to-br from-background to-muted border-t border-border">
           <div className="container mx-auto px-4">
             <div className="max-w-4xl mx-auto text-center">
-              <div className="text-8xl mb-6">💬</div>
-              <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6 font-[family-name:var(--font-playfair)]">
+              <div className="text-5xl sm:text-6xl lg:text-8xl mb-4 sm:mb-6">💬</div>
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-foreground mb-4 sm:mb-6 font-[family-name:var(--font-playfair)] px-4">
                 ¿Dudas?
                 </h2>
-              <p className="text-2xl text-muted-foreground mb-10">
+              <p className="text-lg sm:text-xl lg:text-2xl text-muted-foreground mb-6 sm:mb-8 lg:mb-10 px-4">
                 Te asesoramos personalmente
               </p>
               <Button 
                 size="lg" 
-                className="bg-accent hover:bg-accent/90 text-accent-foreground font-bold text-2xl px-16 py-10 rounded-2xl shadow-2xl shadow-accent/30 transform hover:scale-110 transition-all"
+                className="bg-accent hover:bg-accent/90 text-accent-foreground font-bold text-base sm:text-xl lg:text-2xl px-8 sm:px-12 lg:px-16 py-5 sm:py-7 lg:py-10 rounded-xl sm:rounded-2xl shadow-2xl shadow-accent/30 transform hover:scale-110 transition-all"
                 onClick={() => {
                   const chatButton = document.querySelector('[aria-label="Abrir chat"]') as HTMLButtonElement
                   if (chatButton) chatButton.click()
@@ -354,21 +354,21 @@ export default function HomePage() {
         </section>
 
         {/* CTA Final - MUY DIRECTO */}
-        <section className="py-24 bg-gradient-to-br from-accent to-primary text-primary-foreground">
+        <section className="py-12 sm:py-16 lg:py-24 bg-gradient-to-br from-accent to-primary text-primary-foreground">
           <div className="container mx-auto px-4 text-center">
-            <h2 className="text-5xl md:text-6xl font-bold mb-8 font-[family-name:var(--font-playfair)]">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 lg:mb-8 font-[family-name:var(--font-playfair)] px-4">
               Comenzá Hoy 🌿
             </h2>
-            <p className="text-2xl md:text-3xl mb-12 opacity-90">
+            <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl mb-6 sm:mb-8 lg:mb-12 opacity-90 px-4">
               Seguimiento personalizado
             </p>
-            <div className="flex flex-col sm:flex-row gap-6 justify-center">
-              <Button asChild size="lg" className="bg-primary-foreground text-primary hover:bg-primary-foreground/90 text-2xl px-14 py-9 font-bold rounded-2xl shadow-2xl transform hover:scale-110 transition-all">
+            <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center px-4">
+              <Button asChild size="lg" className="bg-primary-foreground text-primary hover:bg-primary-foreground/90 text-base sm:text-xl lg:text-2xl px-8 sm:px-12 lg:px-14 py-5 sm:py-7 lg:py-9 font-bold rounded-xl sm:rounded-2xl shadow-2xl transform hover:scale-110 transition-all w-full sm:w-auto">
                 <Link href="/catalogo">Ver Productos</Link>
               </Button>
               <Button
                 size="lg"
-                className="bg-white/20 text-primary-foreground hover:bg-white/30 text-2xl px-14 py-9 font-bold rounded-2xl border-2 border-white/50 backdrop-blur-sm transform hover:scale-110 transition-all"
+                className="bg-white/20 text-primary-foreground hover:bg-white/30 text-base sm:text-xl lg:text-2xl px-8 sm:px-12 lg:px-14 py-5 sm:py-7 lg:py-9 font-bold rounded-xl sm:rounded-2xl border-2 border-white/50 backdrop-blur-sm transform hover:scale-110 transition-all w-full sm:w-auto"
                 onClick={() => {
                   const chatButton = document.querySelector('[aria-label="Abrir chat"]') as HTMLButtonElement
                   if (chatButton) chatButton.click()

@@ -12,16 +12,16 @@ export default function CatalogoPage() {
       <Header />
       <main className="min-h-screen bg-background">
         <div className="container mx-auto px-4 py-8">
-          <div className="mb-8 text-center">
-            <div className="text-6xl mb-4">🌿</div>
-            <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-4 font-[family-name:var(--font-playfair)]">Nuestros Productos</h1>
-            <p className="text-muted-foreground text-xl mb-6">Productos medicinales 100% naturales • Calidad certificada</p>
+          <div className="mb-6 sm:mb-8 text-center">
+            <div className="text-4xl sm:text-5xl lg:text-6xl mb-3 sm:mb-4">🌿</div>
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight mb-3 sm:mb-4 font-[family-name:var(--font-playfair)] px-4">Nuestros Productos</h1>
+            <p className="text-muted-foreground text-base sm:text-lg lg:text-xl mb-4 sm:mb-6 px-4">Productos medicinales 100% naturales • Calidad certificada</p>
             <button
               onClick={() => {
                 const chatButton = document.querySelector('[aria-label="Abrir chat"]') as HTMLButtonElement
                 if (chatButton) chatButton.click()
               }}
-              className="inline-flex items-center gap-2 bg-accent hover:bg-accent/90 text-accent-foreground font-semibold px-6 py-3 rounded-xl shadow-lg transition-all hover:scale-105"
+              className="inline-flex items-center gap-2 bg-accent hover:bg-accent/90 text-accent-foreground font-semibold text-sm sm:text-base px-4 sm:px-6 py-2 sm:py-3 rounded-lg sm:rounded-xl shadow-lg transition-all hover:scale-105 mx-4 sm:mx-0"
             >
               💬 ¿Necesitás ayuda? Consultá con nuestro asesor
             </button>

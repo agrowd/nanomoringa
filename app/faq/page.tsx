@@ -12,11 +12,11 @@ export default function FAQPage() {
     <>
       <Header />
       <main className="min-h-screen bg-background">
-        <div className="container mx-auto px-4 py-16 max-w-3xl">
-          <div className="text-center mb-12">
-            <div className="text-6xl mb-4">💬</div>
-            <h1 className="text-4xl md:text-5xl font-bold mb-4 font-[family-name:var(--font-playfair)]">Preguntas Frecuentes</h1>
-            <p className="text-xl text-muted-foreground">Resolvé tus dudas</p>
+        <div className="container mx-auto px-4 py-8 sm:py-12 lg:py-16 max-w-3xl">
+          <div className="text-center mb-8 sm:mb-12">
+            <div className="text-4xl sm:text-5xl lg:text-6xl mb-3 sm:mb-4">💬</div>
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-3 sm:mb-4 font-[family-name:var(--font-playfair)] px-4">Preguntas Frecuentes</h1>
+            <p className="text-lg sm:text-xl text-muted-foreground px-4">Resolvé tus dudas</p>
           </div>
 
           <Accordion type="single" collapsible className="space-y-4">
