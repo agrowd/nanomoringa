@@ -271,10 +271,10 @@ export default function HomePage() {
             <div className="max-w-7xl mx-auto">
               {/* Video principal - Grande y destacado */}
               <div className="mb-8 sm:mb-12 lg:mb-16">
-                <div className="rounded-3xl overflow-hidden shadow-2xl border-4 border-primary/20 aspect-[16/9] bg-black">
+                <div className="rounded-3xl overflow-hidden shadow-2xl border-4 border-primary/20 bg-black flex items-center justify-center" style={{ minHeight: '300px', maxHeight: '600px' }}>
                   <video
                     src="/uploads/video-nanomoringa.mp4"
-                    className="w-full h-full object-cover"
+                    className="w-full h-auto max-h-[600px] object-contain"
                     autoPlay
                     loop
                     muted

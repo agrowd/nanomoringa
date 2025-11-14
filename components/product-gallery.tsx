@@ -44,24 +44,30 @@ export function ProductGallery({ images, videos = [], productName }: ProductGall
 
   return (
     <div className="space-y-4">
-      <Card className="relative aspect-[3/4] overflow-hidden bg-muted group cursor-pointer" onClick={openModal}>
+      <Card className="relative w-full overflow-hidden bg-muted group cursor-pointer" onClick={openModal}>
+        <div className="relative w-full flex items-center justify-center" style={{ minHeight: '400px', maxHeight: '800px' }}>
         {isVideo(currentIndex) ? (
           <video
             src={currentMedia}
-            className={`w-full h-full object-cover transition-transform duration-300 ${isZoomed ? 'scale-150' : 'group-hover:scale-105'}`}
+            className={`w-full h-auto max-h-[800px] object-contain transition-transform duration-300 ${isZoomed ? 'scale-150' : 'group-hover:scale-105'}`}
             controls
             loop
             muted
             playsInline
           />
         ) : (
-          <Image
-            src={currentMedia || "/placeholder.svg"}
-            alt={`${productName} - imagen ${currentIndex + 1}`}
-            fill
-            className={`object-cover transition-transform duration-300 ${isZoomed ? 'scale-150' : 'group-hover:scale-105'}`}
-          />
+          <div className="relative w-full h-full flex items-center justify-center">
+            <Image
+              src={currentMedia || "/placeholder.svg"}
+              alt={`${productName} - imagen ${currentIndex + 1}`}
+              width={1200}
+              height={1200}
+              className={`max-w-full h-auto max-h-[800px] object-contain transition-transform duration-300 ${isZoomed ? 'scale-150' : 'group-hover:scale-105'}`}
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            />
+          </div>
         )}
+        </div>
 
         {/* Zoom and Fullscreen buttons */}
         <div className="absolute top-3 right-3 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -145,8 +151,11 @@ export function ProductGallery({ images, videos = [], productName }: ProductGall
           {allMedia.map((media, index) => (
             <button
               key={index}
-              onClick={() => setCurrentIndex(index)}
-              className={`relative aspect-square overflow-hidden rounded-lg border-2 transition-all ${
+              onClick={() => {
+                setCurrentIndex(index)
+                openModal()
+              }}
+              className={`relative aspect-square overflow-hidden rounded-lg border-2 transition-all cursor-pointer ${
                 index === currentIndex ? "border-[#8B5CF6]" : "border-transparent hover:border-muted-foreground"
               }`}
             >

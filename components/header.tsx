@@ -58,7 +58,7 @@ export function Header() {
         </Link>
 
         {/* Desktop Navigation - Visible en pantallas medianas y grandes */}
-        <nav className="hidden sm:flex items-center gap-2 md:gap-3 lg:gap-4 flex-1 justify-center min-w-0">
+        <nav className="hidden md:flex items-center gap-2 lg:gap-4 xl:gap-6 flex-1 justify-center min-w-0">
           {navLinks.map((link) => {
             if (link.onClick) {
               return (
@@ -66,7 +66,7 @@ export function Header() {
                   key={link.href}
                   href={link.href}
                   onClick={link.onClick}
-                  className="text-xs md:text-sm lg:text-base font-medium transition-all duration-300 text-primary-foreground/90 hover:text-primary-foreground hover:bg-primary-foreground/10 px-2 lg:px-3 py-2 rounded-lg cursor-pointer whitespace-nowrap"
+                  className="text-sm lg:text-base font-medium transition-all duration-300 text-primary-foreground/90 hover:text-primary-foreground hover:bg-primary-foreground/10 px-3 lg:px-4 py-2 rounded-lg cursor-pointer whitespace-nowrap"
                 >
                   {link.label}
                 </a>
@@ -76,7 +76,7 @@ export function Header() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="text-xs md:text-sm lg:text-base font-medium transition-all duration-300 text-primary-foreground/90 hover:text-primary-foreground hover:bg-primary-foreground/10 px-2 lg:px-3 py-2 rounded-lg whitespace-nowrap"
+                className="text-sm lg:text-base font-medium transition-all duration-300 text-primary-foreground/90 hover:text-primary-foreground hover:bg-primary-foreground/10 px-3 lg:px-4 py-2 rounded-lg whitespace-nowrap"
               >
                 {link.label}
               </Link>
@@ -105,9 +105,9 @@ export function Header() {
             )}
           </Button>
 
-          {/* Mobile Menu - Solo visible en pantallas pequeñas */}
+          {/* Mobile Menu - Solo visible en pantallas pequeñas y medianas */}
           <Sheet>
-            <SheetTrigger asChild className="sm:hidden">
+            <SheetTrigger asChild className="md:hidden">
               <Button variant="ghost" size="icon" className="text-white hover:bg-white/10 h-10 w-10 sm:h-12 sm:w-12">
                 <Menu className="h-5 w-5 sm:h-6 sm:w-6" />
               </Button>
