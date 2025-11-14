@@ -141,6 +141,21 @@ export default function EditProductPage() {
         tags: Array.isArray(productData.tags)
       })
 
+      // Calcular tamaño del payload antes de enviar
+      const payloadSize = JSON.stringify(productData).length
+      const payloadSizeMB = (payloadSize / (1024 * 1024)).toFixed(2)
+      console.log('[EDIT] Payload size:', payloadSize, 'bytes', `(${payloadSizeMB}MB)`)
+      
+      if (payloadSize > 4 * 1024 * 1024) {
+        toast({
+          title: "Error: Archivo demasiado grande",
+          description: `El producto es demasiado grande (${payloadSizeMB}MB). Los videos en base64 ocupan mucho espacio. Considera usar videos más pequeños o eliminar algunos videos antes de guardar.`,
+          variant: "destructive",
+        })
+        setSaving(false)
+        return
+      }
+
       const response = await fetch(`/api/products?id=${params.id}`, {
         method: "PUT",
         headers: {
@@ -179,7 +194,22 @@ export default function EditProductPage() {
           description: "El producto se ha actualizado correctamente",
         })
       } else {
-        throw new Error("Error al actualizar el producto")
+        const errorData = await response.json().catch(() => ({ error: "Error al actualizar el producto" }))
+        
+        if (response.status === 413) {
+          toast({
+            title: "Error: Archivo demasiado grande",
+            description: errorData.details || "Los videos en base64 ocupan mucho espacio. Considera usar videos más pequeños o eliminar algunos videos antes de guardar.",
+            variant: "destructive",
+          })
+        } else {
+          toast({
+            title: "Error",
+            description: errorData.details || errorData.error || "No se pudo actualizar el producto",
+            variant: "destructive",
+          })
+        }
+        throw new Error(errorData.error || "Error al actualizar el producto")
       }
     } catch (error) {
       toast({
