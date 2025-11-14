@@ -22,8 +22,11 @@ if (!token) {
 }
 
 // Export routes for Next App Router
-// Uploadthing v7 lee automáticamente UPLOADTHING_TOKEN de process.env
+// Pasar el token explícitamente para asegurar que esté disponible en tiempo de ejecución
 export const { GET, POST } = createRouteHandler({
   router: ourFileRouter,
+  config: token ? {
+    token: token,
+  } : undefined,
 })
 
