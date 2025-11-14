@@ -15,6 +15,7 @@ import { useEffect, useState } from "react"
 export default function HomePage() {
   const [products, setProducts] = useState<Product[]>([])
   const [loading, setLoading] = useState(true)
+  const [isVideoMuted, setIsVideoMuted] = useState(true)
 
   useEffect(() => {
     const loadProducts = async () => {
@@ -281,31 +282,39 @@ export default function HomePage() {
                     playsInline
                     id="hero-video"
                   />
-                  {/* Botón de audio estético - Solo visible en desktop */}
-                  <div className="hidden md:block absolute bottom-6 right-6">
+                  {/* Botón de audio estético - Visible en todos los dispositivos */}
+                  <div className="absolute bottom-3 right-3 sm:bottom-4 sm:right-4 md:bottom-6 md:right-6 z-10">
                     <button
                       onClick={(e) => {
                         e.preventDefault()
                         const video = document.getElementById('hero-video') as HTMLVideoElement
                         if (video) {
-                          video.muted = !video.muted
-                          const button = e.currentTarget
-                          if (video.muted) {
-                            button.classList.remove('bg-green-600')
-                            button.classList.add('bg-white/20')
-                          } else {
-                            button.classList.remove('bg-white/20')
-                            button.classList.add('bg-green-600')
-                          }
+                          const newMutedState = !video.muted
+                          video.muted = newMutedState
+                          setIsVideoMuted(newMutedState)
                         }
                       }}
-                      className="group relative w-14 h-14 rounded-full bg-white/20 hover:bg-green-600 transition-all duration-300 flex items-center justify-center backdrop-blur-sm border-2 border-white/30 hover:border-green-400 shadow-lg hover:shadow-green-500/50"
-                      title="Activar/Desactivar audio"
+                      className={`group relative rounded-full transition-all duration-300 flex items-center justify-center backdrop-blur-sm border-2 shadow-lg ${
+                        isVideoMuted
+                          ? 'w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 bg-white/20 hover:bg-white/30 border-white/30 hover:border-white/40'
+                          : 'w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 bg-green-600 hover:bg-green-700 border-green-400 hover:border-green-500 shadow-green-500/50'
+                      }`}
+                      title={isVideoMuted ? "Activar audio" : "Desactivar audio"}
+                      aria-label={isVideoMuted ? "Activar audio" : "Desactivar audio"}
                     >
-                      <svg className="w-6 h-6 text-white transition-transform group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
-                      </svg>
-                      <div className="absolute inset-0 rounded-full bg-green-500/20 opacity-0 group-hover:opacity-100 transition-opacity animate-ping"></div>
+                      {isVideoMuted ? (
+                        <svg className="w-5 h-5 sm:w-6 sm:h-6 text-white transition-transform group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2" />
+                        </svg>
+                      ) : (
+                        <svg className="w-5 h-5 sm:w-6 sm:h-6 text-white transition-transform group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+                        </svg>
+                      )}
+                      {!isVideoMuted && (
+                        <div className="absolute inset-0 rounded-full bg-green-500/30 opacity-75 animate-pulse"></div>
+                      )}
                     </button>
                   </div>
                 </div>
