@@ -163,12 +163,12 @@ export function ImageCropModal({
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
-        <DialogHeader>
+      <DialogContent className="max-w-4xl w-[95vw] max-h-[95vh] flex flex-col p-4 sm:p-6">
+        <DialogHeader className="flex-shrink-0 mb-4">
           <DialogTitle>Recortar Imagen</DialogTitle>
         </DialogHeader>
         
-        <div className="relative w-full h-[400px] bg-gray-100 rounded-lg overflow-hidden">
+        <div className="relative w-full flex-1 min-h-[300px] max-h-[calc(95vh-300px)] bg-gray-100 rounded-lg overflow-hidden">
           <Cropper
             image={imageSrc}
             crop={crop}
@@ -184,7 +184,7 @@ export function ImageCropModal({
           />
         </div>
 
-        <div className="space-y-4 py-4">
+        <div className="space-y-4 py-4 flex-shrink-0">
           {/* Control de Zoom */}
           <div className="space-y-2">
             <div className="flex items-center justify-between">
@@ -224,7 +224,7 @@ export function ImageCropModal({
           </div>
         </div>
 
-        <DialogFooter className="flex gap-2">
+        <DialogFooter className="flex gap-2 flex-shrink-0">
           <Button variant="outline" onClick={handleReset}>
             Reiniciar
           </Button>
