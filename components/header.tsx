@@ -57,8 +57,8 @@ export function Header() {
           </div>
         </Link>
 
-        {/* Desktop Navigation - Visible en pantallas medianas y grandes */}
-        <nav className="hidden md:flex items-center gap-4 lg:gap-6 xl:gap-8 justify-center flex-1 min-w-0">
+        {/* Desktop Navigation - Siempre visible excepto en mobile muy pequeño */}
+        <nav className="flex items-center gap-4 lg:gap-6 xl:gap-8 justify-center flex-1 min-w-0">
           {navLinks.map((link) => {
             if (link.onClick) {
               return (
