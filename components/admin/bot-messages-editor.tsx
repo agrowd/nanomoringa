@@ -248,15 +248,18 @@ export function BotMessagesEditor({ open, onClose, messages: initialMessages, on
   return (
     <>
       <Dialog open={open} onOpenChange={handleCancel}>
-        <DialogContent className="max-w-4xl w-[95vw] max-h-[90vh] flex flex-col p-0 gap-0 overflow-hidden">
-          <DialogHeader className="flex-shrink-0 px-6 pt-6 pb-4 border-b">
-            <DialogTitle>Editor de Cadena de Mensajes del Bot</DialogTitle>
-            <p className="text-sm text-gray-600 mt-2">
+        <DialogContent 
+          className="!max-w-4xl !w-[100vw] sm:!w-[95vw] !h-[100vh] sm:!h-[90vh] !max-h-[100vh] flex flex-col p-0 gap-0 overflow-hidden !m-0 sm:!m-4 !rounded-none sm:!rounded-lg !top-0 sm:!top-[50%] !left-0 sm:!left-[50%] !translate-x-0 sm:!translate-x-[-50%] !translate-y-0 sm:!translate-y-[-50%]"
+          aria-describedby="bot-messages-editor-description"
+        >
+          <DialogHeader className="flex-shrink-0 px-4 sm:px-6 pt-4 sm:pt-6 pb-3 sm:pb-4 border-b">
+            <DialogTitle className="text-lg sm:text-xl">Editor de Cadena de Mensajes del Bot</DialogTitle>
+            <p id="bot-messages-editor-description" className="text-xs sm:text-sm text-gray-600 mt-2">
               Construye la secuencia de mensajes que se enviarán automáticamente. Puedes agregar texto, imágenes y configurar delays entre mensajes.
             </p>
           </DialogHeader>
 
-          <div className="flex-1 overflow-y-auto space-y-4 py-4 px-6 min-h-0 overscroll-contain">
+          <div className="flex-1 overflow-y-auto space-y-4 py-4 px-4 sm:px-6 min-h-0 overscroll-contain">
             {messages.length === 0 ? (
               <div className="text-center py-12 text-gray-500">
                 <MessageIcon className="h-12 w-12 mx-auto mb-4 text-gray-300" />
@@ -289,15 +292,15 @@ export function BotMessagesEditor({ open, onClose, messages: initialMessages, on
             )}
           </div>
 
-          <DialogFooter className="flex-shrink-0 gap-2 px-6 pb-6 pt-4 border-t bg-gray-50">
-            <Button variant="outline" onClick={handleCancel}>
+          <DialogFooter className="flex-shrink-0 gap-2 px-4 sm:px-6 pb-4 sm:pb-6 pt-3 sm:pt-4 border-t bg-gray-50 flex-wrap">
+            <Button variant="outline" onClick={handleCancel} className="text-xs sm:text-sm">
               Cancelar
             </Button>
-            <Button onClick={handleAddMessage} className="bg-purple-600 hover:bg-purple-700">
-              <Plus className="mr-2 h-4 w-4" />
+            <Button onClick={handleAddMessage} className="bg-purple-600 hover:bg-purple-700 text-xs sm:text-sm">
+              <Plus className="mr-2 h-3 w-3 sm:h-4 sm:w-4" />
               Agregar Mensaje
             </Button>
-            <Button onClick={handleSave} className="bg-green-600 hover:bg-green-700">
+            <Button onClick={handleSave} className="bg-green-600 hover:bg-green-700 text-xs sm:text-sm">
               Guardar Cambios
             </Button>
           </DialogFooter>
@@ -306,14 +309,20 @@ export function BotMessagesEditor({ open, onClose, messages: initialMessages, on
 
       {/* Modal para editar/agregar mensaje */}
       <Dialog open={isEditModalOpen} onOpenChange={setIsEditModalOpen}>
-        <DialogContent className="max-w-2xl w-[95vw] max-h-[90vh] flex flex-col overflow-hidden">
-          <DialogHeader>
-            <DialogTitle>
+        <DialogContent 
+          className="!max-w-2xl !w-[100vw] sm:!w-[95vw] !h-[100vh] sm:!h-[90vh] !max-h-[100vh] flex flex-col overflow-hidden !m-0 sm:!m-4 !rounded-none sm:!rounded-lg !top-0 sm:!top-[50%] !left-0 sm:!left-[50%] !translate-x-0 sm:!translate-x-[-50%] !translate-y-0 sm:!translate-y-[-50%]"
+          aria-describedby="edit-message-description"
+        >
+          <DialogHeader className="px-4 sm:px-6 pt-4 sm:pt-6 pb-3 sm:pb-4">
+            <DialogTitle className="text-lg sm:text-xl">
               {editingMessage ? "Editar Mensaje" : "Agregar Nuevo Mensaje"}
             </DialogTitle>
+            <p id="edit-message-description" className="text-xs sm:text-sm text-gray-600 mt-2">
+              {editingMessage ? "Modifica el contenido del mensaje" : "Crea un nuevo mensaje para la cadena"}
+            </p>
           </DialogHeader>
 
-          <div className="space-y-4 py-4 overflow-y-auto flex-1 min-h-0">
+          <div className="space-y-4 py-4 px-4 sm:px-6 overflow-y-auto flex-1 min-h-0">
             {/* Tipo de mensaje */}
             <div className="space-y-2">
               <Label>Tipo de Mensaje</Label>
@@ -415,11 +424,11 @@ export function BotMessagesEditor({ open, onClose, messages: initialMessages, on
             </div>
           </div>
 
-          <DialogFooter>
-            <Button variant="outline" onClick={() => setIsEditModalOpen(false)}>
+          <DialogFooter className="px-4 sm:px-6 pb-4 sm:pb-6 pt-3 sm:pt-4 gap-2">
+            <Button variant="outline" onClick={() => setIsEditModalOpen(false)} className="text-xs sm:text-sm">
               Cancelar
             </Button>
-            <Button onClick={handleSaveMessage}>
+            <Button onClick={handleSaveMessage} className="text-xs sm:text-sm">
               {editingMessage ? "Actualizar" : "Agregar"} Mensaje
             </Button>
           </DialogFooter>
