@@ -41,10 +41,10 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-40 w-full border-b border-border bg-primary backdrop-blur supports-[backdrop-filter]:bg-primary/95">
-      <div className="w-full max-w-[1920px] mx-auto flex h-16 sm:h-18 items-center gap-2 sm:gap-4 px-3 sm:px-4 lg:px-8 xl:px-12">
+      <div className="w-full max-w-[1920px] mx-auto flex h-14 sm:h-16 md:h-18 items-center gap-1.5 sm:gap-2 md:gap-4 px-2 sm:px-3 md:px-4 lg:px-8 xl:px-12">
               <Link href="/" className="flex items-center gap-2 sm:gap-3 shrink-0 group">
                 <div className="relative">
-                  <div className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 rounded-full bg-primary-foreground flex items-center justify-center p-1.5 sm:p-2 overflow-hidden transition-transform duration-300 group-hover:scale-105 shadow-lg">
+                  <div className="w-9 h-9 sm:w-12 sm:h-12 md:w-16 md:h-16 lg:w-20 lg:h-20 xl:w-24 xl:h-24 rounded-full bg-primary-foreground flex items-center justify-center p-0.5 sm:p-1 md:p-1.5 lg:p-2 overflow-hidden transition-transform duration-300 group-hover:scale-105 shadow-lg">
                     <Image
                       src="/brand/nanomoringa-logo.png"
                       alt="Nano Moringa"
@@ -57,8 +57,8 @@ export function Header() {
                 </div>
               </Link>
 
-        {/* Desktop Navigation - Siempre visible excepto en mobile muy pequeño */}
-        <nav className="flex items-center gap-4 lg:gap-6 xl:gap-8 justify-center flex-1 min-w-0">
+        {/* Desktop Navigation - Oculto en mobile, visible desde md */}
+        <nav className="hidden md:flex items-center gap-4 lg:gap-6 xl:gap-8 justify-center flex-1 min-w-0">
           {navLinks.map((link) => {
             if (link.onClick) {
               return (
@@ -95,11 +95,11 @@ export function Header() {
             variant="ghost" 
             size="icon" 
             onClick={toggleCart}
-            className="relative text-white hover:bg-white/10 h-10 w-10 sm:h-12 sm:w-12"
+            className="relative text-white hover:bg-white/10 h-8 w-8 sm:h-10 sm:w-10 md:h-12 md:w-12"
           >
-            <ShoppingCart className="h-5 w-5 sm:h-6 sm:w-6" />
+            <ShoppingCart className="h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6" />
             {itemCount > 0 && (
-              <span className="absolute -top-1 -right-1 h-5 w-5 sm:h-6 sm:w-6 rounded-full bg-[#8B5CF6] text-xs font-bold flex items-center justify-center text-white animate-pulse">
+              <span className="absolute -top-0.5 -right-0.5 h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6 rounded-full bg-[#8B5CF6] text-[10px] sm:text-xs font-bold flex items-center justify-center text-white animate-pulse">
                 {itemCount}
               </span>
             )}
@@ -108,8 +108,8 @@ export function Header() {
           {/* Mobile Menu - Solo visible en pantallas pequeñas y medianas */}
           <Sheet>
             <SheetTrigger asChild className="md:hidden">
-              <Button variant="ghost" size="icon" className="text-white hover:bg-white/10 h-10 w-10 sm:h-12 sm:w-12">
-                <Menu className="h-5 w-5 sm:h-6 sm:w-6" />
+              <Button variant="ghost" size="icon" className="text-white hover:bg-white/10 h-8 w-8 sm:h-10 sm:w-10">
+                <Menu className="h-4 w-4 sm:h-5 sm:w-5" />
               </Button>
             </SheetTrigger>
             <SheetContent side="right" className="bg-[#11141D] border-white/10 w-[85vw] sm:w-[400px]">

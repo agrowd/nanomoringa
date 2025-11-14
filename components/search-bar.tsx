@@ -287,11 +287,11 @@ export function SearchBar({ isExpanded, onToggle }: SearchBarProps) {
           variant="ghost"
           size="icon"
           onClick={onToggle}
-          className={`text-white hover:bg-white/20 h-11 w-11 transition-all duration-300 ease-out hover:scale-110 active:scale-95 rounded-xl ${
+          className={`text-white hover:bg-white/20 h-8 w-8 sm:h-10 sm:w-10 md:h-11 md:w-11 transition-all duration-300 ease-out hover:scale-110 active:scale-95 rounded-xl ${
             isExpanded ? 'opacity-0 pointer-events-none' : 'opacity-100'
           }`}
         >
-          <Search className="h-6 w-6 transition-transform duration-200 group-hover:rotate-12" />
+          <Search className="h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6 transition-transform duration-200 group-hover:rotate-12" />
         </Button>
       </div>
       

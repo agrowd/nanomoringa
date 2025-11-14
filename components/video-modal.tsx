@@ -32,16 +32,16 @@ export function VideoModal({ open, onClose, videoSrc, videoTitle }: VideoModalPr
 
   return (
     <Dialog open={open} onOpenChange={handleClose}>
-      <DialogContent className="max-w-6xl w-[95vw] h-[90vh] p-0 bg-black/95">
-        <div className="relative w-full h-full flex items-center justify-center">
+      <DialogContent className="max-w-6xl w-[95vw] max-h-[90vh] h-[90vh] sm:h-auto sm:max-h-[90vh] p-0 bg-black/95 flex flex-col">
+        <div className="relative w-full h-full flex-1 flex items-center justify-center min-h-0">
           {/* Botón de cerrar */}
           <Button
             variant="ghost"
             size="icon"
-            className="absolute top-4 right-4 z-10 bg-white/10 hover:bg-white/20 text-white"
+            className="absolute top-2 right-2 sm:top-4 sm:right-4 z-10 bg-white/10 hover:bg-white/20 text-white h-8 w-8 sm:h-10 sm:w-10"
             onClick={handleClose}
           >
-            <X className="h-6 w-6" />
+            <X className="h-4 w-4 sm:h-6 sm:w-6" />
           </Button>
 
           {/* Video */}
@@ -50,14 +50,15 @@ export function VideoModal({ open, onClose, videoSrc, videoTitle }: VideoModalPr
             src={videoSrc}
             controls
             autoPlay
-            className="w-full h-full object-contain"
+            className="w-full h-full max-h-full object-contain"
             onEnded={handleClose}
+            playsInline
           />
 
           {/* Título opcional */}
           {videoTitle && (
-            <div className="absolute bottom-4 left-4 right-4 bg-black/70 backdrop-blur-sm rounded-lg px-4 py-2">
-              <p className="text-white text-sm font-medium">{videoTitle}</p>
+            <div className="absolute bottom-2 left-2 right-2 sm:bottom-4 sm:left-4 sm:right-4 bg-black/70 backdrop-blur-sm rounded-lg px-3 py-2 sm:px-4">
+              <p className="text-white text-xs sm:text-sm font-medium">{videoTitle}</p>
             </div>
           )}
         </div>
