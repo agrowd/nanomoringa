@@ -57,8 +57,8 @@ export function Header() {
           </div>
         </Link>
 
-        {/* Desktop Navigation - Visible en pantallas grandes */}
-        <nav className="hidden lg:flex items-center gap-4 xl:gap-6">
+        {/* Desktop Navigation - Visible en pantallas medianas y grandes */}
+        <nav className="hidden md:flex items-center gap-3 lg:gap-4 xl:gap-6 flex-1 justify-center">
           {navLinks.map((link) => {
             if (link.onClick) {
               return (
@@ -105,9 +105,9 @@ export function Header() {
             )}
           </Button>
 
-          {/* Mobile Menu - Solo visible en pantallas pequeñas/medianas */}
+          {/* Mobile Menu - Solo visible en pantallas pequeñas */}
           <Sheet>
-            <SheetTrigger asChild className="lg:hidden">
+            <SheetTrigger asChild className="md:hidden">
               <Button variant="ghost" size="icon" className="text-white hover:bg-white/10 h-10 w-10 sm:h-12 sm:w-12">
                 <Menu className="h-5 w-5 sm:h-6 sm:w-6" />
               </Button>

@@ -8,7 +8,7 @@ import { Footer } from "@/components/footer"
 import { ProductCard } from "@/components/product-card"
 // import { AnimatedOffers } from "@/components/animated-offers"
 import { Badge } from "@/components/ui/badge"
-import { Truck, Shield, Clock, Star } from "lucide-react"
+import { Truck, Shield, Clock, Star, ChevronLeft, ChevronRight } from "lucide-react"
 import type { Product } from "@/lib/types"
 import { useEffect, useState } from "react"
 
@@ -53,6 +53,66 @@ export default function HomePage() {
   }, [])
 
   const featuredProducts = products.filter((p) => p.featured).slice(0, 8)
+
+  // Componente de carrusel de imágenes
+  function ImageCarousel({ images }: { images: string[] }) {
+    const [currentIndex, setCurrentIndex] = useState(0)
+
+    const nextImage = () => {
+      setCurrentIndex((prev) => (prev + 1) % images.length)
+    }
+
+    const prevImage = () => {
+      setCurrentIndex((prev) => (prev - 1 + images.length) % images.length)
+    }
+
+    return (
+      <div className="relative">
+        <div className="rounded-2xl overflow-hidden shadow-xl border-2 border-primary/20 aspect-[16/9] bg-gradient-to-br from-accent/20 to-primary/20">
+          <Image
+            src={images[currentIndex]}
+            alt={`Imagen ${currentIndex + 1} de Nano Moringa`}
+            width={1200}
+            height={675}
+            className="w-full h-full object-cover"
+          />
+        </div>
+        {images.length > 1 && (
+          <>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="absolute left-2 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white border-2 border-primary/20 h-10 w-10 sm:h-12 sm:w-12"
+              onClick={prevImage}
+            >
+              <ChevronLeft className="h-5 w-5 sm:h-6 sm:w-6" />
+            </Button>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="absolute right-2 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white border-2 border-primary/20 h-10 w-10 sm:h-12 sm:w-12"
+              onClick={nextImage}
+            >
+              <ChevronRight className="h-5 w-5 sm:h-6 sm:w-6" />
+            </Button>
+            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
+              {images.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => setCurrentIndex(index)}
+                  className={`h-2 rounded-full transition-all ${
+                    index === currentIndex
+                      ? 'bg-primary w-8'
+                      : 'bg-white/50 w-2 hover:bg-white/80'
+                  }`}
+                />
+              ))}
+            </div>
+          </>
+        )}
+      </div>
+    )
+  }
 
   return (
     <>
@@ -205,30 +265,30 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* Sección Visual - SOLO IMÁGENES (Meta Ads Optimized) */}
+        {/* Sección Visual - Video e Imágenes */}
         <section className="py-12 sm:py-16 lg:py-20 bg-gradient-to-br from-background via-muted to-background">
           <div className="container mx-auto px-4">
             <div className="max-w-7xl mx-auto">
-              {/* Imagen principal - Grande y destacada */}
+              {/* Video principal - Grande y destacado */}
               <div className="mb-8 sm:mb-12 lg:mb-16">
-                <div className="rounded-3xl overflow-hidden shadow-2xl border-4 border-primary/20 aspect-[16/9]">
-                  <Image
-                    src="/uploads/beneficios-cbd.png"
-                    alt="Bienestar natural"
-                    width={1200}
-                    height={675}
+                <div className="rounded-3xl overflow-hidden shadow-2xl border-4 border-primary/20 aspect-[16/9] bg-black">
+                  <video
+                    src="/uploads/video-nanomoringa.mp4"
                     className="w-full h-full object-cover"
-                    priority
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
                   />
                 </div>
               </div>
 
-              {/* Galería de imágenes - Grid visual */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
+              {/* Galería de imágenes principales - Grid visual */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 mb-8 sm:mb-12">
                 <div className="rounded-2xl overflow-hidden shadow-xl border-2 border-primary/20 aspect-square">
                   <Image
-                    src="/uploads/hero-aceite.jpg"
-                    alt="Producto natural"
+                    src="/uploads/nanomoringa-hero1.png"
+                    alt="Producto natural Nano Moringa"
                     width={600}
                     height={600}
                     className="w-full h-full object-cover"
@@ -236,21 +296,31 @@ export default function HomePage() {
                 </div>
                 <div className="rounded-2xl overflow-hidden shadow-xl border-2 border-primary/20 aspect-square">
                   <Image
-                    src="/uploads/gel-crema.png"
-                    alt="Producto natural"
+                    src="/uploads/nanomoringa-hero-2.png"
+                    alt="Producto natural Nano Moringa"
                     width={600}
                     height={600}
                     className="w-full h-full object-cover"
                   />
                 </div>
-                <div className="rounded-2xl overflow-hidden shadow-xl border-2 border-primary/20 aspect-square bg-gradient-to-br from-accent/20 to-primary/20 flex items-center justify-center">
-                  <div className="text-center p-8">
-                    <div className="text-6xl mb-4">🌿</div>
-                    <div className="text-4xl mb-2">💚</div>
-                    <div className="text-5xl">✨</div>
-                  </div>
+                <div className="rounded-2xl overflow-hidden shadow-xl border-2 border-primary/20 aspect-square">
+                  <Image
+                    src="/uploads/nanomoringa-hero4.jpeg"
+                    alt="Producto natural Nano Moringa"
+                    width={600}
+                    height={600}
+                    className="w-full h-full object-cover"
+                  />
                 </div>
               </div>
+
+              {/* Carrusel de imágenes adicionales */}
+              <ImageCarousel images={[
+                "/uploads/nanomoringa-hero4.5.jpeg",
+                "/uploads/Nano Moringa 2110 (6).png",
+                "/uploads/Nano Moringa 2110 (7).png",
+                "/uploads/Nano Moringa 2110 (8).png"
+              ]} />
             </div>
           </div>
         </section>
