@@ -248,7 +248,7 @@ export function BotMessagesEditor({ open, onClose, messages: initialMessages, on
   return (
     <>
       <Dialog open={open} onOpenChange={handleCancel}>
-        <DialogContent className="max-w-4xl w-[95vw] max-h-[90vh] flex flex-col p-0 gap-0">
+        <DialogContent className="max-w-4xl w-[95vw] max-h-[90vh] flex flex-col p-0 gap-0 overflow-hidden">
           <DialogHeader className="flex-shrink-0 px-6 pt-6 pb-4 border-b">
             <DialogTitle>Editor de Cadena de Mensajes del Bot</DialogTitle>
             <p className="text-sm text-gray-600 mt-2">
@@ -256,7 +256,7 @@ export function BotMessagesEditor({ open, onClose, messages: initialMessages, on
             </p>
           </DialogHeader>
 
-          <div className="flex-1 overflow-y-auto space-y-4 py-4 px-6 min-h-0">
+          <div className="flex-1 overflow-y-auto space-y-4 py-4 px-6 min-h-0 overscroll-contain">
             {messages.length === 0 ? (
               <div className="text-center py-12 text-gray-500">
                 <MessageIcon className="h-12 w-12 mx-auto mb-4 text-gray-300" />
@@ -306,14 +306,14 @@ export function BotMessagesEditor({ open, onClose, messages: initialMessages, on
 
       {/* Modal para editar/agregar mensaje */}
       <Dialog open={isEditModalOpen} onOpenChange={setIsEditModalOpen}>
-        <DialogContent className="max-w-2xl">
+        <DialogContent className="max-w-2xl w-[95vw] max-h-[90vh] flex flex-col overflow-hidden">
           <DialogHeader>
             <DialogTitle>
               {editingMessage ? "Editar Mensaje" : "Agregar Nuevo Mensaje"}
             </DialogTitle>
           </DialogHeader>
 
-          <div className="space-y-4 py-4">
+          <div className="space-y-4 py-4 overflow-y-auto flex-1 min-h-0">
             {/* Tipo de mensaje */}
             <div className="space-y-2">
               <Label>Tipo de Mensaje</Label>

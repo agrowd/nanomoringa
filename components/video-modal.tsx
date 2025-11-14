@@ -32,8 +32,8 @@ export function VideoModal({ open, onClose, videoSrc, videoTitle }: VideoModalPr
 
   return (
     <Dialog open={open} onOpenChange={handleClose}>
-      <DialogContent className="max-w-6xl w-[95vw] max-h-[95vh] p-0 bg-black/95 flex flex-col">
-        <div className="relative w-full flex-1 flex items-center justify-center min-h-[200px] max-h-[calc(95vh-40px)]">
+      <DialogContent className="max-w-6xl w-[95vw] max-h-[95vh] p-0 bg-black/95 flex flex-col overflow-hidden">
+        <div className="relative w-full flex-1 flex items-center justify-center min-h-[200px] max-h-full overflow-hidden">
           {/* Botón de cerrar */}
           <Button
             variant="ghost"

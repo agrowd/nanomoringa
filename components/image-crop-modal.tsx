@@ -163,12 +163,12 @@ export function ImageCropModal({
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="max-w-4xl w-[95vw] max-h-[95vh] flex flex-col p-4 sm:p-6">
+      <DialogContent className="max-w-4xl w-[95vw] max-h-[95vh] flex flex-col p-4 sm:p-6 overflow-hidden">
         <DialogHeader className="flex-shrink-0 mb-4">
           <DialogTitle>Recortar Imagen</DialogTitle>
         </DialogHeader>
         
-        <div className="relative w-full flex-1 min-h-[300px] max-h-[calc(95vh-300px)] bg-gray-100 rounded-lg overflow-hidden">
+        <div className="relative w-full flex-1 min-h-[300px] max-h-[calc(95vh-300px)] bg-gray-100 rounded-lg overflow-hidden overscroll-contain">
           <Cropper
             image={imageSrc}
             crop={crop}
