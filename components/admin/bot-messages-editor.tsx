@@ -249,7 +249,7 @@ export function BotMessagesEditor({ open, onClose, messages: initialMessages, on
     <>
       <Dialog open={open} onOpenChange={handleCancel}>
         <DialogContent 
-          className="!max-w-4xl !w-[100vw] sm:!w-[95vw] !h-[100vh] sm:!h-[90vh] !max-h-[100vh] flex flex-col p-0 gap-0 overflow-hidden !m-0 sm:!m-4 !rounded-none sm:!rounded-lg !top-0 sm:!top-[50%] !left-0 sm:!left-[50%] !translate-x-0 sm:!translate-x-[-50%] !translate-y-0 sm:!translate-y-[-50%]"
+          className="mobile-fullscreen !max-w-4xl sm:!w-[95vw] sm:!h-[90vh] sm:!max-h-[90vh] !flex !flex-col p-0 gap-0 overflow-hidden sm:!m-4 sm:!rounded-lg sm:!top-[50%] sm:!left-[50%] sm:!translate-x-[-50%] sm:!translate-y-[-50%]"
           aria-describedby="bot-messages-editor-description"
         >
           <DialogHeader className="flex-shrink-0 px-4 sm:px-6 pt-4 sm:pt-6 pb-3 sm:pb-4 border-b">
@@ -310,7 +310,7 @@ export function BotMessagesEditor({ open, onClose, messages: initialMessages, on
       {/* Modal para editar/agregar mensaje */}
       <Dialog open={isEditModalOpen} onOpenChange={setIsEditModalOpen}>
         <DialogContent 
-          className="!max-w-2xl !w-[100vw] sm:!w-[95vw] !h-[100vh] sm:!h-[90vh] !max-h-[100vh] flex flex-col overflow-hidden !m-0 sm:!m-4 !rounded-none sm:!rounded-lg !top-0 sm:!top-[50%] !left-0 sm:!left-[50%] !translate-x-0 sm:!translate-x-[-50%] !translate-y-0 sm:!translate-y-[-50%]"
+          className="mobile-fullscreen !max-w-2xl sm:!w-[95vw] sm:!h-[90vh] sm:!max-h-[90vh] !flex !flex-col overflow-hidden sm:!m-4 sm:!rounded-lg sm:!top-[50%] sm:!left-[50%] sm:!translate-x-[-50%] sm:!translate-y-[-50%]"
           aria-describedby="edit-message-description"
         >
           <DialogHeader className="px-4 sm:px-6 pt-4 sm:pt-6 pb-3 sm:pb-4">
