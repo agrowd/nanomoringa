@@ -320,7 +320,7 @@ export default function AdminDashboard() {
             </CardHeader>
             <CardContent>
               <Button asChild variant="outline" className="w-full border-green-600 text-green-600 hover:bg-green-600 hover:text-white">
-                <Link href="/admin/whatsapp">Abrir WhatsApp</Link>
+                <Link href="/admin/whatsapp-configuracion">Abrir WhatsApp</Link>
               </Button>
             </CardContent>
           </Card>
