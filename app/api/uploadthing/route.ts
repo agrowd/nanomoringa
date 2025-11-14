@@ -26,11 +26,12 @@ function getToken() {
   }
 }
 
+// Obtener token en runtime (no en build time)
 const token = getToken()
 
 // Export routes for Next App Router
-// Pasar el token explícitamente para asegurar que esté disponible en tiempo de ejecución
-const handlers = createRouteHandler({
+// createRouteHandler devuelve { GET, POST } que deben ser exportados directamente
+const { GET: originalGET, POST: originalPOST } = createRouteHandler({
   router: ourFileRouter,
   config: token ? {
     token: token,
@@ -55,7 +56,7 @@ export async function GET(request: Request) {
         }
       )
     }
-    return await handlers(request)
+    return await originalGET(request)
   } catch (error) {
     console.error('[Uploadthing GET] Error:', error)
     console.error('[Uploadthing GET] Error stack:', error instanceof Error ? error.stack : 'No stack')
@@ -90,7 +91,7 @@ export async function POST(request: Request) {
         }
       )
     }
-    return await handlers(request)
+    return await originalPOST(request)
   } catch (error) {
     console.error('[Uploadthing POST] Error:', error)
     console.error('[Uploadthing POST] Error stack:', error instanceof Error ? error.stack : 'No stack')
