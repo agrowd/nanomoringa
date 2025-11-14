@@ -39,10 +39,15 @@ export default function WhatsAppConfiguracionPage() {
   const loadBotStatus = async () => {
     try {
       setIsLoading(true)
-      // TODO: Hacer fetch a /api/whatsapp/status
-      // Por ahora mock
-      setIsConnected(false)
-      setQrCode(null)
+      const response = await fetch("/api/whatsapp/status")
+      if (response.ok) {
+        const data = await response.json()
+        setIsConnected(data.connected)
+        setQrCode(data.qrCode)
+      } else {
+        setIsConnected(false)
+        setQrCode(null)
+      }
     } catch (error) {
       console.error("Error loading bot status:", error)
       toast({
@@ -57,29 +62,41 @@ export default function WhatsAppConfiguracionPage() {
 
   const loadBotMessages = async () => {
     try {
-      // TODO: Hacer fetch a /api/whatsapp/bot-messages
-      // Por ahora mock - mensajes iniciales por defecto
-      const defaultMessages: BotMessage[] = [
-        {
-          id: "msg-1",
-          type: "text",
-          content: "¡Hola! 👋 Bienvenido a Nano Moringa 🌿",
-          delay: 0,
-        },
-        {
-          id: "msg-2",
-          type: "text",
-          content: "Soy tu asistente virtual y estoy aquí para ayudarte con información sobre nuestros productos naturales.",
-          delay: 1,
-        },
-        {
-          id: "msg-3",
-          type: "text",
-          content: "¿En qué puedo ayudarte hoy?",
-          delay: 1,
-        },
-      ]
-      setBotMessages(defaultMessages)
+      const response = await fetch("/api/whatsapp/bot-messages")
+      if (response.ok) {
+        const data = await response.json()
+        // Convertir de formato BD a formato del componente
+        const messages: BotMessage[] = data.map((msg: any, index: number) => ({
+          id: `msg-${msg.id || index + 1}`,
+          type: msg.type,
+          content: msg.content,
+          delay: msg.delay || 0,
+        }))
+        setBotMessages(messages)
+      } else {
+        // Si no hay mensajes, usar defaults
+        const defaultMessages: BotMessage[] = [
+          {
+            id: "msg-1",
+            type: "text",
+            content: "¡Hola! 👋 Bienvenido a Nano Moringa 🌿",
+            delay: 0,
+          },
+          {
+            id: "msg-2",
+            type: "text",
+            content: "Soy tu asistente virtual y estoy aquí para ayudarte con información sobre nuestros productos naturales.",
+            delay: 1,
+          },
+          {
+            id: "msg-3",
+            type: "text",
+            content: "¿En qué puedo ayudarte hoy?",
+            delay: 1,
+          },
+        ]
+        setBotMessages(defaultMessages)
+      }
     } catch (error) {
       console.error("Error loading bot messages:", error)
     }
@@ -88,15 +105,21 @@ export default function WhatsAppConfiguracionPage() {
   const handleSaveMessages = async (messages: BotMessage[]) => {
     try {
       setIsSaving(true)
-      // TODO: Hacer POST a /api/whatsapp/bot-messages con el formato JSON
-      // Por ahora solo simular
-      await new Promise(resolve => setTimeout(resolve, 500))
-      
-      setBotMessages(messages)
-      toast({
-        title: "Mensajes guardados",
-        description: "La cadena de mensajes iniciales se ha actualizado correctamente.",
+      const response = await fetch("/api/whatsapp/bot-messages", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ messages })
       })
+      
+      if (response.ok) {
+        setBotMessages(messages)
+        toast({
+          title: "Mensajes guardados",
+          description: "La cadena de mensajes iniciales se ha actualizado correctamente.",
+        })
+      } else {
+        throw new Error("Error al guardar mensajes")
+      }
     } catch (error) {
       console.error("Error saving bot messages:", error)
       toast({
