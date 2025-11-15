@@ -158,12 +158,12 @@ export default function HomePage() {
             </div>
 
             {/* Subtitle */}
-            <p className="text-xl sm:text-2xl md:text-3xl lg:text-4xl text-white mb-6 sm:mb-8 tracking-wide font-semibold text-center px-4 font-[family-name:var(--font-playfair)]">
+            <p className="text-xl sm:text-2xl md:text-3xl lg:text-4xl text-white mb-6 sm:mb-8 tracking-wide font-semibold text-center px-4 font-[family-name:var(--font-playfair)] whitespace-normal break-words">
               Productos Medicinales 100% Naturales 🌿
             </p>
 
             {/* Description - MÍNIMA */}
-            <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-gray-200 mb-8 sm:mb-12 max-w-2xl mx-auto text-center leading-relaxed px-4">
+            <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-gray-200 mb-8 sm:mb-12 max-w-2xl mx-auto text-center leading-relaxed px-4 whitespace-normal break-words">
               Aceites micronizados • Bienestar en cada gota
             </p>
 
@@ -368,8 +368,8 @@ export default function HomePage() {
             <div className="flex items-center justify-center mb-8 sm:mb-12">
               <div className="text-center">
                 <div className="text-4xl sm:text-5xl lg:text-6xl mb-3 sm:mb-4">🌿</div>
-                <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-primary font-[family-name:var(--font-playfair)] px-4">Nuestros Productos</h2>
-                <p className="text-muted-foreground mt-3 sm:mt-4 text-base sm:text-lg lg:text-xl px-4">Calidad • Seguimiento • Resultados</p>
+                <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-primary font-[family-name:var(--font-playfair)] px-4 whitespace-normal break-words">Nuestros Productos</h2>
+                <p className="text-muted-foreground mt-3 sm:mt-4 text-base sm:text-lg lg:text-xl px-4 whitespace-normal break-words">Calidad • Seguimiento • Resultados</p>
               </div>
             </div>
 
@@ -404,7 +404,7 @@ export default function HomePage() {
         <section className="py-12 sm:py-16 lg:py-20 bg-primary text-primary-foreground">
           <div className="container mx-auto px-4">
             <div className="text-center mb-8 sm:mb-12 lg:mb-16">
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 sm:mb-6 font-[family-name:var(--font-playfair)] px-4">Tu Bienestar, Nuestra Prioridad</h2>
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 sm:mb-6 font-[family-name:var(--font-playfair)] px-4 whitespace-normal break-words">Tu Bienestar, Nuestra Prioridad</h2>
             </div>
 
             <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8 lg:gap-10">
@@ -440,10 +440,10 @@ export default function HomePage() {
           <div className="container mx-auto px-4">
             <div className="max-w-4xl mx-auto text-center">
               <div className="text-5xl sm:text-6xl lg:text-8xl mb-4 sm:mb-6">💬</div>
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-foreground mb-4 sm:mb-6 font-[family-name:var(--font-playfair)] px-4">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-foreground mb-4 sm:mb-6 font-[family-name:var(--font-playfair)] px-4 whitespace-normal break-words">
                 ¿Dudas?
                 </h2>
-              <p className="text-lg sm:text-xl lg:text-2xl text-muted-foreground mb-6 sm:mb-8 lg:mb-10 px-4">
+              <p className="text-lg sm:text-xl lg:text-2xl text-muted-foreground mb-6 sm:mb-8 lg:mb-10 px-4 whitespace-normal break-words">
                 Te asesoramos personalmente
               </p>
               <Button 
@@ -463,10 +463,10 @@ export default function HomePage() {
         {/* CTA Final - MUY DIRECTO */}
         <section className="py-12 sm:py-16 lg:py-24 bg-gradient-to-br from-accent to-primary text-primary-foreground">
           <div className="container mx-auto px-4 text-center">
-            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 lg:mb-8 font-[family-name:var(--font-playfair)] px-4">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 lg:mb-8 font-[family-name:var(--font-playfair)] px-4 whitespace-normal break-words">
               Comenzá Hoy 🌿
             </h2>
-            <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl mb-6 sm:mb-8 lg:mb-12 opacity-90 px-4">
+            <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl mb-6 sm:mb-8 lg:mb-12 opacity-90 px-4 whitespace-normal break-words">
               Seguimiento personalizado
             </p>
             <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center px-4">
