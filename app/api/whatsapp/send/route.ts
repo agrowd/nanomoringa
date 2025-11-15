@@ -33,7 +33,7 @@ export async function POST(request: Request) {
     })
     
     // Notificar al bot para que envíe el mensaje
-    const botUrl = process.env.WHATSAPP_BOT_URL || 'http://localhost:5000'
+    const botUrl = process.env.WHATSAPP_BOT_URL || 'http://localhost:7002'
     try {
       await fetch(`${botUrl}/api/send`, {
         method: 'POST',
