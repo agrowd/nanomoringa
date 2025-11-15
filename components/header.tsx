@@ -58,8 +58,8 @@ export function Header() {
           </div>
         </Link>
 
-        {/* Desktop Navigation - Siempre visible en desktop (md y superior), oculto en mobile */}
-        <nav className="hidden md:flex items-center gap-4 lg:gap-6 xl:gap-8 flex-1 justify-center overflow-visible">
+        {/* Desktop Navigation - Oculto en mobile, visible desde md (768px) */}
+        <nav className="desktop-nav hidden md:flex items-center gap-4 lg:gap-6 xl:gap-8 flex-1 justify-center min-w-0">
           {navLinks.map((link) => {
             if (link.onClick) {
               return (
@@ -67,7 +67,7 @@ export function Header() {
                   key={link.href}
                   href={link.href}
                   onClick={link.onClick}
-                  className="text-base md:text-lg lg:text-xl font-semibold transition-all duration-300 text-primary-foreground hover:text-primary-foreground hover:bg-primary-foreground/10 px-3 md:px-4 lg:px-5 py-2 rounded-lg cursor-pointer whitespace-nowrap overflow-visible"
+                  className="text-base md:text-lg lg:text-xl font-semibold transition-all duration-300 text-primary-foreground hover:text-primary-foreground hover:bg-primary-foreground/10 px-3 md:px-4 lg:px-5 py-2 rounded-lg cursor-pointer whitespace-nowrap"
                 >
                   {link.label}
                 </a>
@@ -77,7 +77,7 @@ export function Header() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="text-base md:text-lg lg:text-xl font-semibold transition-all duration-300 text-primary-foreground hover:text-primary-foreground hover:bg-primary-foreground/10 px-3 md:px-4 lg:px-5 py-2 rounded-lg whitespace-nowrap overflow-visible"
+                className="text-base md:text-lg lg:text-xl font-semibold transition-all duration-300 text-primary-foreground hover:text-primary-foreground hover:bg-primary-foreground/10 px-3 md:px-4 lg:px-5 py-2 rounded-lg whitespace-nowrap"
               >
                 {link.label}
               </Link>
@@ -109,7 +109,7 @@ export function Header() {
           {/* Mobile Menu - Solo visible en mobile (menor a md) */}
           <Sheet>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className="text-white hover:bg-white/10 h-8 w-8 sm:h-10 sm:w-10 md:hidden">
+              <Button variant="ghost" size="icon" className="mobile-menu-button text-white hover:bg-white/10 h-8 w-8 sm:h-10 sm:w-10 md:hidden">
                 <Menu className="h-4 w-4 sm:h-5 sm:w-5" />
               </Button>
             </SheetTrigger>

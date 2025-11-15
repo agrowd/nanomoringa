@@ -272,6 +272,30 @@ input[type="number"] {
   appearance: textfield;
 }
 
+/* Desktop Navigation - Forzar visibilidad en desktop */
+@media (min-width: 768px) {
+  header nav.desktop-nav {
+    display: flex !important;
+  }
+}
+
+/* Mobile Menu - Solo visible en mobile */
+@media (max-width: 767px) {
+  header nav.desktop-nav {
+    display: none !important;
+  }
+  
+  header button.mobile-menu-button {
+    display: flex !important;
+  }
+}
+
+@media (min-width: 768px) {
+  header button.mobile-menu-button {
+    display: none !important;
+  }
+}
+
 /* Modal fullscreen en mobile */
 @media (max-width: 640px) {
   [data-slot="dialog-content"].mobile-fullscreen {
