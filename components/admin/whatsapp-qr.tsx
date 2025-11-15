@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react"
 import { RefreshCw } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import QRCode from "qrcode.react"
+import { QRCodeSVG } from "qrcode.react"
 
 interface WhatsAppQRProps {
   qrCode: string | null
@@ -54,7 +54,7 @@ export function WhatsAppQR({ qrCode, isLoading }: WhatsAppQRProps) {
       <div className="p-4 bg-white rounded-lg border-2 border-gray-200 shadow-sm">
         <div className="w-64 h-64 flex items-center justify-center bg-gray-50 rounded">
           {qrCode ? (
-            <QRCode
+            <QRCodeSVG
               value={qrCode}
               size={256}
               level="H"
