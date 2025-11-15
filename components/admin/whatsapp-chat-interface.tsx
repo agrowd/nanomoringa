@@ -5,7 +5,9 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
-import { Search, Send, Paperclip, Image as ImageIcon, Video, FileText, MoreVertical, Reply, Check, CheckCheck, Phone, User, Tag, X, Plus } from "lucide-react"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog"
+import { Search, Send, Paperclip, Image as ImageIcon, Video, FileText, MoreVertical, Reply, Check, CheckCheck, Phone, User, Tag, X, Plus, Trash2 } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
 import Image from "next/image"
 import { VideoModal } from "@/components/video-modal"
@@ -45,6 +47,8 @@ export function WhatsAppChatInterface() {
   const [selectedVideo, setSelectedVideo] = useState<string | null>(null)
   const [tagsInput, setTagsInput] = useState("")
   const [availableTags, setAvailableTags] = useState<string[]>([])
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false)
+  const [conversationToDelete, setConversationToDelete] = useState<Conversation | null>(null)
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
   const { toast } = useToast()
@@ -396,6 +400,44 @@ export function WhatsAppChatInterface() {
       throw error
     }
   }
+  
+  const handleDeleteConversation = async () => {
+    if (!conversationToDelete) return
+    
+    try {
+      const response = await fetch(`/api/whatsapp/conversations/${conversationToDelete.id}`, {
+        method: 'DELETE'
+      })
+      
+      if (response.ok) {
+        // Eliminar de la lista
+        setConversations(convs => convs.filter(c => c.id !== conversationToDelete.id))
+        
+        // Si era la conversación seleccionada, seleccionar otra o ninguna
+        if (selectedConversation?.id === conversationToDelete.id) {
+          const remaining = conversations.filter(c => c.id !== conversationToDelete.id)
+          setSelectedConversation(remaining.length > 0 ? remaining[0] : null)
+        }
+        
+        toast({
+          title: "Chat eliminado",
+          description: "La conversación ha sido eliminada correctamente.",
+        })
+      } else {
+        throw new Error('Error al eliminar la conversación')
+      }
+    } catch (error) {
+      console.error('Error deleting conversation:', error)
+      toast({
+        title: "Error",
+        description: "No se pudo eliminar la conversación",
+        variant: "destructive",
+      })
+    } finally {
+      setShowDeleteDialog(false)
+      setConversationToDelete(null)
+    }
+  }
 
   return (
     <>
@@ -417,14 +459,16 @@ export function WhatsAppChatInterface() {
         {/* Lista de conversaciones */}
         <div className="flex-1 overflow-y-auto">
           {filteredConversations.map((conv) => (
-            <button
+            <div
               key={conv.id}
-              onClick={() => setSelectedConversation(conv)}
-              className={`w-full p-3 border-b border-gray-200 hover:bg-gray-50 transition-colors text-left ${
+              className={`w-full border-b border-gray-200 hover:bg-gray-50 transition-colors ${
                 selectedConversation?.id === conv.id ? "bg-[#E9EDEF]" : ""
               }`}
             >
-              <div className="flex items-center gap-3">
+              <button
+                onClick={() => setSelectedConversation(conv)}
+                className="w-full p-3 text-left flex items-center gap-3"
+              >
                 <div className="w-12 h-12 rounded-full bg-[#DFE5E7] flex items-center justify-center flex-shrink-0">
                   {conv.avatar ? (
                     <Image
@@ -454,8 +498,23 @@ export function WhatsAppChatInterface() {
                     )}
                   </div>
                 </div>
+              </button>
+              <div className="px-3 pb-2 flex justify-end">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="h-7 text-xs text-red-600 hover:text-red-700 hover:bg-red-50"
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    setConversationToDelete(conv)
+                    setShowDeleteDialog(true)
+                  }}
+                >
+                  <Trash2 className="h-3 w-3 mr-1" />
+                  Eliminar
+                </Button>
               </div>
-            </button>
+            </div>
           ))}
         </div>
       </div>
@@ -580,9 +639,25 @@ export function WhatsAppChatInterface() {
                     </div>
                   </PopoverContent>
                 </Popover>
-                <Button variant="ghost" size="icon">
-                  <MoreVertical className="h-5 w-5" />
-                </Button>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" size="icon">
+                      <MoreVertical className="h-5 w-5" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end">
+                    <DropdownMenuItem
+                      className="text-red-600 focus:text-red-600 focus:bg-red-50"
+                      onClick={() => {
+                        setConversationToDelete(selectedConversation)
+                        setShowDeleteDialog(true)
+                      }}
+                    >
+                      <Trash2 className="mr-2 h-4 w-4" />
+                      Eliminar chat
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
               </div>
             </div>
 
@@ -731,6 +806,33 @@ export function WhatsAppChatInterface() {
           videoSrc={selectedVideo}
         />
       )}
+
+      {/* Diálogo de confirmación para eliminar chat */}
+      <AlertDialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>¿Eliminar chat?</AlertDialogTitle>
+            <AlertDialogDescription>
+              Esta acción no se puede deshacer. Se eliminará permanentemente la conversación con{" "}
+              <strong>{conversationToDelete?.name}</strong> y todos sus mensajes.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel onClick={() => {
+              setShowDeleteDialog(false)
+              setConversationToDelete(null)
+            }}>
+              Cancelar
+            </AlertDialogCancel>
+            <AlertDialogAction
+              onClick={handleDeleteConversation}
+              className="bg-red-600 hover:bg-red-700"
+            >
+              Eliminar
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </>
   )
 }
