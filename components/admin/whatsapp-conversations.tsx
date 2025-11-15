@@ -17,40 +17,44 @@ export function WhatsAppConversations() {
 
   useEffect(() => {
     loadConversations()
+    
+    // Polling cada 20 segundos para recargar conversaciones
+    const interval = setInterval(() => {
+      loadConversations()
+    }, 20000)
+    
+    return () => clearInterval(interval)
   }, [])
 
   const loadConversations = async () => {
     try {
       setIsLoading(true)
-      // TODO: Hacer fetch a /api/whatsapp/conversations
-      // Por ahora mock data
-      const mockConversations: WhatsAppConversation[] = [
-        {
-          id: "1",
-          phone: "5491158082486",
-          name: "Juan Pérez",
-          lastMessageText: "Hola, consulto por el aceite",
-          lastMessageAt: new Date(),
-          unreadCount: 2,
-          status: "active",
-          createdAt: new Date(),
-          updatedAt: new Date(),
-        },
-        {
-          id: "2",
-          phone: "5491123456789",
-          name: "María García",
-          lastMessageText: "¿Cuánto cuesta?",
-          lastMessageAt: new Date(Date.now() - 3600000),
-          unreadCount: 0,
-          status: "active",
-          createdAt: new Date(),
-          updatedAt: new Date(),
-        },
-      ]
-      setConversations(mockConversations)
+      const response = await fetch("/api/whatsapp/conversations")
+      if (response.ok) {
+        const data = await response.json()
+        // Convertir de formato API a formato del componente
+        // Filtrar conversaciones reales (con ID numérico válido)
+        const formattedConversations: WhatsAppConversation[] = data
+          .filter((conv: any) => conv.id && typeof conv.id === 'number')
+          .map((conv: any) => ({
+            id: conv.id.toString(),
+            phone: conv.phone,
+            name: conv.name || conv.phone,
+            lastMessageText: conv.lastMessage || conv.last_message || "",
+            lastMessageAt: conv.lastMessageTime ? new Date(conv.lastMessageTime) : (conv.last_message_at ? new Date(conv.last_message_at) : new Date()),
+            unreadCount: conv.unreadCount || 0,
+            status: conv.status || "active",
+            createdAt: conv.created_at ? new Date(conv.created_at) : new Date(),
+            updatedAt: conv.updated_at ? new Date(conv.updated_at) : new Date(),
+          }))
+        setConversations(formattedConversations)
+      } else {
+        console.error("Error loading conversations:", response.statusText)
+        setConversations([])
+      }
     } catch (error) {
       console.error("Error loading conversations:", error)
+      setConversations([])
     } finally {
       setIsLoading(false)
     }

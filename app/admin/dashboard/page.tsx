@@ -56,6 +56,7 @@ export default function AdminDashboard() {
   const [products, setProducts] = useState<Product[]>([])
   const [coupons, setCoupons] = useState<Coupon[]>([])
   const [loading, setLoading] = useState(true)
+  const [unreadCount, setUnreadCount] = useState(0)
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -64,7 +65,60 @@ export default function AdminDashboard() {
     }
     loadProducts()
     loadCoupons()
+    loadUnreadCount()
+    
+    // Polling cada 20 segundos para actualizar contador de mensajes sin leer
+    const interval = setInterval(() => {
+      loadUnreadCount()
+    }, 20000)
+    
+    // SSE para tiempo real
+    const eventSource = new EventSource("/api/whatsapp/events")
+    eventSource.onmessage = (event) => {
+      const data = JSON.parse(event.data)
+      if (data.type === "message_received") {
+        loadUnreadCount()
+        playNotificationSound()
+      }
+    }
+    
+    return () => {
+      clearInterval(interval)
+      eventSource.close()
+    }
   }, [isAuthenticated, router])
+  
+  const loadUnreadCount = async () => {
+    try {
+      const response = await fetch("/api/whatsapp/unread-count")
+      if (response.ok) {
+        const data = await response.json()
+        const previousCount = unreadCount
+        setUnreadCount(data.count || 0)
+        
+        // Si hay nuevos mensajes, reproducir sonido
+        if (data.count > previousCount && previousCount > 0) {
+          playNotificationSound()
+        }
+      }
+    } catch (error) {
+      console.error("Error loading unread count:", error)
+    }
+  }
+  
+  const playNotificationSound = () => {
+    const beep = new AudioContext()
+    const oscillator = beep.createOscillator()
+    const gainNode = beep.createGain()
+    oscillator.connect(gainNode)
+    gainNode.connect(beep.destination)
+    oscillator.frequency.value = 800
+    oscillator.type = "sine"
+    gainNode.gain.setValueAtTime(0.3, beep.currentTime)
+    gainNode.gain.exponentialRampToValueAtTime(0.01, beep.currentTime + 0.5)
+    oscillator.start(beep.currentTime)
+    oscillator.stop(beep.currentTime + 0.5)
+  }
 
   const loadProducts = async () => {
     try {
@@ -154,10 +208,28 @@ export default function AdminDashboard() {
                 <p className="text-sm text-gray-600">Panel de administración Nano Moringa</p>
               </div>
             </div>
-            <Button onClick={handleLogout} variant="outline" className="border-red-500 text-red-600 hover:bg-red-500 hover:text-white">
-              <LogOut className="mr-2 h-4 w-4" />
-              Cerrar Sesión
-            </Button>
+            <div className="flex items-center gap-3">
+              {/* Botón WhatsApp con notificación */}
+              <Button
+                asChild
+                variant="outline"
+                className="relative border-green-500 text-green-600 hover:bg-green-500 hover:text-white"
+              >
+                <Link href="/admin/whatsapp">
+                  <MessageSquare className="mr-2 h-4 w-4" />
+                  WhatsApp
+                  {unreadCount > 0 && (
+                    <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+                      {unreadCount > 9 ? '9+' : unreadCount}
+                    </span>
+                  )}
+                </Link>
+              </Button>
+              <Button onClick={handleLogout} variant="outline" className="border-red-500 text-red-600 hover:bg-red-500 hover:text-white">
+                <LogOut className="mr-2 h-4 w-4" />
+                Cerrar Sesión
+              </Button>
+            </div>
           </div>
         </div>
       </div>

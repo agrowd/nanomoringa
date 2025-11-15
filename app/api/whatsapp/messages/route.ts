@@ -56,6 +56,18 @@ export async function POST(request: Request) {
       'active'
     )
     
+    // Verificar si es el primer mensaje del usuario y no hay mensajes del bot
+    const isFirstUserMessage = sender_type === 'user'
+    let shouldTriggerChain = false
+    
+    if (isFirstUserMessage) {
+      const { hasBotMessages } = await import('@/lib/whatsapp-db')
+      const hasBot = await hasBotMessages(conversation.id)
+      if (!hasBot) {
+        shouldTriggerChain = true
+      }
+    }
+    
     // Guardar mensaje
     const savedMessage = await saveMessage({
       conversation_id: conversation.id,
@@ -68,7 +80,34 @@ export async function POST(request: Request) {
       read: sender_type === 'admin' || sender_type === 'bot'
     })
     
-    return NextResponse.json(savedMessage)
+    // Si es el primer mensaje del usuario y no hay mensajes del bot, activar cadena
+    if (shouldTriggerChain) {
+      try {
+        // Enviar cadena desde Vercel (más rápido y confiable)
+        const chainResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || 'https://nanomoringa.vercel.app'}/api/whatsapp/send-chain`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            phone,
+            name: name || 'Sin nombre'
+          })
+        })
+        
+        if (chainResponse.ok) {
+          console.log(`✅ Chain sent for new user: ${name} (${phone})`)
+        } else {
+          console.error('Error sending chain:', await chainResponse.text())
+        }
+      } catch (chainError) {
+        console.error('Error triggering chain:', chainError)
+        // No fallar si hay error, solo loguear
+      }
+    }
+    
+    return NextResponse.json({
+      ...savedMessage,
+      conversation_id: conversation.id
+    })
   } catch (error: any) {
     console.error('Error saving message:', error)
     return NextResponse.json(

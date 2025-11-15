@@ -3,7 +3,9 @@
 import { useState, useEffect, useRef } from "react"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import { Search, Send, Paperclip, Image as ImageIcon, Video, FileText, MoreVertical, Reply, Check, CheckCheck, Phone, User } from "lucide-react"
+import { Badge } from "@/components/ui/badge"
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
+import { Search, Send, Paperclip, Image as ImageIcon, Video, FileText, MoreVertical, Reply, Check, CheckCheck, Phone, User, Tag, X, Plus } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
 import Image from "next/image"
 import { VideoModal } from "@/components/video-modal"
@@ -31,6 +33,7 @@ interface Conversation {
   unreadCount: number
   avatar?: string
   messages: Message[]
+  tags?: string[]
 }
 
 export function WhatsAppChatInterface() {
@@ -40,6 +43,8 @@ export function WhatsAppChatInterface() {
   const [messageText, setMessageText] = useState("")
   const [replyingTo, setReplyingTo] = useState<Message | null>(null)
   const [selectedVideo, setSelectedVideo] = useState<string | null>(null)
+  const [tagsInput, setTagsInput] = useState("")
+  const [availableTags, setAvailableTags] = useState<string[]>([])
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
   const { toast } = useToast()
@@ -51,15 +56,28 @@ export function WhatsAppChatInterface() {
         const response = await fetch("/api/whatsapp/conversations")
         if (response.ok) {
           const data = await response.json()
-          const convs: Conversation[] = data.map((conv: any) => ({
-            id: conv.id.toString(),
-            name: conv.name,
-            phone: conv.phone,
-            lastMessage: conv.lastMessage || "",
-            lastMessageTime: new Date(conv.lastMessageTime || conv.updated_at),
-            unreadCount: conv.unreadCount || 0,
-            messages: [] // Se cargarán cuando se seleccione
-          }))
+          // Filtrar conversaciones reales (con ID numérico válido)
+          const convs: Conversation[] = data
+            .filter((conv: any) => conv.id && typeof conv.id === 'number')
+            .map((conv: any) => ({
+              id: conv.id.toString(),
+              name: conv.name,
+              phone: conv.phone,
+              lastMessage: conv.lastMessage || "",
+              lastMessageTime: new Date(conv.lastMessageTime || conv.updated_at),
+              unreadCount: conv.unreadCount || 0,
+              tags: conv.tags || [],
+              messages: [] // Se cargarán cuando se seleccione
+            }))
+          
+          // Extraer todas las etiquetas únicas para el selector
+          const allTags = new Set<string>()
+          convs.forEach(conv => {
+            if (conv.tags) {
+              conv.tags.forEach(tag => allTags.add(tag))
+            }
+          })
+          setAvailableTags(Array.from(allTags))
           setConversations(convs)
           if (convs.length > 0 && !selectedConversation) {
             setSelectedConversation(convs[0])
@@ -76,6 +94,11 @@ export function WhatsAppChatInterface() {
     }
     
     loadConversations()
+    
+    // Polling cada 20 segundos para recargar conversaciones (nuevos leads)
+    const conversationsInterval = setInterval(() => {
+      loadConversations()
+    }, 20000) // 20 segundos
     
     // SSE para tiempo real
     const eventSource = new EventSource("/api/whatsapp/events")
@@ -108,6 +131,7 @@ export function WhatsAppChatInterface() {
     
     return () => {
       eventSource.close()
+      clearInterval(conversationsInterval)
     }
   }, [toast])
   
@@ -152,8 +176,8 @@ export function WhatsAppChatInterface() {
     
     loadMessages()
     
-    // Polling para nuevos mensajes cada 3 segundos
-    const interval = setInterval(loadMessages, 3000)
+    // Polling para nuevos mensajes cada 20 segundos
+    const interval = setInterval(loadMessages, 20000) // 20 segundos
     return () => clearInterval(interval)
   }, [selectedConversation?.id, toast])
   
@@ -181,10 +205,15 @@ export function WhatsAppChatInterface() {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
   }, [selectedConversation?.messages])
 
-  const filteredConversations = conversations.filter(conv =>
-    conv.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    conv.phone.includes(searchQuery)
-  )
+  const filteredConversations = conversations.filter(conv => {
+    if (!searchQuery.trim()) return true
+    const query = searchQuery.toLowerCase().trim()
+    return (
+      conv.name?.toLowerCase().includes(query) ||
+      conv.phone?.includes(query) ||
+      conv.lastMessage?.toLowerCase().includes(query)
+    )
+  })
 
   const handleSendMessage = async (imageFile?: File) => {
     const hasContent = messageText.trim() || imageFile
@@ -312,6 +341,61 @@ export function WhatsAppChatInterface() {
     if (!messageId || !selectedConversation) return null
     return selectedConversation.messages.find(m => m.id === messageId)
   }
+  
+  const handleAddTag = async (tag: string) => {
+    if (!selectedConversation) return
+    
+    const currentTags = selectedConversation.tags || []
+    if (currentTags.includes(tag)) return
+    
+    const newTags = [...currentTags, tag]
+    
+    try {
+      const response = await fetch(`/api/whatsapp/conversations/${selectedConversation.id}/tags`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ tags: newTags })
+      })
+      
+      if (response.ok) {
+        setSelectedConversation({ ...selectedConversation, tags: newTags })
+        setConversations(convs => convs.map(c => 
+          c.id === selectedConversation.id ? { ...c, tags: newTags } : c
+        ))
+        
+        // Agregar a etiquetas disponibles si no existe
+        if (!availableTags.includes(tag)) {
+          setAvailableTags([...availableTags, tag])
+        }
+      } else {
+        throw new Error('Error al actualizar etiquetas')
+      }
+    } catch (error) {
+      console.error('Error adding tag:', error)
+      toast({
+        title: "Error",
+        description: "No se pudo agregar la etiqueta",
+        variant: "destructive",
+      })
+    }
+  }
+  
+  const updateConversationTags = async (conversationId: number, tags: string[]) => {
+    try {
+      const response = await fetch(`/api/whatsapp/conversations/${conversationId}/tags`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ tags })
+      })
+      
+      if (!response.ok) {
+        throw new Error('Error al actualizar etiquetas')
+      }
+    } catch (error) {
+      console.error('Error updating tags:', error)
+      throw error
+    }
+  }
 
   return (
     <>
@@ -404,9 +488,102 @@ export function WhatsAppChatInterface() {
                   </p>
                 </div>
               </div>
-              <Button variant="ghost" size="icon">
-                <MoreVertical className="h-5 w-5" />
-              </Button>
+              <div className="flex items-center gap-2">
+                {/* Etiquetas */}
+                {selectedConversation.tags && selectedConversation.tags.length > 0 && (
+                  <div className="flex gap-1 flex-wrap max-w-[200px]">
+                    {selectedConversation.tags.map((tag, idx) => (
+                      <Badge key={idx} variant="secondary" className="text-xs">
+                        {tag}
+                      </Badge>
+                    ))}
+                  </div>
+                )}
+                {/* Popover para agregar/editar etiquetas */}
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button variant="ghost" size="icon">
+                      <Tag className="h-5 w-5" />
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-80">
+                    <div className="space-y-4">
+                      <h4 className="font-semibold">Etiquetas</h4>
+                      {/* Etiquetas actuales */}
+                      {selectedConversation.tags && selectedConversation.tags.length > 0 && (
+                        <div className="flex flex-wrap gap-2">
+                          {selectedConversation.tags.map((tag, idx) => (
+                            <Badge key={idx} variant="secondary" className="flex items-center gap-1">
+                              {tag}
+                              <button
+                                onClick={async () => {
+                                  const newTags = selectedConversation.tags!.filter(t => t !== tag)
+                                  await updateConversationTags(parseInt(selectedConversation.id), newTags)
+                                  setSelectedConversation({ ...selectedConversation, tags: newTags })
+                                  setConversations(convs => convs.map(c => 
+                                    c.id === selectedConversation.id ? { ...c, tags: newTags } : c
+                                  ))
+                                }}
+                                className="ml-1 hover:text-red-500"
+                              >
+                                <X className="h-3 w-3" />
+                              </button>
+                            </Badge>
+                          ))}
+                        </div>
+                      )}
+                      {/* Agregar nueva etiqueta */}
+                      <div className="flex gap-2">
+                        <Input
+                          placeholder="Nueva etiqueta..."
+                          value={tagsInput}
+                          onChange={(e) => setTagsInput(e.target.value)}
+                          onKeyPress={(e) => {
+                            if (e.key === 'Enter' && tagsInput.trim()) {
+                              handleAddTag(tagsInput.trim())
+                              setTagsInput("")
+                            }
+                          }}
+                        />
+                        <Button
+                          size="sm"
+                          onClick={() => {
+                            if (tagsInput.trim()) {
+                              handleAddTag(tagsInput.trim())
+                              setTagsInput("")
+                            }
+                          }}
+                        >
+                          <Plus className="h-4 w-4" />
+                        </Button>
+                      </div>
+                      {/* Etiquetas disponibles */}
+                      {availableTags.length > 0 && (
+                        <div>
+                          <p className="text-sm text-gray-600 mb-2">Etiquetas disponibles:</p>
+                          <div className="flex flex-wrap gap-2">
+                            {availableTags
+                              .filter(tag => !selectedConversation.tags?.includes(tag))
+                              .map((tag, idx) => (
+                                <Badge
+                                  key={idx}
+                                  variant="outline"
+                                  className="cursor-pointer hover:bg-gray-100"
+                                  onClick={() => handleAddTag(tag)}
+                                >
+                                  {tag}
+                                </Badge>
+                              ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </PopoverContent>
+                </Popover>
+                <Button variant="ghost" size="icon">
+                  <MoreVertical className="h-5 w-5" />
+                </Button>
+              </div>
             </div>
 
             {/* Mensajes */}

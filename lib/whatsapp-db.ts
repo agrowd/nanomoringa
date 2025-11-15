@@ -136,12 +136,26 @@ export async function getConversationByPhone(phone: string): Promise<WhatsAppCon
   try {
     const { rows } = await sql`
       SELECT * FROM whatsapp_conversations 
-      WHERE phone = ${phone} 
+      WHERE phone = ${phone}
       LIMIT 1
     `
     return (rows[0] as WhatsAppConversation) || null
   } catch (error) {
     console.error('Error getting conversation:', error)
+    return null
+  }
+}
+
+export async function getConversationById(id: number): Promise<WhatsAppConversation | null> {
+  try {
+    const { rows } = await sql`
+      SELECT * FROM whatsapp_conversations 
+      WHERE id = ${id}
+      LIMIT 1
+    `
+    return (rows[0] as WhatsAppConversation) || null
+  } catch (error) {
+    console.error('Error getting conversation by ID:', error)
     return null
   }
 }
@@ -179,6 +193,34 @@ export async function getAllConversations(): Promise<WhatsAppConversation[]> {
   } catch (error) {
     console.error('Error getting conversations:', error)
     return []
+  }
+}
+
+export async function updateConversationTags(conversationId: number, tags: string[]): Promise<void> {
+  try {
+    // PostgreSQL TEXT[] necesita un array directamente, no JSON
+    await sql`
+      UPDATE whatsapp_conversations 
+      SET tags = ${tags}::text[], updated_at = CURRENT_TIMESTAMP
+      WHERE id = ${conversationId}
+    `
+  } catch (error) {
+    console.error('Error updating conversation tags:', error)
+    throw error
+  }
+}
+
+export async function getUnreadMessagesCount(): Promise<number> {
+  try {
+    const { rows } = await sql`
+      SELECT COUNT(*) as count 
+      FROM whatsapp_messages 
+      WHERE sender_type = 'user' AND read = false
+    `
+    return parseInt(rows[0]?.count || '0')
+  } catch (error) {
+    console.error('Error getting unread messages count:', error)
+    return 0
   }
 }
 
@@ -222,6 +264,20 @@ export async function updateMessageStatus(
     `
   } catch (error) {
     console.error('Error updating message status:', error)
+  }
+}
+
+export async function hasBotMessages(conversationId: number): Promise<boolean> {
+  try {
+    const { rows } = await sql`
+      SELECT COUNT(*) as count FROM whatsapp_messages 
+      WHERE conversation_id = ${conversationId} AND sender_type = 'bot'
+      LIMIT 1
+    `
+    return parseInt(rows[0]?.count || '0') > 0
+  } catch (error) {
+    console.error('Error checking bot messages:', error)
+    return false
   }
 }
 
