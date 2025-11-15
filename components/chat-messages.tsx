@@ -3,17 +3,20 @@
 import { Bot, User } from "lucide-react"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { RefObject } from "react"
+import Image from "next/image"
 
 interface Message {
   id: string
   text: string
   sender: 'user' | 'bot'
   timestamp: Date
+  media_url?: string
+  message_type?: 'text' | 'image' | 'video' | 'audio' | 'document'
 }
 
 interface ChatMessagesProps {
   messages: Message[]
-  messagesEndRef: RefObject<HTMLDivElement>
+  messagesEndRef: RefObject<HTMLDivElement | null>
 }
 
 export function ChatMessages({ messages, messagesEndRef }: ChatMessagesProps) {
@@ -57,7 +60,27 @@ export function ChatMessages({ messages, messagesEndRef }: ChatMessagesProps) {
                 : 'bg-background border border-border text-foreground'
             }`}
           >
-            <p className="text-sm whitespace-pre-wrap leading-relaxed">{message.text}</p>
+            {/* Imagen si existe */}
+            {message.media_url && message.message_type === 'image' && (
+              <div className="mb-2 rounded-lg overflow-hidden max-w-full">
+                <div className="relative w-full max-w-[250px] sm:max-w-[300px] aspect-square">
+                  <Image
+                    src={message.media_url}
+                    alt="Imagen del mensaje"
+                    fill
+                    className="object-contain rounded-lg"
+                    unoptimized
+                  />
+                </div>
+              </div>
+            )}
+            
+            {/* Texto del mensaje (solo si hay texto) */}
+            {message.text && (
+              <p className="text-sm whitespace-pre-wrap leading-relaxed">{message.text}</p>
+            )}
+            
+            {/* Timestamp */}
             <p className={`text-xs mt-2 ${
               message.sender === 'user' 
                 ? 'text-accent-foreground/70' 

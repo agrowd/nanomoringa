@@ -13,6 +13,8 @@ interface Message {
   text: string
   sender: 'user' | 'bot'
   timestamp: Date
+  media_url?: string
+  message_type?: 'text' | 'image' | 'video' | 'audio' | 'document'
 }
 
 export function ChatWindow({ onClose }: { onClose: () => void }) {
@@ -55,18 +57,52 @@ export function ChatWindow({ onClose }: { onClose: () => void }) {
     if (!conversationId) return
 
     const eventSource = new EventSource("/api/whatsapp/events")
+    
     eventSource.onmessage = (event) => {
-      const data = JSON.parse(event.data)
-      if (data.type === "message_received" || data.type === "message_sent") {
-        if (data.data?.conversation_id === conversationId) {
-          loadMessages(conversationId)
-          playNotificationSound()
+      try {
+        const data = JSON.parse(event.data)
+        if (data.type === "message_received" || data.type === "message_sent") {
+          if (data.data?.conversation_id === conversationId) {
+            // Recargar mensajes inmediatamente
+            loadMessages(conversationId)
+            // Solo reproducir sonido si es un mensaje nuevo (no del usuario actual)
+            if (data.type === "message_sent" || (data.type === "message_received" && data.data?.sender_type !== 'user')) {
+              playNotificationSound()
+            }
+          }
         }
+      } catch (error) {
+        console.error("Error parsing SSE event:", error)
       }
+    }
+    
+    eventSource.onerror = (error) => {
+      console.error("SSE error:", error)
+      // Reconectar después de 3 segundos
+      setTimeout(() => {
+        if (conversationId) {
+          eventSource.close()
+          // El useEffect se ejecutará de nuevo y creará una nueva conexión
+        }
+      }, 3000)
     }
 
     return () => {
       eventSource.close()
+    }
+  }, [conversationId])
+
+  // Polling periódico como respaldo (cada 10 segundos para actualización más frecuente)
+  useEffect(() => {
+    if (!conversationId) return
+
+    // Recargar mensajes cada 10 segundos
+    const interval = setInterval(() => {
+      loadMessages(conversationId)
+    }, 10000) // 10 segundos
+
+    return () => {
+      clearInterval(interval)
     }
   }, [conversationId])
 
@@ -77,9 +113,11 @@ export function ChatWindow({ onClose }: { onClose: () => void }) {
         const data = await response.json()
         const msgs: Message[] = data.map((msg: any) => ({
           id: msg.id.toString(),
-          text: msg.message,
+          text: msg.message || '',
           sender: msg.sender_type === "user" ? "user" : "bot",
-          timestamp: new Date(msg.created_at)
+          timestamp: new Date(msg.created_at),
+          media_url: msg.media_url || undefined,
+          message_type: msg.message_type || 'text'
         }))
         setMessages(msgs)
       }
@@ -136,12 +174,18 @@ export function ChatWindow({ onClose }: { onClose: () => void }) {
         localStorage.setItem("wa-chat-phone", phone)
         localStorage.setItem("wa-chat-conversation-id", convId.toString())
         
-        // Cargar mensajes
+        // Cargar mensajes inmediatamente
         loadMessages(convId)
+        
+        // Esperar un poco y recargar de nuevo para capturar los mensajes del bot
+        // (el bot puede tardar unos segundos en enviar la cadena)
+        setTimeout(() => {
+          loadMessages(convId)
+        }, 3000)
         
         toast({
           title: "Chat iniciado",
-          description: "Tu consulta ha sido enviada",
+          description: "Tu consulta ha sido enviada. El bot te responderá en breve.",
         })
       }
     } catch (error) {
@@ -187,7 +231,18 @@ export function ChatWindow({ onClose }: { onClose: () => void }) {
       })
 
       if (response.ok) {
-        loadMessages(conversationId)
+        // Recargar mensajes inmediatamente para obtener el mensaje guardado con ID real
+        await loadMessages(conversationId)
+        
+        // Recargar de nuevo después de 1 segundo para asegurar que se guardó
+        setTimeout(() => {
+          loadMessages(conversationId)
+        }, 1000)
+        
+        // Recargar después de 3 segundos por si el bot responde
+        setTimeout(() => {
+          loadMessages(conversationId)
+        }, 3000)
       } else {
         throw new Error("Error al enviar mensaje")
       }
