@@ -1,8 +1,8 @@
 import { NextResponse } from 'next/server'
 import { initWhatsAppDatabase, saveBotMessages } from '@/lib/whatsapp-db'
-import { useAdminAuth } from '@/lib/admin-auth'
 
-export async function POST(request: Request) {
+// Función compartida para inicializar la BD
+async function initializeDatabase() {
   try {
     // Inicializar tablas
     await initWhatsAppDatabase()
@@ -55,16 +55,38 @@ export async function POST(request: Request) {
 
     await saveBotMessages(defaultBotMessages)
 
-    return NextResponse.json({ 
+    return { 
       success: true, 
       message: 'WhatsApp database initialized successfully' 
-    })
+    }
   } catch (error: any) {
     console.error('Error initializing WhatsApp database:', error)
-    return NextResponse.json(
-      { success: false, error: error.message },
-      { status: 500 }
-    )
+    return {
+      success: false,
+      error: error.message
+    }
+  }
+}
+
+// GET - Para acceder desde el navegador
+export async function GET(request: Request) {
+  const result = await initializeDatabase()
+  
+  if (result.success) {
+    return NextResponse.json(result)
+  } else {
+    return NextResponse.json(result, { status: 500 })
+  }
+}
+
+// POST - Para llamadas programáticas
+export async function POST(request: Request) {
+  const result = await initializeDatabase()
+  
+  if (result.success) {
+    return NextResponse.json(result)
+  } else {
+    return NextResponse.json(result, { status: 500 })
   }
 }
 
