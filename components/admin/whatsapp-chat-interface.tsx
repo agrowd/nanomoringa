@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, useRef } from "react"
+import { useState, useEffect, useRef, useMemo } from "react"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -106,38 +106,51 @@ export function WhatsAppChatInterface() {
     
     // SSE para tiempo real
     const eventSource = new EventSource("/api/whatsapp/events")
+    
     eventSource.onmessage = (event) => {
-      const data = JSON.parse(event.data)
-      if (data.type === "message_received" || data.type === "message_sent") {
-        loadConversations()
-        // Reproducir sonido si hay mensaje nuevo
-        if (data.type === "message_received") {
-          playNotificationSound()
+      try {
+        const data = JSON.parse(event.data)
+        if (data.type === "message_received" || data.type === "message_sent") {
+          loadConversations()
+          // Reproducir sonido si hay mensaje nuevo (solo si es recibido del usuario)
+          if (data.type === "message_received" && data.data?.sender_type === 'user') {
+            playNotificationSound()
+          }
         }
-      }
-      if (data.type === "message_status_update") {
-        // Actualizar estado del mensaje en la UI
-        if (selectedConversation) {
-          setSelectedConversation(prev => {
-            if (!prev) return prev
-            return {
-              ...prev,
-              messages: prev.messages.map(m => 
-                m.id === data.data.message_id?.toString() 
-                  ? { ...m, status: data.data.status === 'read' ? 'read' : data.data.status === 'delivered' ? 'delivered' : 'sent' }
-                  : m
-              )
-            }
-          })
+        if (data.type === "message_status_update") {
+          // Actualizar estado del mensaje en la UI
+          if (selectedConversation) {
+            setSelectedConversation(prev => {
+              if (!prev) return prev
+              return {
+                ...prev,
+                messages: prev.messages.map(m => 
+                  m.id === data.data.message_id?.toString() 
+                    ? { ...m, status: data.data.status === 'read' ? 'read' : data.data.status === 'delivered' ? 'delivered' : 'sent' }
+                    : m
+                )
+              }
+            })
+          }
         }
+      } catch (error) {
+        console.error("Error parsing SSE event:", error)
       }
+    }
+    
+    eventSource.onerror = (error) => {
+      console.error("SSE error:", error)
+      // Reconectar después de 3 segundos
+      setTimeout(() => {
+        eventSource.close()
+      }, 3000)
     }
     
     return () => {
       eventSource.close()
       clearInterval(conversationsInterval)
     }
-  }, [toast])
+  }, [toast, selectedConversation])
   
   // Cargar mensajes cuando se selecciona una conversación
   useEffect(() => {
@@ -209,15 +222,16 @@ export function WhatsAppChatInterface() {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
   }, [selectedConversation?.messages])
 
-  const filteredConversations = conversations.filter(conv => {
-    if (!searchQuery.trim()) return true
+  const filteredConversations = useMemo(() => {
+    if (!searchQuery.trim()) return conversations
     const query = searchQuery.toLowerCase().trim()
-    return (
-      conv.name?.toLowerCase().includes(query) ||
-      conv.phone?.includes(query) ||
-      conv.lastMessage?.toLowerCase().includes(query)
-    )
-  })
+    return conversations.filter(conv => {
+      const nameMatch = conv.name?.toLowerCase().includes(query) || false
+      const phoneMatch = conv.phone?.includes(query) || false
+      const messageMatch = conv.lastMessage?.toLowerCase().includes(query) || false
+      return nameMatch || phoneMatch || messageMatch
+    })
+  }, [conversations, searchQuery])
 
   const handleSendMessage = async (imageFile?: File) => {
     const hasContent = messageText.trim() || imageFile

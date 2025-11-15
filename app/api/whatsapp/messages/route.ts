@@ -83,20 +83,48 @@ export async function POST(request: Request) {
     // Si es el primer mensaje del usuario y no hay mensajes del bot, activar cadena
     if (shouldTriggerChain) {
       try {
-        // Enviar cadena desde Vercel (más rápido y confiable)
-        const chainResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || 'https://nanomoringa.vercel.app'}/api/whatsapp/send-chain`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            phone,
-            name: name || 'Sin nombre'
-          })
-        })
+        // Importar y llamar directamente la función de envío de cadena
+        const { getBotMessages } = await import('@/lib/whatsapp-db')
+        const botMessages = await getBotMessages()
         
-        if (chainResponse.ok) {
+        if (botMessages.length > 0) {
+          const botUrl = process.env.WHATSAPP_BOT_URL || 'http://localhost:7002'
+          
+          // Enviar cada mensaje con su delay
+          for (let i = 0; i < botMessages.length; i++) {
+            const botMsg = botMessages[i]
+            
+            // Esperar el delay antes de enviar (excepto el primero)
+            if (i > 0 && botMsg.delay > 0) {
+              await new Promise(resolve => setTimeout(resolve, botMsg.delay * 1000))
+            }
+            
+            try {
+              // Enviar mensaje al bot
+              const response = await fetch(`${botUrl}/api/send`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  phone,
+                  message: botMsg.type === 'image' ? '' : botMsg.content,
+                  message_type: botMsg.type,
+                  media_url: botMsg.type === 'image' ? botMsg.content : undefined,
+                  conversation_id: conversation.id,
+                  sender_type: 'bot'
+                })
+              })
+              
+              if (response.ok) {
+                console.log(`✅ Bot message ${i + 1} sent to ${name} (${phone})`)
+              } else {
+                console.error(`Error sending bot message ${i + 1}:`, await response.text())
+              }
+            } catch (error) {
+              console.error(`Error sending bot message ${i + 1}:`, error)
+            }
+          }
+          
           console.log(`✅ Chain sent for new user: ${name} (${phone})`)
-        } else {
-          console.error('Error sending chain:', await chainResponse.text())
         }
       } catch (chainError) {
         console.error('Error triggering chain:', chainError)

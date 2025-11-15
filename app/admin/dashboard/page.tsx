@@ -74,12 +74,31 @@ export default function AdminDashboard() {
     
     // SSE para tiempo real
     const eventSource = new EventSource("/api/whatsapp/events")
+    
     eventSource.onmessage = (event) => {
-      const data = JSON.parse(event.data)
-      if (data.type === "message_received") {
-        loadUnreadCount()
-        playNotificationSound()
+      try {
+        const data = JSON.parse(event.data)
+        if (data.type === "message_received") {
+          loadUnreadCount()
+          // Reproducir sonido siempre que llegue un mensaje nuevo
+          playNotificationSound()
+        }
+        // También reproducir sonido cuando se envía un mensaje del bot (nuevo lead)
+        if (data.type === "message_sent" && data.data?.sender_type === 'bot') {
+          loadUnreadCount()
+          playNotificationSound()
+        }
+      } catch (error) {
+        console.error("Error parsing SSE event:", error)
       }
+    }
+    
+    eventSource.onerror = (error) => {
+      console.error("SSE error:", error)
+      // Reconectar después de 3 segundos
+      setTimeout(() => {
+        eventSource.close()
+      }, 3000)
     }
     
     return () => {
